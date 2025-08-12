@@ -1,0 +1,7 @@
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": ["clock"],
+  "modules-center": ["window"],
+  "modules-right": ["network", "battery", "tray"]
+}
