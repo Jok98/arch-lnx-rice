@@ -15,6 +15,22 @@ if [ ! -d "$SOURCE_DIR" ]; then
   exit 1
 fi
 
+# Assicurati che la destinazione esista
+mkdir -p "$TARGET_DIR"
+
+# Rimuovi le cartelle di destinazione che verranno sostituite
+# (solo le directory presenti in SOURCE_DIR, non l'intera ~/.config)
+shopt -s dotglob nullglob
+for entry in "$SOURCE_DIR"/*; do
+  base_name="$(basename "$entry")"
+  target_path="$TARGET_DIR/$base_name"
+  if [ -d "$entry" ] && [ -e "$target_path" ]; then
+    echo "-> Rimuovo cartella di destinazione: $target_path"
+    rm -rf -- "$target_path"
+  fi
+done
+shopt -u dotglob nullglob
+
 # Copia (sovrascrive, mantiene permessi, include file nascosti)
 echo "-> Copio da: $SOURCE_DIR"
 echo "-> A:  $TARGET_DIR"

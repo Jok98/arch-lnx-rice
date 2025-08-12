@@ -2,7 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/config/JetBrains/IntelliJIdea2025.2/settingsSync" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/config/yay" vcs="Git" />
   </component>
 </project>
