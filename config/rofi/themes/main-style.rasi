@@ -1,0 +1,88 @@
+/* Rofi Neon Aurora — Soft Glass */
+* {
+  /* Palette */
+  bg:        #0b0f10;        /* base */
+  bg2:       #11151c;        /* surface */
+  fg:        #e6faff;        /* text */
+  dim:       #9fb6c1;        /* subdued */
+  acc:       #00e5ff;        /* cyan */
+  acc2:      #ff00d4;        /* magenta */
+  border:    #1d2630;        /* outline */
+
+  /* Alpha variants for softness */
+  bga:       rgba(11,15,16,0.80);
+  bga2:      rgba(17,21,28,0.88);
+  outline:   rgba(29,38,48,0.65);
+
+  font:      "JetBrains Mono 11";
+}
+
+
+window {
+  location: center;
+  width: 42%;
+  border: 1px;
+  border-color: @outline;
+  padding: 14px;
+  border-radius: 16px;
+  background-color: @bga; /* semi-transparent for softness */
+}
+
+mainbox { 
+  padding: 8px; 
+  spacing: 8px;
+}
+
+inputbar {
+  background-color: @bga2;
+  text-color: @fg;
+  border: 1px;
+  border-color: @outline;
+  border-radius: 12px;
+  padding: 10px 12px;
+  spacing: 8px;
+}
+
+prompt { 
+  text-color: @acc; 
+  margin: 0 8px 0 6px; 
+}
+entry  { 
+  text-color: @fg; 
+}
+
+listview {
+  background-color: transparent;
+  spacing: 6px;
+  scrollbar: true;
+}
+
+element {
+  background-color: transparent;
+  text-color: @fg;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+element normal.active   { text-color: @acc; }
+element normal.urgent   { text-color: @acc2; }
+
+element selected {
+  background-color: @acc;
+  text-color: #0b0f10;
+}
+
+element selected.active { background-color: @acc2; text-color: #0b0f10; }
+element selected.urgent { background-color: @acc2; text-color: #0b0f10; }
+
+element alternate { background-color: rgba(17,21,28,0.55); }
+
+element-icon { size: 22; }
+
+element-text {
+  expand: true;
+  margin: 0px 2px;
+}
+
+message { background-color: transparent; text-color: @dim; }
+textbox { background-color: transparent; text-color: @dim; }
