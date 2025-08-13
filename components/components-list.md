@@ -1,3 +1,4 @@
-| Component | Description       | Installer            |
-|-----------|-------------------|----------------------|
-| yay       | Aur Helper        |                      |
+| Component | Description        |
+|-----------|--------------------|
+| yay       | Aur Helper         |
+| fastfetch | System Information |

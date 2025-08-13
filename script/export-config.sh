@@ -38,11 +38,28 @@ cp -af "$SOURCE_DIR"/. "$TARGET_DIR"
 
 echo "✓ Copia completata."
 
-# --- Ricarica Hyprland se in esecuzione ---
+# --- Normalizza percorsi nelle config (sostituisce ~/ con $HOME/) ---
+HP_CONF="$TARGET_DIR/hyprpaper/hyprpaper.conf"
+HL_CONF="$TARGET_DIR/hypr/hyprland.conf"
+if [ -f "$HP_CONF" ]; then
+  # Esempi trasformati:
+  #   preload = ~/.config/wallpapers/img.jpg -> preload = /home/user/.config/wallpapers/img.jpg
+  #   wallpaper = DP-6,~/.config/wallpapers/img.jpg -> wallpaper = DP-6,/home/user/.config/wallpapers/img.jpg
+  sed -i -e "s#= ~/#= $HOME/#g" -e "s#,~/#,$HOME/#g" "$HP_CONF"
+fi
+if [ -f "$HL_CONF" ]; then
+  # Corregge path in exec-once e altri campi che usano ~
+  sed -i -e "s#~/.config/#$HOME/.config/#g" -e "s#= ~/#= $HOME/#g" "$HL_CONF"
+fi
+
+# --- Ricarica Hyprland e riavvia hyprpaper se in esecuzione ---
 # Hyprland espone la variabile HYPRLAND_INSTANCE_SIGNATURE quando è attivo
 if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
   echo "-> Ricarico la configurazione di Hyprland..."
   hyprctl reload && echo "✓ Hyprland ricaricato."
+  echo "-> Riavvio hyprpaper..."
+  pkill -x hyprpaper >/dev/null 2>&1 || true
+  hyprctl dispatch exec "hyprpaper -c $HOME/.config/hyprpaper/hyprpaper.conf" && echo "✓ hyprpaper riavviato."
 else
   echo "ℹ️ Hyprland non sembra attivo (o 'hyprctl' non è nel PATH)."
   echo "   Avvia Hyprland e, se serve, esegui manualmente: hyprctl reload"
