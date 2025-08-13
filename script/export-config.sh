@@ -101,7 +101,7 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
         echo "✓ hyprpaper avviato (fallback)."
         break
       fi
-      sleep 0.25
+      sleep 0.05
     done
   fi
 
