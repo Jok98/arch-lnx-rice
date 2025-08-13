@@ -1,11 +1,59 @@
 {
   "layer": "top",
   "position": "top",
-  "modules-left": ["clock"],
-  "modules-center": ["window", "workspaces"],
-  "modules-right": ["network", "battery", "tray"],
-  "sway/workspaces": {
+
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": ["pulseaudio", "custom/bluetooth", "network", "battery", "tray"],
+
+  "hyprland/workspaces": {
     "disable-scroll": true,
-    "format": "Workspace: {name}"
+    "format": "{name}"
+  },
+
+  "hyprland/window": {
+    "format": "{}",
+    "max-length": 80
+  },
+
+  "clock": {
+    "format": "{:%Y-%m-%d %H:%M}",
+    "tooltip": false,
+    "on-click": "gsimplecal"
+  },
+
+  "pulseaudio": {
+    "format": "{volume}% ",
+    "format-muted": "Muted ",
+    "scroll-step": 5,
+    "on-click": "pavucontrol",
+    "tooltip": true
+  },
+
+  "custom/bluetooth": {
+    "format": "",
+    "tooltip": "Bluetooth",
+    "on-click": "blueman-manager"
+  },
+
+  "network": {
+    "format-wifi": "  {signalStrength}%",
+    "format-ethernet": "  {ifname}",
+    "format-disconnected": "󰖪",
+    "tooltip": true
+  },
+
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-icons": ["", "", "", "", ""],
+    "states": {
+      "warning": 20,
+      "critical": 10
+    }
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8
   }
 }
