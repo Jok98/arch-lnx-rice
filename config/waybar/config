@@ -2,6 +2,10 @@
   "layer": "top",
   "position": "top",
   "modules-left": ["clock"],
-  "modules-center": ["window"],
-  "modules-right": ["network", "battery", "tray"]
+  "modules-center": ["window", "workspaces"],
+  "modules-right": ["network", "battery", "tray"],
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "format": "Workspace: {name}"
+  }
 }
