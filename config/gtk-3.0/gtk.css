@@ -1,0 +1,73 @@
+/* GTK 3 override stylesheet to approximate Waybar/Hyprland look (no GTK-specific @ rules) */
+
+/* Global text color */
+* { color: #E6EDF3; }
+
+/* Base backgrounds */
+.background, window, dialog, .window-frame { background-color: #1F2631; }
+
+/* Headerbar / titlebar */
+headerbar, .titlebar, .titlebar .background, .header-bar {
+  background-color: rgba(18, 22, 28, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Buttons */
+button, button.toggle, button.flat, combobox > box > button {
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: transparent;
+}
+button:hover, button.toggle:hover, button.flat:hover, combobox > box > button:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+button:checked, button.toggle:checked {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Entries / text inputs */
+entry, spinbutton, searchentry {
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  background-color: rgba(255, 255, 255, 0.06);
+  color: #E6EDF3;
+}
+entry:focus, spinbutton:focus, searchentry:focus {
+  border-color: rgba(0, 229, 255, 0.35);
+  box-shadow: none;
+}
+
+/* Menus */
+menu, menubar, menuitem, .popup, .csd .menu, .context-menu {
+  background-color: rgba(18, 22, 28, 0.85);
+  color: #E6EDF3;
+}
+menuitem {
+  border-radius: 8px;
+  padding: 6px 10px;
+}
+menuitem:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+separator, menu separator {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Popovers & tooltips */
+popover, tooltip {
+  background-color: rgba(18, 22, 28, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* Scrollbars */
+scrollbar { background: transparent; }
+scrollbar slider {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+}
+scrollbar trough { background: rgba(255, 255, 255, 0.04); }
+
+/* Check/Radios minimal tweaks */
+check, radio { color: #E6EDF3; }

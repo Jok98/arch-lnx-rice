@@ -42,12 +42,12 @@
   },
 
   "network": {
-    "format-wifi": "{icon} {essid} {signalStrength}%",
-    "format-ethernet": "  {ifname}",
-    "format-disconnected": "󰖪",
-    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "format-wifi": "{essid} {signalStrength}%",
+    "format-ethernet": "{ifname}",
+    "format-disconnected": "Disconnected",
     "tooltip": true,
-    "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}\nRX: {rxBytes} TX: {txBytes}"
+    "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}\nRX: {rxBytes} TX: {txBytes}",
+    "on-click": "nm-connection-editor"
   },
 
   "battery": {
