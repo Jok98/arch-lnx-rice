@@ -90,7 +90,7 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
       echo "✓ hyprpaper avviato."
       break
     fi
-    sleep 0.25
+    sleep 0.05
   done
 
   # Fallback: se non ancora confermato, prova ad avviare direttamente e attendi un altro po'
@@ -116,7 +116,7 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
   echo "-> Riavvio Waybar..."
   # Termina Waybar se in esecuzione
   pkill -x waybar >/dev/null 2>&1 || true
-  sleep 0.2
+  sleep 0.05
 
   if ! command -v waybar >/dev/null 2>&1; then
     echo "⚠️ 'waybar' non è nel PATH. Installa o aggiungi al PATH per avviarlo."
@@ -130,7 +130,7 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
         echo "✓ Waybar avviato."
         break
       fi
-      sleep 0.25
+      sleep 0.05
     done
 
     # Fallback: prova ad avviarlo direttamente se non è ancora partito
@@ -141,7 +141,7 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
           echo "✓ Waybar avviato (fallback)."
           break
         fi
-        sleep 0.25
+        sleep 0.05
       done
     fi
 
