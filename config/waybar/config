@@ -23,8 +23,13 @@
   },
 
   "pulseaudio": {
-    "format": "{volume}% ",
-    "format-muted": "Muted ",
+    "format": "{icon} {volume}%",
+    "format-muted": " Muted",
+    "format-icons": {
+      "headphone": "",
+      "headset": "",
+      "default": ["", "", ""]
+    },
     "scroll-step": 5,
     "on-click": "pavucontrol",
     "tooltip": true
@@ -37,10 +42,12 @@
   },
 
   "network": {
-    "format-wifi": "  {signalStrength}%",
+    "format-wifi": "{icon} {essid} {signalStrength}%",
     "format-ethernet": "  {ifname}",
     "format-disconnected": "󰖪",
-    "tooltip": true
+    "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
+    "tooltip": true,
+    "tooltip-format": "{ifname} via {gwaddr}\n{ipaddr}/{cidr}\nRX: {rxBytes} TX: {txBytes}"
   },
 
   "battery": {

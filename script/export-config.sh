@@ -111,6 +111,45 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
     echo "   Suggerimento: esegui dentro Hyprland -> hyprpaper -c $HOME/.config/hyprpaper/hyprpaper.conf"
     WP="$HOME/.config/wallpapers/1776186.jpg"; [ -f "$WP" ] || echo "   Nota: file wallpaper mancante: $WP"
   fi
+
+  # --- Riavvio Waybar ---
+  echo "-> Riavvio Waybar..."
+  # Termina Waybar se in esecuzione
+  pkill -x waybar >/dev/null 2>&1 || true
+  sleep 0.2
+
+  if ! command -v waybar >/dev/null 2>&1; then
+    echo "⚠️ 'waybar' non è nel PATH. Installa o aggiungi al PATH per avviarlo."
+  else
+    # Avvia Waybar dal contesto di Hyprland
+    hyprctl dispatch exec "waybar" >/dev/null 2>&1 || true
+
+    # Attendi che Waybar parta
+    for i in $(seq 1 40); do # ~10s
+      if pgrep -x waybar >/dev/null 2>&1; then
+        echo "✓ Waybar avviato."
+        break
+      fi
+      sleep 0.25
+    done
+
+    # Fallback: prova ad avviarlo direttamente se non è ancora partito
+    if ! pgrep -x waybar >/dev/null 2>&1; then
+      nohup waybar >/dev/null 2>&1 &
+      for i in $(seq 1 20); do # ~5s
+        if pgrep -x waybar >/dev/null 2>&1; then
+          echo "✓ Waybar avviato (fallback)."
+          break
+        fi
+        sleep 0.25
+      done
+    fi
+
+    if ! pgrep -x waybar >/dev/null 2>&1; then
+      echo "⚠️ Impossibile confermare l'avvio di Waybar."
+      echo "   Suggerimento: esegui dentro Hyprland -> waybar"
+    fi
+  fi
 else
   echo "ℹ️ Hyprland non sembra attivo (o 'hyprctl' non è nel PATH)."
   echo "   Avvia Hyprland e, se serve, esegui manualmente: hyprctl reload"

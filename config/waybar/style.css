@@ -1,4 +1,109 @@
+/* Base font */
 * {
     font-family: "JetBrainsMono Nerd Font";
     font-size: 12pt;
+}
+
+/* Bar background */
+window#waybar {
+    background: rgba(18, 22, 28, 0.75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: #E6EDF3;
+}
+
+/* Generic module chip look */
+#workspaces,
+#window,
+#clock,
+#battery,
+#network,
+#pulseaudio,
+#tray,
+#custom-bluetooth {
+    padding: 0 8px;
+    margin: 6px 4px;
+    background: rgba(31, 38, 49, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+}
+
+/* Workspaces */
+#workspaces {
+    padding: 0 4px;
+}
+#workspaces button {
+    padding: 0 8px;
+    margin: 6px 4px;
+    background: transparent;
+    color: #9DB2CE;
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+#workspaces button.active {
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.25), rgba(255, 0, 212, 0.20));
+    color: #E6EDF3;
+}
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Window title */
+#window {
+    color: #C9D1D9;
+}
+
+/* Clock */
+#clock {
+    color: #E6EDF3;
+}
+
+/* Audio */
+#pulseaudio {
+    color: #A7F3D0; /* mint-ish when active */
+}
+#pulseaudio.muted {
+    color: #FCA5A5; /* soft red when muted */
+    background: rgba(127, 29, 29, 0.25);
+    border-color: rgba(239, 68, 68, 0.35);
+}
+
+/* Network */
+#network {
+    color: #93C5FD; /* light blue when connected */
+}
+#network.disconnected {
+    color: #FBBF24; /* amber when disconnected */
+    background: rgba(120, 53, 15, 0.25);
+    border-color: rgba(245, 158, 11, 0.35);
+}
+
+/* Battery */
+#battery {
+    color: #FDE68A; /* warm yellow */
+}
+#battery.warning {
+    color: #F59E0B;
+}
+#battery.critical {
+    color: #EF4444;
+}
+
+/* Bluetooth (custom) */
+#custom-bluetooth {
+    color: #60A5FA; /* blue */
+}
+
+/* Tray icons */
+#tray {
+    padding-right: 10px;
+}
+
+/* Hover feedback */
+#pulseaudio:hover,
+#network:hover,
+#clock:hover,
+#battery:hover,
+#custom-bluetooth:hover,
+#tray:hover {
+    background: rgba(255, 255, 255, 0.08);
 }
