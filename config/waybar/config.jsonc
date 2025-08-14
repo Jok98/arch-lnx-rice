@@ -4,7 +4,7 @@
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["pulseaudio", "custom/bluetooth", "network", "battery", "tray"],
+  "modules-right": ["mpris", "pulseaudio", "custom/bluetooth", "network", "battery"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -31,6 +31,28 @@
     "on-click": "gsimplecal"
   },
 
+  "mpris": {
+    "format": "{player_icon} {title} — {artist}",
+    "max-length": 50,
+    "tooltip": false,
+    "scrolling": true,
+    "status-icons": {
+      "playing": "",
+      "paused": "",
+      "stopped": ""
+    },
+    "player-icons": {
+      "default": "",
+      "spotify": "",
+      "vlc": "󰕼",
+      "mpv": ""
+    },
+    "on-click": "playerctl play-pause",
+    "on-click-middle": "playerctl next",
+    "on-click-right": "playerctl previous"
+  },
+
+
   "pulseaudio": {
     "format": "{volume}% ",
     "format-muted": "Muted ",
@@ -50,7 +72,7 @@
     "format-ethernet": "  {ifname}",
     "format-disconnected": "󰖪",
     "tooltip": true,
-    "on-click": "nm-connection-editor"
+    "on-click": "networkmanager_dmenu"
   },
 
   "battery": {
@@ -60,10 +82,5 @@
       "warning": 20,
       "critical": 10
     }
-  },
-
-  "tray": {
-    "icon-size": 16,
-    "spacing": 8
   }
 }

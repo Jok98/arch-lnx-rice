@@ -18,8 +18,8 @@ window#waybar {
 #battery,
 #network,
 #pulseaudio,
-#tray,
-#custom-bluetooth {
+#custom-bluetooth,
+#mpris {
     padding: 0 6px;
     margin: 4px 2px;
     background: rgba(31, 38, 49, 0.2);
@@ -77,22 +77,6 @@ window#waybar {
 #network.wifi {
     color: #93C5FD; /* keep blue for wifi */
 }
-#network.ethernet,
-#network.wired {
-    color: #A7F3D0; /* mint/green for ethernet */
-    background: rgba(16, 46, 36, 0.20);
-    border-color: rgba(16, 185, 129, 0.20);
-}
-#network.disabled {
-    color: #9CA3AF; /* gray when disabled */
-    background: rgba(55, 65, 81, 0.15);
-    border-color: rgba(156, 163, 175, 0.20);
-}
-#network.disconnected {
-    color: #FBBF24; /* amber when disconnected */
-    background: rgba(120, 53, 15, 0.15);
-    border-color: rgba(245, 158, 11, 0.2);
-}
 
 /* Battery */
 #battery {
@@ -110,20 +94,13 @@ window#waybar {
     color: #60A5FA; /* blue */
 }
 
-/* Tray icons */
-#tray {
-    padding: 0 4px;
-    background: rgba(31, 38, 49, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.01);
-}
-
 /* Hover feedback */
 #pulseaudio:hover,
 #network:hover,
 #clock:hover,
 #battery:hover,
 #custom-bluetooth:hover,
-#tray:hover {
+#mpris:hover {
     background: rgba(255, 255, 255, 0.03);
 }
 
@@ -167,27 +144,4 @@ menu separator {
     background: rgba(255, 255, 255, 0.02);
     min-height: 1px;
     margin: 2px 4px;
-}
-
-/* Network state-specific hover tints */
-#network.wifi:hover {
-    background: rgba(17, 28, 48, 0.35);
-    border-color: rgba(56, 189, 248, 0.25);
-}
-#network.ethernet:hover,
-#network.wired:hover {
-    background: rgba(16, 46, 36, 0.30);
-    border-color: rgba(16, 185, 129, 0.25);
-}
-#network.disconnected:hover {
-    background: rgba(120, 53, 15, 0.25);
-    border-color: rgba(245, 158, 11, 0.25);
-}
-#network.disabled:hover {
-    background: rgba(55, 65, 81, 0.22);
-    border-color: rgba(156, 163, 175, 0.25);
-}
-/* Fallback hover for other network states */
-#network:hover {
-    background: rgba(255, 255, 255, 0.03);
 }
