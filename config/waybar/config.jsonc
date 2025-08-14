@@ -2,14 +2,22 @@
   "layer": "top",
   "position": "top",
 
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
-  "modules-center": ["clock"],
+  "modules-left": ["clock", "hyprland/window"],
+  "modules-center": ["hyprland/workspaces"],
   "modules-right": ["pulseaudio", "custom/bluetooth", "network", "battery", "tray"],
 
   "hyprland/workspaces": {
-    "disable-scroll": true,
-    "format": "{name}"
+    "format": "{icon}",
+    "format-icons": {
+      "active": "",
+      "default": ""
+    },
+    "all-outputs": true,
+    "active-only": false,
+    "move-to-monitor": false,
+    "on-click": "activate"
   },
+
 
   "hyprland/window": {
     "format": "{class}",
@@ -42,7 +50,7 @@
     "format-ethernet": "  {ifname}",
     "format-disconnected": "󰖪",
     "tooltip": true,
-    "on-click": "nm-applet"
+    "on-click": "nm-connection-editor"
   },
 
   "battery": {
