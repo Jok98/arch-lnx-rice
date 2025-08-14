@@ -182,10 +182,27 @@ systemctl enable bluetooth
 pacman --noconfirm -S nvidia nvidia-utils nvidia-settings
 mkinitcpio -P
 
-# Hyprland + tools + Firefox + nm-applet
+# Hyprland + tools + Firefox + nm-applet + Extra components
 pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
   waybar hyprpaper rofi-wayland kitty alacritty firefox network-manager-applet \
-  noto-fonts noto-fonts-cjk ttf-jetbrains-mono ttf-font-awesome
+  noto-fonts noto-fonts-cjk ttf-jetbrains-mono ttf-font-awesome \
+  fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
+  grim slurp swappy wl-clipboard
+
+# Install yay AUR helper
+sudo -u \$USERNAME bash -c "
+cd /tmp
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si --noconfirm
+"
+
+# Install JetBrains Toolbox from AUR
+sudo -u \$USERNAME yay -S --noconfirm jetbrains-toolbox
+
+# Create Pictures directory for screenshots
+mkdir -p /home/\$USERNAME/Pictures
+chown \$USERNAME:\$USERNAME /home/\$USERNAME/Pictures
 
 # greetd (agreety)
 pacman --noconfirm -S greetd
@@ -233,6 +250,26 @@ EOT
 # Hyprpaper (wallpaper base)
 cat >/home/\$USERNAME/.config/hyprpaper/hyprpaper.conf <<'EOT'
 wallpaper = ,/usr/share/pixmaps/archlinux-logo.png
+EOT
+
+# Setup autostart for JetBrains Toolbox
+mkdir -p /home/\$USERNAME/.config/autostart
+cat >/home/\$USERNAME/.config/autostart/jetbrains-toolbox.desktop <<'EOT'
+[Desktop Entry]
+Icon=/opt/jetbrains-toolbox/toolbox.svg
+Exec=/opt/jetbrains-toolbox/jetbrains-toolbox --minimize
+Version=1.0
+Type=Application
+Categories=Development
+Name=JetBrains Toolbox
+StartupWMClass=jetbrains-toolbox
+Terminal=false
+MimeType=x-scheme-handler/jetbrains;
+X-GNOME-Autostart-enabled=true
+StartupNotify=false
+X-GNOME-Autostart-Delay=10
+X-MATE-Autostart-Delay=10
+X-KDE-autostart-after=panel
 EOT
 
 chown -R \$USERNAME:\$USERNAME /home/\$USERNAME/.config
