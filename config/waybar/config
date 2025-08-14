@@ -42,7 +42,7 @@
     "format-ethernet": "  {ifname}",
     "format-disconnected": "󰖪",
     "tooltip": true,
-    "on-click": "nm-connection-editor"
+    "on-click": "nm-applet"
   },
 
   "battery": {
