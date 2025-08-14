@@ -13,7 +13,8 @@
 
   "hyprland/window": {
     "format": "{class}",
-    "max-length": 50
+    "max-length": 50,
+    "icon":true
   },
 
   "clock": {
