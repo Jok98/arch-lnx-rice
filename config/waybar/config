@@ -12,12 +12,12 @@
   },
 
   "hyprland/window": {
-    "format": "{}",
-    "max-length": 80
+    "format": "{class}",
+    "max-length": 50
   },
 
   "clock": {
-    "format": "{:%Y-%m-%d %H:%M}",
+    "format": "{:%d-%m | %H:%M}",
     "tooltip": false,
     "on-click": "gsimplecal"
   },

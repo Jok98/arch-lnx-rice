@@ -6,8 +6,8 @@
 
 /* Bar background */
 window#waybar {
-    background: rgba(18, 22, 28, 0.75);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(18, 22, 28, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
     color: #E6EDF3;
 }
 
@@ -20,11 +20,11 @@ window#waybar {
 #pulseaudio,
 #tray,
 #custom-bluetooth {
-    padding: 0 8px;
-    margin: 6px 4px;
-    background: rgba(31, 38, 49, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
+    padding: 0 6px;
+    margin: 4px 2px;
+    background: rgba(31, 38, 49, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 6px;
 }
 
 /* Workspaces */
@@ -44,7 +44,7 @@ window#waybar {
     color: #E6EDF3;
 }
 #workspaces button:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 /* Window title */
@@ -63,20 +63,20 @@ window#waybar {
 }
 #pulseaudio.muted {
     color: #FCA5A5; /* soft red when muted */
-    background: rgba(127, 29, 29, 0.25);
-    border-color: rgba(239, 68, 68, 0.35);
+    background: rgba(127, 29, 29, 0.15);
+    border-color: rgba(239, 68, 68, 0.2);
 }
 
 /* Network */
 #network {
     color: #93C5FD; /* light blue when connected */
-    background: rgba(17, 28, 48, 0.55); /* semi-transparent dark blue */
-    border-color: rgba(56, 189, 248, 0.25); /* subtle blue border */
+    background: rgba(17, 28, 48, 0.25); /* semi-transparent dark blue */
+    border-color: rgba(56, 189, 248, 0.15); /* subtle blue border */
 }
 #network.disconnected {
     color: #FBBF24; /* amber when disconnected */
-    background: rgba(120, 53, 15, 0.25);
-    border-color: rgba(245, 158, 11, 0.35);
+    background: rgba(120, 53, 15, 0.15);
+    border-color: rgba(245, 158, 11, 0.2);
 }
 
 /* Battery */
@@ -97,7 +97,9 @@ window#waybar {
 
 /* Tray icons */
 #tray {
-    padding-right: 10px;
+    padding: 0 4px;
+    background: rgba(31, 38, 49, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.01);
 }
 
 /* Hover feedback */
@@ -107,53 +109,53 @@ window#waybar {
 #battery:hover,
 #custom-bluetooth:hover,
 #tray:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 /* Popups & tooltips styled to match Waybar */
 /* Tooltips (e.g., network details) */
 tooltip {
-    background: rgba(31, 38, 49, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 8px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    background: rgba(31, 38, 49, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 tooltip label {
     color: #E6EDF3;
-    padding: 6px 10px;
+    padding: 4px 8px;
 }
 
 /* Generic GTK menus (if any Waybar popups/menus are used) */
 menu {
-    background: rgba(31, 38, 49, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 8px;
-    padding: 4px;
+    background: rgba(31, 38, 49, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.02);
+    border-radius: 6px;
+    padding: 2px;
 }
 
 menu menuitem,
 menuitem {
     color: #C9D1D9;
-    border-radius: 8px;
-    padding: 6px 10px;
+    border-radius: 6px;
+    padding: 4px 8px;
 }
 
 menu menuitem:hover,
 menuitem:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
     color: #E6EDF3;
 }
 
 separator,
 menu separator {
-    background: rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.02);
     min-height: 1px;
-    margin: 4px 6px;
+    margin: 2px 4px;
 }
 
 /* Ensure network hover keeps blue tint overriding generic hover */
 #network:hover {
-    background: rgba(17, 28, 48, 0.65);
-    border-color: rgba(56, 189, 248, 0.35);
+    background: rgba(17, 28, 48, 0.35);
+    border-color: rgba(56, 189, 248, 0.2);
 }
