@@ -28,13 +28,11 @@
 ## Dowloads
 
 ### pipewire
-
 ```shell
 sudo pacman -S pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol
 ```
 
 ### bluez
-
 ```shell
 sudo pacman -S bluez bluez-utils blueman
 ```
@@ -44,13 +42,19 @@ sudo systemctl enable --now bluetooth
 ```
 
 ### gsimplecal
-
 ```shell
 sudo pacman -S gsimplecal
 ```
 
 ### nerdfont
-
 ```shell
 sudo pacman -S ttf-nerd-fonts-symbols-mono
+```
+
+### grim slurp swappy wl-clipboard
+```shell
+sudo pacman --noconfirm -S grim slurp swappy wl-clipboard
+```
+```shell
+mkdir ~/Pictures
 ```
