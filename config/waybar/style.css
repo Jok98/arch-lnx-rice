@@ -44,7 +44,8 @@ window#waybar {
     color: #E6EDF3;
 }
 #workspaces button:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.25), rgba(255, 0, 212, 0.20));
+    color: #E6EDF3;
 }
 
 /* Window title */

@@ -12,8 +12,8 @@
       "active": "",
       "default": ""
     },
-    "all-outputs": true,
-    "active-only": false,
+    "all-outputs": false,
+    "active-only": true,
     "move-to-monitor": false,
     "on-click": "activate"
   },
