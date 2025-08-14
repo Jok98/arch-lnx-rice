@@ -41,7 +41,8 @@
     "format-wifi": "  {signalStrength}%",
     "format-ethernet": "  {ifname}",
     "format-disconnected": "󰖪",
-    "tooltip": true
+    "tooltip": true,
+    "on-click": "nm-connection-editor"
   },
 
   "battery": {
