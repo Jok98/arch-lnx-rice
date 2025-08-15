@@ -12,7 +12,7 @@ window#waybar {
 }
 
 /* Generic module chip look */
-#workspaces,
+
 #window,
 #clock,
 #battery,
@@ -30,24 +30,25 @@ window#waybar {
 }
 
 /* Workspaces */
-#workspaces {
-    padding: 0 4px;
-}
+/*#workspaces {*/
+/*    padding: 2px 12px;*/
+/*    background: rgba(31, 38, 49, 0.3);*/
+/*    border: 1px solid rgba(255, 255, 255, 0.05);*/
+/*}*/
 #workspaces button {
-    padding: 0 8px;
-    margin: 6px 4px;
-    background: transparent;
-    color: #9DB2CE;
-    border-radius: 8px;
-    transition: background 0.2s ease, color 0.2s ease;
+    margin: 2px 2px;
+    background: rgba(157, 178, 206, 0.3);
+    color: transparent;
+    border: none;
+    font-size: 0;
+    transition: all 0.2s ease;
 }
 #workspaces button.active {
-    background: linear-gradient(135deg, rgba(0, 229, 255, 0.25), rgba(255, 0, 212, 0.20));
-    color: #E6EDF3;
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.8), rgba(255, 0, 212, 0.7));
 }
+
 #workspaces button:hover {
-    background: linear-gradient(135deg, rgba(0, 229, 255, 0.25), rgba(255, 0, 212, 0.20));
-    color: #E6EDF3;
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.5), rgba(255, 0, 212, 0.4));
 }
 
 /* Window title */
