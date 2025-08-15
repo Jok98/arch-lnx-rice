@@ -1,0 +1,92 @@
+/* ~/.config/rofi/themes/gradient.rasi — safe gradients + leggibilità */
+
+* {
+  font: "JetBrainsMono Nerd Font 14";
+  fg: #F8FAFC;
+  fg-muted: #CDD6E3;
+  border-col: rgba(255,255,255,0.08);
+  border-col-soft: rgba(255,255,255,0.03);
+}
+
+window {
+  transparency: "real";                     /* ok con compositor (Hyprland) */
+  background-color: transparent;
+  /* niente @var dentro linear-gradient: usa RGBA “in chiaro” */
+  background-image: linear-gradient(135deg,
+                                    rgba(18,22,28,0.78),
+                                    rgba(31,38,49,0.62));
+  border: 1px;
+  border-color: rgba(255,255,255,0.06);
+  border-radius: 20px;
+  padding: 12px;
+  width: 720;
+}
+
+mainbox { padding: 6px; spacing: 8px; }
+
+inputbar {
+  background-color: transparent;
+  background-image: linear-gradient(135deg,
+                                    rgba(35,43,56,0.85),
+                                    rgba(18,22,28,0.85));
+  border: 1px;
+  border-color: rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 8px 12px;
+  spacing: 10px;
+}
+
+prompt {
+  padding: 6px 12px;
+  margin: 0px 8px 0px 0px;
+  border-radius: 14px;
+  /* prima: linear-gradient(135deg, @accent1, @accent2) */
+  background-image: linear-gradient(135deg,
+                                    rgba(0,229,255,0.65),
+                                    rgba(255,0,212,0.55));
+  foreground: #F8FAFC;
+}
+
+textbox-prompt-colon { expand: false; str: "›"; margin: 0 6px 0 0; foreground: #CDD6E3; }
+entry { placeholder: "Type to search…"; foreground: #F8FAFC; placeholder-color: #CDD6E3; }
+case-indicator { spacing: 0; text-transform: lowercase; foreground: #CDD6E3; }
+
+listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: true; border: 0; padding: 4px 0 0 0; }
+scrollbar { handle-width: 8px; border: 0; padding: 0; background-color: transparent; }
+scrollbar handle { background-color: rgba(255,255,255,0.10); border-radius: 12px; }
+
+element { padding: 10px 12px; border-radius: 14px; spacing: 10px; background-color: transparent; }
+element-icon { size: 24px; margin: 0 6px 0 4px; }
+element-text { foreground: #F8FAFC; highlight: bold underline; }
+element alternate { background-color: rgba(255,255,255,0.03); border-radius: 12px; }
+
+element selected {
+  background-color: transparent;
+  background-image: linear-gradient(90deg,
+                                    rgba(0,229,255,0.65),
+                                    rgba(255,0,212,0.55));
+  border-radius: 14px;
+  foreground: #0b1220;
+}
+
+message { background-color: rgba(31,38,49,0.40); border: 1px; border-color: rgba(255,255,255,0.08); border-radius: 14px; padding: 8px 10px; }
+textbox { foreground: #CDD6E3; }
+sidebar { border: 0; padding: 0; spacing: 6px; }
+
+button {
+  background-color: transparent;
+  background-image: linear-gradient(135deg,
+                                    rgba(35,43,56,0.75),
+                                    rgba(18,22,28,0.75));
+  border: 1px; border-color: rgba(255,255,255,0.08);
+  border-radius: 14px; padding: 6px 10px; foreground: #CDD6E3;
+}
+button selected {
+  /* prima: linear-gradient(135deg, @accent1, @accent2) */
+  background-image: linear-gradient(135deg,
+                                    rgba(0,229,255,0.65),
+                                    rgba(255,0,212,0.55));
+  border-radius: 14px;
+  foreground: #F8FAFC;
+  border-color: rgba(255,255,255,0.08);
+}

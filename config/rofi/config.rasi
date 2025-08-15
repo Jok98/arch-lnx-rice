@@ -1,6 +1,166 @@
-@theme "/usr/share/rofi/themes/purple.rasi"
+configuration {
+  modi: "drun,run,window,ssh";
+  show-icons: true;
+  icon-theme: "Papirus-Dark";
+  font: "JetBrainsMono Nerd Font 14";
+  terminal: "kitty";
+  matching: "fuzzy";
+  case-sensitive: false;
+  sort: true;
+  cycle: true;
+  sidebar-mode: true;
+  drun-display-format: "{name}";
+  display-drun: "  Apps";
+  display-run: "  Run";
+  display-window: "  Windows";
+  display-ssh: "󰖂  SSH";
+  lines: 12;
+  columns: 1;
+}
+
+@theme "~/.config/rofi/themes/gradient.rasi"
+
+/* --- Palette & base --- */
+* {
+  /* base + gradient */
+  bg: rgba(18,22,28,0.55);
+  bg-alt: rgba(31,38,49,0.40);
+  bg-grad1: rgba(18,22,28,0.78);
+  bg-grad2: rgba(31,38,49,0.62);
+
+  /* testo */
+  fg: #F8FAFC;
+  fg-muted: #CDD6E3;
+
+  /* accenti (più visibili) */
+  accent1: rgba(0,229,255,0.65);
+  accent2: rgba(255,0,212,0.55);
+
+  /* altri stati */
+  urgent: #EF4444;
+  active: #93C5FD;
+
+  border-col: rgba(255,255,255,0.08);
+  border-col-soft: rgba(255,255,255,0.03);
+
+  font: "JetBrainsMono Nerd Font 14";
+  foreground: @fg;
+  background-color: @bg;
+}
 
 window {
-    border-radius: 16px;
-    transparency: "real";
+  transparency: "real";
+  background-color: transparent;
+  /* prima usavi: linear-gradient(135deg, @bg-grad1, @bg-grad2) */
+  background-image: linear-gradient(135deg,
+                                    rgba(18,22,28,0.78),
+                                    rgba(31,38,49,0.62));
+  border: 1px;
+  border-color: @border-col-soft;
+  border-radius: 20px;
+  padding: 12px;
+  width: 720;
+}
+
+inputbar {
+  background-color: transparent;
+  background-image: linear-gradient(135deg,
+                                    rgba(35,43,56,0.85),
+                                    rgba(18,22,28,0.85));
+  border: 1px;
+  border-color: @border-col;
+  border-radius: 18px;
+  padding: 8px 12px;
+  spacing: 10px;
+}
+
+prompt {
+  padding: 6px 12px;
+  margin: 0px 8px 0px 0px;
+  border-radius: 14px;
+  background-image: linear-gradient(135deg,
+                                    rgba(0,229,255,0.65),
+                                    rgba(255,0,212,0.55));
+  foreground: @fg;
+}
+
+textbox-prompt-colon {
+  expand: false;
+  str: "›";
+  margin: 0px 6px 0px 0px;
+  foreground: @fg-muted;
+}
+
+entry {
+  placeholder: "Type to search…";
+  foreground: @fg;
+  placeholder-color: @fg-muted;
+}
+
+case-indicator { spacing: 0; text-transform: lowercase; foreground: @fg-muted; }
+
+/* --- Lista --- */
+listview {
+  columns: 1;
+  lines: 12;
+  fixed-height: 0;
+  dynamic: true;
+  scrollbar: true;
+  border: 0px;
+  padding: 4px 0px 0px 0px;
+}
+
+scrollbar { handle-width: 8px; border: 0px; padding: 0px; background-color: transparent; }
+scrollbar handle { background-color: rgba(255,255,255,0.10); border-radius: 12px; }
+
+/* --- Elementi --- */
+element {
+  padding: 10px 12px;
+  border-radius: 14px;
+  spacing: 10px;
+  background-color: transparent;
+}
+
+element-icon { size: 24px; margin: 0px 6px 0px 4px; }
+element-text { foreground: @fg; highlight: bold underline; }
+
+element alternate { background-color: rgba(255,255,255,0.03); border-radius: 12px; }
+
+element selected {
+  background-color: transparent;
+  background-image: linear-gradient(90deg,
+                                    rgba(0,229,255,0.65),
+                                    rgba(255,0,212,0.55));
+  border-radius: 14px;
+  foreground: @fg;
+}
+
+/* stati */
+element active { foreground: @active; }
+element urgent { foreground: @urgent; }
+
+/* --- Messaggi & sidebar --- */
+message {
+  background-color: @bg-alt;
+  border: 1px; border-color: @border-col;
+  border-radius: 14px; padding: 8px 10px;
+}
+
+textbox { foreground: @fg-muted; }
+
+sidebar { border: 0px; padding: 0px; spacing: 6px; }
+
+button {
+  background-color: transparent;
+  background-image: linear-gradient(135deg, rgba(35,43,56,0.75), rgba(18,22,28,0.75));
+  border: 1px; border-color: @border-col;
+  border-radius: 14px; padding: 6px 10px; foreground: @fg-muted;
+}
+
+button selected {
+  background-color: transparent;
+  background-image: linear-gradient(135deg,
+                                    rgba(0,229,255,0.65),
+                                    rgba(255,0,212,0.55));
+  border-radius: 14px; foreground: @fg; border-color: @border-col;
 }
