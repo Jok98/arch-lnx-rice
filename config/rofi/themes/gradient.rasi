@@ -26,32 +26,25 @@ mainbox { padding: 6px; spacing: 8px; }
 
 inputbar {
   background-color: transparent;
-  background-image: linear-gradient(135deg,
-                                    rgba(35,43,56,0.85),
-                                    rgba(18,22,28,0.85));
-  border: 1px;
-  border-color: rgba(255,255,255,0.08);
-  border-radius: 18px;
-  padding: 8px 12px;
+  border: 0px;
+  border-radius: 0px;
+  padding: 2px 12px;
   spacing: 10px;
 }
 
 prompt {
-  padding: 4px 8px;
+  padding: 0px 8px;
   margin: 0px 6px 0px 0px;
-  border-radius: 10px;
-  /* prima: linear-gradient(135deg, @accent1, @accent2) */
-  background-image: linear-gradient(135deg,
-                                    rgba(0,229,255,0.45),
-                                    rgba(255,0,212,0.35));
+  border-radius: 0px;
+  background-color: transparent;
   foreground: #F8FAFC;
 }
 
 textbox-prompt-colon { expand: false; str: "›"; margin: 0 6px 0 0; foreground: #CDD6E3; }
 entry { foreground: #F8FAFC; }
-case-indicator { spacing: 0; text-transform: lowercase; foreground: #CDD6E3; }
+case-indicator { enabled: false; }
 
-listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: true; border: 0; padding: 4px 0 0 0; }
+listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: false; border: 0; padding: 4px 0 0 0; background-color: transparent; }
 scrollbar { handle-width: 8px; border: 0; padding: 0; background-color: transparent; }
 scrollbar handle { background-color: rgba(255,255,255,0.10); border-radius: 12px; }
 
@@ -61,32 +54,22 @@ element-text { foreground: #F8FAFC; highlight: bold underline; background-color:
 element alternate { background-color: transparent; border-radius: 12px; }
 
 element selected {
-  background-color: transparent;
-  background-image: linear-gradient(90deg,
-                                    rgba(0,229,255,0.25),
-                                    rgba(255,0,212,0.20));
-  border-radius: 10px;
+  background-color: rgba(255,255,255,0.05);
+  border-radius: 8px;
   foreground: #F8FAFC;
 }
 
-message { background-color: rgba(31,38,49,0.40); border: 1px; border-color: rgba(255,255,255,0.08); border-radius: 14px; padding: 8px 10px; }
+message { background-color: transparent; border: 0px; border-radius: 0px; padding: 8px 10px; }
 textbox { foreground: #CDD6E3; }
 sidebar { border: 0; padding: 0; spacing: 6px; }
 
 button {
   background-color: transparent;
-  background-image: linear-gradient(135deg,
-                                    rgba(35,43,56,0.75),
-                                    rgba(18,22,28,0.75));
-  border: 1px; border-color: rgba(255,255,255,0.08);
-  border-radius: 14px; padding: 6px 10px; foreground: #CDD6E3;
+  border: 0px;
+  border-radius: 8px; padding: 6px 10px; foreground: #CDD6E3;
 }
 button selected {
-  /* prima: linear-gradient(135deg, @accent1, @accent2) */
-  background-image: linear-gradient(135deg,
-                                    rgba(0,229,255,0.35),
-                                    rgba(255,0,212,0.25));
-  border-radius: 10px;
+  background-color: rgba(255,255,255,0.08);
+  border-radius: 8px;
   foreground: #F8FAFC;
-  border-color: rgba(255,255,255,0.08);
 }
