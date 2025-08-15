@@ -1,6 +1,6 @@
 ## Base
 
-| Pacchetto                       | Descrizione                                             |
+| Component                       | Description                                             |
 |---------------------------------|---------------------------------------------------------|
 | **hyprland**                    | Window manager dinamico per Wayland.                    |
 | **xdg-desktop-portal-hyprland** | Integrazione portali desktop con Hyprland.              |
@@ -12,49 +12,16 @@
 | **alacritty**                   | Terminale GPU-accelerato.                               |
 | **firefox**                     | Browser web.                                            |
 
-## Extra
+## Extra(Installed)
 
-| Component                 | Description        |
-|---------------------------|--------------------|
-| yay                       | Aur Helper         |
-| fastfetch                 | System Information |
-| [pipewire](#pipewire)     | Audio + gui        |
-| [bluez](#bluez)           | Bluetooth + gui    |
-| [gsimplecal](#gsimplecal) | Calendar           |
-| [nerdfont](#nerdfont)     | Font               |
+| Component                | Description                           |
+|--------------------------|---------------------------------------|
+| yay                      | Aur Helper                            |
+| fastfetch                | System Information                    |
+| pipewire                 | Audio + gui                           |
+| bluez                    | Bluetooth + gui                       |
+| gsimplecal               | Calendar                              |
+| nerdfont                 | Font                                  |
+| networkmanager-dmenu-git | Menu dmenu per NetworkManager         |
+| playerctl                | Controllo player multimediali via CLI |
 
----
-
-## Dowloads
-
-### pipewire
-```shell
-sudo pacman -S pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber pavucontrol
-```
-
-### bluez
-```shell
-sudo pacman -S bluez bluez-utils blueman
-```
-
-```shell
-sudo systemctl enable --now bluetooth
-```
-
-### gsimplecal
-```shell
-sudo pacman -S gsimplecal
-```
-
-### nerdfont
-```shell
-sudo pacman -S ttf-nerd-fonts-symbols-mono
-```
-
-### grim slurp swappy wl-clipboard
-```shell
-sudo pacman --noconfirm -S grim slurp swappy wl-clipboard
-```
-```shell
-mkdir ~/Pictures
-```

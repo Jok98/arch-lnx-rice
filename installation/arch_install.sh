@@ -187,7 +187,7 @@ pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
   waybar hyprpaper rofi-wayland kitty alacritty firefox network-manager-applet \
   noto-fonts noto-fonts-cjk ttf-jetbrains-mono ttf-font-awesome \
   fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
-  grim slurp swappy wl-clipboard
+  grim slurp swappy wl-clipboard playerctl
 
 # Install yay AUR helper
 sudo -u \$USERNAME bash -c "
@@ -197,8 +197,9 @@ cd yay
 makepkg -si --noconfirm
 "
 
-# Install JetBrains Toolbox from AUR
+# Install AUR packages
 sudo -u \$USERNAME yay -S --noconfirm jetbrains-toolbox
+sudo -u \$USERNAME yay -S --noconfirm networkmanager-dmenu-git
 
 # Create Pictures directory for screenshots
 mkdir -p /home/\$USERNAME/Pictures
