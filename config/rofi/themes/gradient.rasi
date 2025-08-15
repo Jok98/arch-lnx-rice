@@ -48,7 +48,7 @@ prompt {
 }
 
 textbox-prompt-colon { expand: false; str: "›"; margin: 0 6px 0 0; foreground: #CDD6E3; }
-entry { placeholder: "Type to search…"; foreground: #F8FAFC; placeholder-color: #CDD6E3; }
+entry { foreground: #F8FAFC; }
 case-indicator { spacing: 0; text-transform: lowercase; foreground: #CDD6E3; }
 
 listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: true; border: 0; padding: 4px 0 0 0; }

@@ -92,9 +92,7 @@ textbox-prompt-colon {
 }
 
 entry {
-  placeholder: "Type to search…";
   foreground: @fg;
-  placeholder-color: @fg-muted;
 }
 
 case-indicator { spacing: 0; text-transform: lowercase; foreground: @fg-muted; }
