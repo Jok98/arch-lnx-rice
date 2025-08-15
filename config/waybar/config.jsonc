@@ -4,7 +4,7 @@
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/mpris_prev", "mpris#title", "mpris#artist", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery"],
+  "modules-right": ["custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -31,8 +31,8 @@
     "on-click": "gsimplecal"
   },
 
-  "mpris#title": {
-    "format": "{player_icon} {title}",
+  "mpris#icon": {
+    "format": "{player_icon}",
     "max-length": 20,
     "tooltip": false,
     "scrolling": true,
@@ -44,23 +44,16 @@
     },
     "on-click": "playerctl play-pause"
   },
-  "mpris#artist": {
-    "format": "{artist}",
-    "max-length": 20,
-    "tooltip": false,
-    "scrolling": true,
-    "on-click": "playerctl play-pause"
-  },
 
   "custom/mpris_prev": {
     "format": "",
-    "tooltip": "Precedente",
+    "tooltip": false,
     "on-click": "playerctl previous"
   },
 
   "custom/mpris_next": {
     "format": "",
-    "tooltip": "Successivo",
+    "tooltip": false,
     "on-click": "playerctl next"
   },
 
