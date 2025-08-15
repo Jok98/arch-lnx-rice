@@ -14,7 +14,7 @@ SWAP_SIZE="8G"
 say() { echo -e "\n[+] $*"; }
 die() { echo "ERR: $*" >&2; exit 1; }
 need_cmd() { command -v "$1" >/dev/null 2>&1 || die "missing command: $1"; }
-online() { ping -c1 -W2 archlinux.org >/dev/null 2>&1; }
+online() { ping -c1 -W2 bbs.archlinux.org >/dev/null 2>&1; }
 
 need_cmd sgdisk; need_cmd mkfs.btrfs; need_cmd pacstrap; need_cmd lsblk; need_cmd blkid
 
