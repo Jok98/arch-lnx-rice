@@ -11,15 +11,15 @@
 window {
   transparency: "real";                     /* ok con compositor (Hyprland) */
   background-color: transparent;
-  /* niente @var dentro linear-gradient: usa RGBA “in chiaro” */
+  /* niente @var dentro linear-gradient: usa RGBA "in chiaro" */
   background-image: linear-gradient(135deg,
                                     rgba(18,22,28,0.78),
                                     rgba(31,38,49,0.62));
   border: 1px;
   border-color: rgba(255,255,255,0.06);
-  border-radius: 20px;
-  padding: 12px;
-  width: 720;
+  border-radius: 16px;
+  padding: 8px;
+  width: 540;
 }
 
 mainbox { padding: 6px; spacing: 8px; }
@@ -37,13 +37,13 @@ inputbar {
 }
 
 prompt {
-  padding: 6px 12px;
-  margin: 0px 8px 0px 0px;
-  border-radius: 14px;
+  padding: 4px 8px;
+  margin: 0px 6px 0px 0px;
+  border-radius: 10px;
   /* prima: linear-gradient(135deg, @accent1, @accent2) */
   background-image: linear-gradient(135deg,
-                                    rgba(0,229,255,0.65),
-                                    rgba(255,0,212,0.55));
+                                    rgba(0,229,255,0.45),
+                                    rgba(255,0,212,0.35));
   foreground: #F8FAFC;
 }
 
@@ -55,18 +55,18 @@ listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: tru
 scrollbar { handle-width: 8px; border: 0; padding: 0; background-color: transparent; }
 scrollbar handle { background-color: rgba(255,255,255,0.10); border-radius: 12px; }
 
-element { padding: 10px 12px; border-radius: 14px; spacing: 10px; background-color: transparent; children: [element-icon, element-text]; orientation: horizontal; }
-element-icon { size: 24px; background-color: transparent; margin: 0px 10px 0px 0px; }
+element { padding: 8px 10px; border-radius: 10px; spacing: 8px; background-color: transparent; children: [element-icon, element-text]; orientation: horizontal; }
+element-icon { size: 20px; background-color: transparent; margin: 0px 8px 0px 0px; }
 element-text { foreground: #F8FAFC; highlight: bold underline; background-color: transparent; expand: true; vertical-align: 0.5; horizontal-align: 0.5; }
 element alternate { background-color: transparent; border-radius: 12px; }
 
 element selected {
   background-color: transparent;
   background-image: linear-gradient(90deg,
-                                    rgba(0,229,255,0.65),
-                                    rgba(255,0,212,0.55));
-  border-radius: 14px;
-  foreground: #0b1220;
+                                    rgba(0,229,255,0.25),
+                                    rgba(255,0,212,0.20));
+  border-radius: 10px;
+  foreground: #F8FAFC;
 }
 
 message { background-color: rgba(31,38,49,0.40); border: 1px; border-color: rgba(255,255,255,0.08); border-radius: 14px; padding: 8px 10px; }
@@ -84,9 +84,9 @@ button {
 button selected {
   /* prima: linear-gradient(135deg, @accent1, @accent2) */
   background-image: linear-gradient(135deg,
-                                    rgba(0,229,255,0.65),
-                                    rgba(255,0,212,0.55));
-  border-radius: 14px;
+                                    rgba(0,229,255,0.35),
+                                    rgba(255,0,212,0.25));
+  border-radius: 10px;
   foreground: #F8FAFC;
   border-color: rgba(255,255,255,0.08);
 }
