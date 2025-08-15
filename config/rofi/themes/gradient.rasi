@@ -55,10 +55,10 @@ listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: tru
 scrollbar { handle-width: 8px; border: 0; padding: 0; background-color: transparent; }
 scrollbar handle { background-color: rgba(255,255,255,0.10); border-radius: 12px; }
 
-element { padding: 10px 12px; border-radius: 14px; spacing: 10px; background-color: transparent; }
-element-icon { size: 24px; margin: 0 6px 0 4px; }
-element-text { foreground: #F8FAFC; highlight: bold underline; }
-element alternate { background-color: rgba(255,255,255,0.03); border-radius: 12px; }
+element { padding: 10px 12px; border-radius: 14px; spacing: 10px; background-color: transparent; text-align: center; }
+element-icon { size: 24px; margin: 0 6px 0 4px; background-color: transparent; }
+element-text { foreground: #F8FAFC; highlight: bold underline; background-color: transparent; text-align: center; }
+element alternate { background-color: transparent; border-radius: 12px; }
 
 element selected {
   background-color: transparent;
