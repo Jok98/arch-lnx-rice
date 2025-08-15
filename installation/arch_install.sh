@@ -190,33 +190,77 @@ pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
   grim slurp swappy wl-clipboard playerctl
 
 # =========================
-# Install yay (AUR helper)
+# Install yay (AUR helper) - FIXED VERSION
 # =========================
-# 1) Prepara makedepends (go) e tool minimi
+echo "[+] Installing yay AUR helper..."
+
+# 1) Installa dipendenze necessarie
 pacman --noconfirm --needed -S git base-devel go
 
-# 2) Compila come utente senza installare (-s) e comunica il path del pacchetto
-sudo -u "\$USERNAME" env HOME="/home/\$USERNAME" bash -euo pipefail -c '
-  td="\$(mktemp -d)"
-  echo "\$td" > /tmp/yay_tmp_dir
-  cd "\$td"
-  git clone --depth 1 https://aur.archlinux.org/yay.git
-  cd yay
-  makepkg -s --noconfirm --needed
-  pkg="\$(ls -1t yay-*.pkg.tar.* | head -n1)"
-  printf "%s\n" "\$PWD/\$pkg" > /tmp/yay_pkg_path
-'
+# 2) Crea directory temporanea e build yay come utente normale
+sudo -u "\$USERNAME" bash -euo pipefail <<'EOFYAY'
+export HOME="/home/$USERNAME"
+export PATH="/usr/bin:/usr/local/bin:$PATH"
 
-# 3) Installa il pacchetto appena buildato come root (no prompt sudo)
-pacman --noconfirm --needed -U "\$(cat /tmp/yay_pkg_path)"
+# Crea directory temporanea
+TMPDIR="\$(mktemp -d)"
+cd "\$TMPDIR"
 
-# 4) Cleanup dei temporanei
-sudo -u "\$USERNAME" bash -euo pipefail -c 'rm -rf "\$(cat /tmp/yay_tmp_dir)"'
-rm -f /tmp/yay_pkg_path /tmp/yay_tmp_dir
+echo "[+] Cloning yay repository..."
+git clone --depth 1 https://aur.archlinux.org/yay.git
+cd yay
 
-# Install AUR packages con yay
-sudo -u \$USERNAME yay -S --noconfirm jetbrains-toolbox
-sudo -u \$USERNAME yay -S --noconfirm networkmanager-dmenu-git
+echo "[+] Building yay package..."
+makepkg -si --noconfirm --needed
+
+# Verifica che yay sia installato correttamente
+if command -v yay >/dev/null 2>&1; then
+    echo "[+] yay installed successfully: \$(yay --version)"
+else
+    echo "[ERROR] yay installation failed"
+    exit 1
+fi
+
+# Cleanup
+cd /
+rm -rf "\$TMPDIR"
+EOFYAY
+
+# 3) Verifica finale dell'installazione di yay (come root)
+if ! sudo -u "\$USERNAME" command -v yay >/dev/null 2>&1; then
+    echo "[ERROR] yay verification failed - command not found"
+    exit 1
+fi
+
+echo "[+] yay successfully installed and verified"
+
+# 4) Refresh hash table per bash
+hash -r
+
+# 5) Install AUR packages con path esplicito e gestione errori
+echo "[+] Installing AUR packages..."
+
+# JetBrains Toolbox
+sudo -u "\$USERNAME" bash -c "
+export HOME='/home/\$USERNAME'
+export PATH='/usr/bin:/usr/local/bin:\$PATH'
+echo '[+] Installing jetbrains-toolbox...'
+yay -S --noconfirm --needed jetbrains-toolbox || {
+    echo '[WARNING] jetbrains-toolbox installation failed'
+}
+"
+
+# NetworkManager dmenu
+sudo -u "\$USERNAME" bash -c "
+export HOME='/home/\$USERNAME'
+export PATH='/usr/bin:/usr/local/bin:\$PATH'
+echo '[+] Installing networkmanager-dmenu-git...'
+yay -S --noconfirm --needed networkmanager-dmenu-git || {
+    echo '[WARNING] networkmanager-dmenu-git installation failed'
+}
+"
+
+echo "[+] AUR packages installation completed"
 
 # Create Pictures directory for screenshots
 mkdir -p /home/\$USERNAME/Pictures
@@ -270,9 +314,10 @@ cat >/home/\$USERNAME/.config/hyprpaper/hyprpaper.conf <<'EOT'
 wallpaper = ,/usr/share/pixmaps/archlinux-logo.png
 EOT
 
-# Setup autostart for JetBrains Toolbox
-mkdir -p /home/\$USERNAME/.config/autostart
-cat >/home/\$USERNAME/.config/autostart/jetbrains-toolbox.desktop <<'EOT'
+# Setup autostart for JetBrains Toolbox (solo se installato)
+if sudo -u "\$USERNAME" command -v jetbrains-toolbox >/dev/null 2>&1; then
+    mkdir -p /home/\$USERNAME/.config/autostart
+    cat >/home/\$USERNAME/.config/autostart/jetbrains-toolbox.desktop <<'EOT'
 [Desktop Entry]
 Icon=/opt/jetbrains-toolbox/toolbox.svg
 Exec=/opt/jetbrains-toolbox/jetbrains-toolbox --minimize
@@ -289,12 +334,18 @@ X-GNOME-Autostart-Delay=10
 X-MATE-Autostart-Delay=10
 X-KDE-autostart-after=panel
 EOT
+    echo "[+] JetBrains Toolbox autostart configured"
+else
+    echo "[WARNING] JetBrains Toolbox not found, skipping autostart configuration"
+fi
 
 chown -R \$USERNAME:\$USERNAME /home/\$USERNAME/.config
 
 # pacman QoL
 sed -i 's/^#Color/Color/' /etc/pacman.conf
 sed -i 's/^#ParallelDownloads = .*/ParallelDownloads = 10/' /etc/pacman.conf
+
+echo "[+] System configuration completed successfully"
 EOFCHROOT
 
 # --- boot entry + fix UUID ---
