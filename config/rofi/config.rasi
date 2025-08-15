@@ -1,5 +1,5 @@
 configuration {
-  modi: "drun,run,window,ssh";
+  modi: "drun,run,window";
   show-icons: true;
   icon-theme: "Papirus-Dark";
   font: "JetBrainsMono Nerd Font 14";
@@ -13,7 +13,6 @@ configuration {
   display-drun: " Apps";
   display-run: " Run";
   display-window: " Windows";
-  display-ssh: "󰖂 SSH";
   lines: 12;
   columns: 1;
 }
