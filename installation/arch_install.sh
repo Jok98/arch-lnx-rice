@@ -189,19 +189,32 @@ pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
   fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
   grim slurp swappy wl-clipboard playerctl
 
-# Install yay (AUR helper) - versione robusta e idempotente
-timedatectl set-ntp true || true
-pacman --noconfirm --needed -S git base-devel
+# =========================
+# Install yay (AUR helper)
+# =========================
+# 1) Prepara makedepends (go) e tool minimi
+pacman --noconfirm --needed -S git base-devel go
+
+# 2) Compila come utente senza installare (-s) e comunica il path del pacchetto
 sudo -u "\$USERNAME" env HOME="/home/\$USERNAME" bash -euo pipefail -c '
-  tmpdir="$(mktemp -d)"
-  trap "rm -rf \"$tmpdir\"" EXIT
-  cd "$tmpdir"
+  td="\$(mktemp -d)"
+  echo "\$td" > /tmp/yay_tmp_dir
+  cd "\$td"
   git clone --depth 1 https://aur.archlinux.org/yay.git
   cd yay
-  makepkg -si --noconfirm --needed
+  makepkg -s --noconfirm --needed
+  pkg="\$(ls -1t yay-*.pkg.tar.* | head -n1)"
+  printf "%s\n" "\$PWD/\$pkg" > /tmp/yay_pkg_path
 '
 
-# Install AUR packages
+# 3) Installa il pacchetto appena buildato come root (no prompt sudo)
+pacman --noconfirm --needed -U "\$(cat /tmp/yay_pkg_path)"
+
+# 4) Cleanup dei temporanei
+sudo -u "\$USERNAME" bash -euo pipefail -c 'rm -rf "\$(cat /tmp/yay_tmp_dir)"'
+rm -f /tmp/yay_pkg_path /tmp/yay_tmp_dir
+
+# Install AUR packages con yay
 sudo -u \$USERNAME yay -S --noconfirm jetbrains-toolbox
 sudo -u \$USERNAME yay -S --noconfirm networkmanager-dmenu-git
 
