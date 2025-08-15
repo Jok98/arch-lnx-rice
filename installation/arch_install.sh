@@ -64,33 +64,6 @@ final_uuid_fix() {
 say "Checking network..."
 online || die "No network. Connect first with 'iwctl' (station <iface> connect <SSID>)."
 
-# --- system time and keyring setup ---
-say "Setting up system time..."
-timedatectl set-ntp true
-sleep 3  # give time sync a moment
-
-say "Initializing and updating pacman keyring..."
-pacman-key --init || die "Failed to initialize pacman keyring"
-pacman-key --populate archlinux || die "Failed to populate archlinux keyring"
-
-# Update keyring with retry logic
-for attempt in {1..3}; do
-  say "Updating archlinux-keyring (attempt $attempt/3)..."
-  if pacman -Sy archlinux-keyring --noconfirm; then
-    say "Keyring updated successfully"
-    break
-  elif [[ $attempt -eq 3 ]]; then
-    die "Failed to update keyring after 3 attempts"
-  else
-    say "Retrying keyring update in 5 seconds..."
-    sleep 5
-  fi
-done
-
-# Refresh keys (optional but recommended)
-say "Refreshing PGP keys..."
-pacman-key --refresh-keys || say "Warning: Some keys could not be refreshed (continuing anyway)"
-
 echo "****************************"
 echo "  Arch install FULL DISK"
 echo "  Disk target: $DISK"
@@ -138,21 +111,10 @@ mount -o subvol=@pkg,compress=zstd,noatime       "$ROOT" /mnt/pkg
 mount -o subvol=@snapshots,compress=zstd,noatime "$ROOT" /mnt/.snapshots
 mount "$ESP" /mnt/boot
 
-# --- pacstrap with retry logic ---
+# --- pacstrap ---
 say "Installing base system..."
-for attempt in {1..3}; do
-  say "Running pacstrap (attempt $attempt/3)..."
-  if pacstrap -K /mnt base linux linux-firmware btrfs-progs vim sudo \
-    networkmanager iwd git base-devel; then
-    say "Base system installed successfully"
-    break
-  elif [[ $attempt -eq 3 ]]; then
-    die "Failed to install base system after 3 attempts"
-  else
-    say "Retrying pacstrap in 10 seconds..."
-    sleep 10
-  fi
-done
+pacstrap -K /mnt base linux linux-firmware btrfs-progs vim sudo \
+  networkmanager iwd git base-devel
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
@@ -199,30 +161,9 @@ EOT
 systemctl enable NetworkManager iwd
 systemctl enable fstrim.timer
 
-# microcode with retry logic
-install_package_with_retry() {
-  local package="\$1"
-  for attempt in {1..3}; do
-    echo "Installing \$package (attempt \$attempt/3)..."
-    if pacman --noconfirm -S "\$package"; then
-      echo "\$package installed successfully"
-      return 0
-    elif [[ \$attempt -eq 3 ]]; then
-      echo "Failed to install \$package after 3 attempts"
-      return 1
-    else
-      echo "Retrying \$package installation in 5 seconds..."
-      sleep 5
-    fi
-  done
-}
-
-if lscpu | grep -qi intel; then 
-  install_package_with_retry intel-ucode || echo "Warning: intel-ucode installation failed"
-fi
-if lscpu | grep -qi amd; then 
-  install_package_with_retry amd-ucode || echo "Warning: amd-ucode installation failed"
-fi
+# microcode
+if lscpu | grep -qi intel; then pacman --noconfirm -S intel-ucode; fi
+if lscpu | grep -qi amd;   then pacman --noconfirm -S amd-ucode;   fi
 
 # Bootloader
 bootctl install
@@ -273,10 +214,9 @@ pacman --noconfirm --needed -U "\$(cat /tmp/yay_pkg_path)"
 sudo -u "\$USERNAME" bash -euo pipefail -c 'rm -rf "\$(cat /tmp/yay_tmp_dir)"'
 rm -f /tmp/yay_pkg_path /tmp/yay_tmp_dir
 
-# Install AUR packages con yay (with error handling)
-echo "Installing AUR packages..."
-sudo -u \$USERNAME yay -S --noconfirm jetbrains-toolbox || echo "Warning: jetbrains-toolbox installation failed"
-sudo -u \$USERNAME yay -S --noconfirm networkmanager-dmenu-git || echo "Warning: networkmanager-dmenu-git installation failed"
+# Install AUR packages con yay
+sudo -u \$USERNAME yay -S --noconfirm jetbrains-toolbox
+sudo -u \$USERNAME yay -S --noconfirm networkmanager-dmenu-git
 
 # Create Pictures directory for screenshots
 mkdir -p /home/\$USERNAME/Pictures
