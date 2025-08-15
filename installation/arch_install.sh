@@ -189,13 +189,17 @@ pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
   fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
   grim slurp swappy wl-clipboard playerctl
 
-# Install yay AUR helper
-sudo -u \$USERNAME bash -c "
-cd /tmp
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si --noconfirm
-"
+# Install yay (AUR helper) - versione robusta e idempotente
+timedatectl set-ntp true || true
+pacman --noconfirm --needed -S git base-devel
+sudo -u "\$USERNAME" env HOME="/home/\$USERNAME" bash -euo pipefail -c '
+  tmpdir="$(mktemp -d)"
+  trap "rm -rf \"$tmpdir\"" EXIT
+  cd "$tmpdir"
+  git clone --depth 1 https://aur.archlinux.org/yay.git
+  cd yay
+  makepkg -si --noconfirm --needed
+'
 
 # Install AUR packages
 sudo -u \$USERNAME yay -S --noconfirm jetbrains-toolbox
@@ -288,7 +292,6 @@ write_arch_entry "/mnt/boot" "$ROOT_UUID"
 final_uuid_fix "$ROOT"
 arch-chroot /mnt bootctl update || true
 chmod 600 /mnt/boot/loader/random-seed 2>/dev/null || true
-
 
 say "All done. Unmounting and rebooting..."
 swapoff /mnt/swap/swapfile 2>/dev/null || true
