@@ -197,7 +197,7 @@ echo "[+] Installing yay AUR helper..."
 # 1) Installa dipendenze necessarie
 pacman --noconfirm --needed -S git base-devel go
 
-# 2) Crea directory temporanea e build yay come utente normale
+# 2) Build e installa yay come utente normale
 sudo -u "\$USERNAME" bash -euo pipefail <<'EOFYAY'
 export HOME="/home/$USERNAME"
 export PATH="/usr/bin:/usr/local/bin:$PATH"
@@ -210,55 +210,68 @@ echo "[+] Cloning yay repository..."
 git clone --depth 1 https://aur.archlinux.org/yay.git
 cd yay
 
-echo "[+] Building yay package..."
+echo "[+] Building and installing yay package..."
 makepkg -si --noconfirm --needed
 
-# Verifica che yay sia installato correttamente
-if command -v yay >/dev/null 2>&1; then
-    echo "[+] yay installed successfully: \$(yay --version)"
-else
-    echo "[ERROR] yay installation failed"
-    exit 1
-fi
-
-# Cleanup
+# Cleanup immediato
 cd /
 rm -rf "\$TMPDIR"
+
+# Verifica immediata nell'stesso contesto
+echo "[+] Verifying yay installation..."
+if command -v yay >/dev/null 2>&1; then
+    echo "[+] yay installed successfully: \$(yay --version | head -n1)"
+    # Test basic functionality
+    yay --version >/dev/null 2>&1 && echo "[+] yay functionality verified"
+else
+    echo "[ERROR] yay installation verification failed"
+    exit 1
+fi
 EOFYAY
 
-# 3) Verifica finale dell'installazione di yay (come root)
-if ! sudo -u "\$USERNAME" command -v yay >/dev/null 2>&1; then
-    echo "[ERROR] yay verification failed - command not found"
+echo "[+] yay installation completed successfully"
+
+# 3) Double check con nuovo processo (opzionale, non bloccante)
+sudo -u "\$USERNAME" bash -c 'command -v yay >/dev/null 2>&1' && echo "[+] yay available in fresh shell" || echo "[WARNING] yay verification in fresh shell failed, but continuing..."
+
+# 4) Install AUR packages con gestione errori migliorata
+echo "[+] Installing AUR packages..."
+
+# Aspetta un momento per essere sicuri che yay sia completamente disponibile
+sleep 2
+
+# JetBrains Toolbox
+echo "[+] Installing jetbrains-toolbox..."
+sudo -u "\$USERNAME" bash -euo pipefail <<'EOFJB'
+export HOME="/home/$USERNAME"
+export PATH="/usr/bin:/usr/local/bin:$PATH"
+
+# Verifica che yay sia disponibile prima di procedere
+if ! command -v yay >/dev/null 2>&1; then
+    echo "[ERROR] yay not found, cannot install AUR packages"
     exit 1
 fi
 
-echo "[+] yay successfully installed and verified"
-
-# 4) Refresh hash table per bash
-hash -r
-
-# 5) Install AUR packages con path esplicito e gestione errori
-echo "[+] Installing AUR packages..."
-
-# JetBrains Toolbox
-sudo -u "\$USERNAME" bash -c "
-export HOME='/home/\$USERNAME'
-export PATH='/usr/bin:/usr/local/bin:\$PATH'
-echo '[+] Installing jetbrains-toolbox...'
-yay -S --noconfirm --needed jetbrains-toolbox || {
-    echo '[WARNING] jetbrains-toolbox installation failed'
-}
-"
+echo "[+] yay available, installing jetbrains-toolbox..."
+if yay -S --noconfirm --needed jetbrains-toolbox; then
+    echo "[+] jetbrains-toolbox installed successfully"
+else
+    echo "[WARNING] jetbrains-toolbox installation failed, continuing..."
+fi
+EOFJB
 
 # NetworkManager dmenu
-sudo -u "\$USERNAME" bash -c "
-export HOME='/home/\$USERNAME'
-export PATH='/usr/bin:/usr/local/bin:\$PATH'
-echo '[+] Installing networkmanager-dmenu-git...'
-yay -S --noconfirm --needed networkmanager-dmenu-git || {
-    echo '[WARNING] networkmanager-dmenu-git installation failed'
-}
-"
+echo "[+] Installing networkmanager-dmenu-git..."
+sudo -u "\$USERNAME" bash -euo pipefail <<'EOFNM'
+export HOME="/home/$USERNAME"
+export PATH="/usr/bin:/usr/local/bin:$PATH"
+
+if yay -S --noconfirm --needed networkmanager-dmenu-git; then
+    echo "[+] networkmanager-dmenu-git installed successfully"
+else
+    echo "[WARNING] networkmanager-dmenu-git installation failed, continuing..."
+fi
+EOFNM
 
 echo "[+] AUR packages installation completed"
 
