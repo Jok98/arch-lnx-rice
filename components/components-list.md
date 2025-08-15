@@ -25,3 +25,9 @@
 | networkmanager-dmenu-git | Menu dmenu per NetworkManager         |
 | playerctl                | Controllo player multimediali via CLI |
 
+## Extra(To install)
+
+| Component | Description     |
+|-----------|-----------------|
+| mousepad  | Editor di testo |
+
