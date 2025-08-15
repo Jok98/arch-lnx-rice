@@ -19,7 +19,9 @@ window#waybar {
 #network,
 #pulseaudio,
 #custom-bluetooth,
-#mpris {
+#mpris,
+#custom-mpris_prev,
+#custom-mpris_next {
     padding: 0 6px;
     margin: 4px 2px;
     background: rgba(31, 38, 49, 0.2);
@@ -100,7 +102,9 @@ window#waybar {
 #clock:hover,
 #battery:hover,
 #custom-bluetooth:hover,
-#mpris:hover {
+#mpris:hover,
+#custom-mpris_prev:hover,
+#custom-mpris_next:hover {
     background: rgba(255, 255, 255, 0.03);
 }
 
