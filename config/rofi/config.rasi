@@ -119,19 +119,22 @@ element {
   border-radius: 14px;
   spacing: 10px;
   background-color: transparent;
-  text-align: center;
+  children: [element-icon, element-text];
+  orientation: horizontal;
 }
 
 element-icon { 
   size: 24px; 
-  margin: 0px 6px 0px 4px; 
   background-color: transparent;
+  margin: 0px 10px 0px 0px;
 }
 element-text { 
   foreground: @fg; 
   highlight: bold underline; 
   background-color: transparent;
-  text-align: center;
+  expand: true;
+  vertical-align: 0.5;
+  horizontal-align: 0.5;
 }
 
 element alternate { background-color: transparent; border-radius: 12px; }

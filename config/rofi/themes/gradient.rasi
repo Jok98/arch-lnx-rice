@@ -55,9 +55,9 @@ listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: tru
 scrollbar { handle-width: 8px; border: 0; padding: 0; background-color: transparent; }
 scrollbar handle { background-color: rgba(255,255,255,0.10); border-radius: 12px; }
 
-element { padding: 10px 12px; border-radius: 14px; spacing: 10px; background-color: transparent; text-align: center; }
-element-icon { size: 24px; margin: 0 6px 0 4px; background-color: transparent; }
-element-text { foreground: #F8FAFC; highlight: bold underline; background-color: transparent; text-align: center; }
+element { padding: 10px 12px; border-radius: 14px; spacing: 10px; background-color: transparent; children: [element-icon, element-text]; orientation: horizontal; }
+element-icon { size: 24px; background-color: transparent; margin: 0px 10px 0px 0px; }
+element-text { foreground: #F8FAFC; highlight: bold underline; background-color: transparent; expand: true; vertical-align: 0.5; horizontal-align: 0.5; }
 element alternate { background-color: transparent; border-radius: 12px; }
 
 element selected {
