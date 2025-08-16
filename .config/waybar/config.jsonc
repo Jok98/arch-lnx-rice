@@ -83,6 +83,7 @@
     "format-ethernet": "  {ifname}",
     "format-disconnected": "󰖪",
     "tooltip": true,
+    "tooltip-format-wifi": "{essid}",
     "on-click": "networkmanager_dmenu"
   },
 
