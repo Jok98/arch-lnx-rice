@@ -27,7 +27,8 @@
 
 ## Extra(To install)
 
-| Component | Description     |
-|-----------|-----------------|
-| mousepad  | Editor di testo |
+| Component | Description          |
+|-----------|----------------------|
+| mousepad  | Editor di testo      |
+| wev       | wayland event viewer |
 
