@@ -32,4 +32,5 @@
 | mousepad  | Editor di testo      |
 | wev       | wayland event viewer |
 | starship  | Prompt               |
+| zsh       | Shell                |
 

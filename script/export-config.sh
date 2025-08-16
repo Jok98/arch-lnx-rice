@@ -6,7 +6,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # Sorgente e destinazione
-SOURCE_DIR="$PARENT_DIR/config"
+SOURCE_DIR="$PARENT_DIR/.config"
 TARGET_DIR="$HOME/.config"
 
 # Controlli di base
