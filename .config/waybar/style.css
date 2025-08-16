@@ -154,38 +154,28 @@ menu separator {
     min-width: 0;
 }
 
-/* Supermode attiva */
-#custom-submap.supermode-active {
-    background: linear-gradient(45deg, #00E5FF, #FF00D4);
-    color: #1D2630;
-    font-weight: bold;
-    padding: 0 12px;
-    margin: 0 5px;
-    border-radius: 8px;
-    animation: pulse 1.5s infinite;
+/* Supermode attiva - minimal */
+#custom-submap.supermode {
+    background: transparent;
+    color: #00E5FF; /* accent for supermode */
+    font-weight: normal;
+    padding: 0 2px;
+    margin: 0 2px;
 }
 
-/* Animazione pulse per attirare l'attenzione */
-@keyframes pulse {
-    0% {
-        opacity: 1;
-        box-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
-    }
-    50% {
-        opacity: 0.9;
-        box-shadow: 0 0 20px rgba(255, 0, 212, 0.8);
-    }
-    100% {
-        opacity: 1;
-        box-shadow: 0 0 5px rgba(0, 229, 255, 0.5);
-    }
+/* Supermode disattivata - minimal */
+#custom-submap.inactive {
+    background: transparent;
+    color: #000000;
+    font-weight: normal;
+    padding: 0 2px;
+    margin: 0 2px;
 }
 
-/* Submap generica attiva */
+/* Submap generica attiva - minimal */
 #custom-submap.active {
-    background: #FF6B6B;
-    color: #FFFFFF;
-    padding: 0 10px;
-    margin: 0 5px;
-    border-radius: 8px;
+    background: transparent;
+    color: #FF6B6B;
+    padding: 0 2px;
+    margin: 0 2px;
 }

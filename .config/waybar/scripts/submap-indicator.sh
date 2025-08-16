@@ -5,12 +5,12 @@ get_submap_status() {
     if [ -f "/tmp/hypr-submap-state" ]; then
         submap=$(cat /tmp/hypr-submap-state)
         if [ "$submap" = "supermode" ]; then
-            echo '{"text": " \uf2dd ", "class": "supermode-active", "tooltip": "Supermode active - Mouse:274"}'
+            echo '{"text": "\uf2dd", "class": "supermode", "tooltip": "Supermode"}'
         else
-            echo "{\"text\": \"  $submap\", \"class\": \"active\", \"tooltip\": \"Submap: $submap\"}"
+            echo "{\"text\": \"●\", \"class\": \"active\", \"tooltip\": \"Submap: $submap\"}"
         fi
     else
-        echo '{"text": "", "class": "inactive", "tooltip": "Normal mode"}'
+        echo '{"text": "\uf2dd", "class": "inactive", "tooltip": "Normal mode"}'
     fi
 }
 
