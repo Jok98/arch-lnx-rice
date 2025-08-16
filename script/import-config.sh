@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 
 # Cartella di destinazione "config" allo stesso livello
-TARGET_DIR="$PARENT_DIR/config"
+TARGET_DIR="$PARENT_DIR/.config"
 
 # Cartella sorgente
 SOURCE_DIR="$HOME/.config"
