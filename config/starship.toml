@@ -1,0 +1,121 @@
+# ~/.config/starship.toml
+# Configurazione Starship per Software Engineer
+
+# Timeout per i comandi
+command_timeout = 1000
+
+# Formato principale del prompt
+format = """
+[┌─](bold green)$username[@](bold white)$hostname [in](bold yellow) $directory$git_branch$git_status$java$spring$docker$kubernetes
+[└─❯](bold green) """
+
+# Username personalizzato
+[username]
+style_user = "bold cyan"
+style_root = "bold red"
+format = "[$user]($style)"
+disabled = false
+show_always = true
+
+# Hostname con colore personalizzato
+[hostname]
+ssh_only = false
+format = "[$hostname](bold blue)"
+disabled = false
+
+# Directory con icone
+[directory]
+style = "bold purple"
+format = "[$path]($style)[$read_only]($read_only_style)"
+truncation_length = 3
+truncate_to_repo = true
+read_only = " 🔒"
+
+# Git branch
+[git_branch]
+style = "bold green"
+format = " on [$symbol$branch]($style)"
+symbol = " "
+
+# Git status
+[git_status]
+style = "red"
+format = "[$all_status$ahead_behind]($style)"
+conflicted = " ⚡"
+ahead = " ⇡${count}"
+behind = " ⇣${count}"
+diverged = " ⇕⇡${ahead_count}⇣${behind_count}"
+up_to_date = " ✓"
+untracked = " ?"
+stashed = " 📦"
+modified = " 📝"
+staged = " +"
+renamed = " 📛"
+deleted = " 🗑"
+
+# Java version (per i tuoi progetti Spring Boot)
+[java]
+symbol = "☕ "
+style = "red dimmed"
+format = " [$symbol$version]($style)"
+
+# Docker context
+[docker_context]
+symbol = "🐳 "
+style = "blue bold"
+format = " [$symbol$context]($style)"
+only_with_files = true
+
+# Kubernetes context
+[kubernetes]
+symbol = "⛵ "
+style = "cyan bold"
+format = " [$symbol$context( $namespace)]($style)"
+disabled = false
+
+# Tempo di esecuzione comandi
+[cmd_duration]
+min_time = 2_000
+style = "yellow bold"
+format = " took [$duration]($style)"
+
+# Carattere finale
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+vicmd_symbol = "[❮](bold yellow)"
+
+# Custom per Spring Boot projects
+[custom.spring]
+command = "grep -q 'spring-boot' pom.xml build.gradle 2>/dev/null && echo '🍃'"
+when = "[ -f pom.xml ] || [ -f build.gradle ]"
+style = "green"
+format = " [$output]($style)"
+
+# Custom per progetti con Dockerfile
+[custom.docker_project]
+command = "[ -f Dockerfile ] && echo '🐳'"
+when = "[ -f Dockerfile ]"
+style = "blue"
+format = " [$output]($style)"
+
+# Custom per progetti Kubernetes
+[custom.k8s_project]
+command = "[ -d k8s ] || [ -d kubernetes ] || [ -f deployment.yaml ] && echo '⛵'"
+when = "[ -d k8s ] || [ -d kubernetes ] || [ -f deployment.yaml ]"
+style = "cyan"
+format = " [$output]($style)"
+
+# Node.js (se usi anche frontend)
+[nodejs]
+symbol = "📦 "
+style = "green bold"
+format = " [$symbol$version]($style)"
+
+# Disabilita moduli non necessari
+[aws]
+disabled = true
+[gcloud]
+disabled = true
+[azure]
+disabled = true
