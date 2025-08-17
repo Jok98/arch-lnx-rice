@@ -7,7 +7,7 @@
   "modules-right": ["custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery"],
 
   "hyprland/workspaces": {
-    "format": "",
+    "format": " \uf2dd ",
     "all-outputs": false,
     "active-only": true,
     "move-to-monitor": false,
