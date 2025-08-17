@@ -1,7 +1,7 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 32,
+  "height": 10,
   "spacing": 8,
   "margin-top": 0,
   "margin-left": 0,
@@ -28,7 +28,7 @@
     "format": "{class}",
     "max-length": 45,
     "icon": false,
-    "icon-size": 16,
+    "icon-size": 20,
     "separate-outputs": true,
     "rewrite": {
       "jetbrains-idea": "\ue7b5 IntelliJ",
@@ -72,8 +72,8 @@
   },
 
   "mpris#icon": {
-    "format": "{player_icon} {dynamic}",
-    "format-paused": "{player_icon} {dynamic}",
+    "format": "{player_icon}",
+    "format-paused": "{player_icon}",
     "dynamic-order": ["title", "artist"],
     "dynamic-importance-order": ["title", "artist", "album"],
     "dynamic-len": 25,
