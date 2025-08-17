@@ -1,76 +1,213 @@
-/* ~/.config/rofi/themes/gradient.rasi — safe gradients + leggibilità */
+/* ===================================
+   ~/.config/rofi/themes/gradient.rasi
+   SUNSET THEME - ROFI COMPATIBLE
+   =================================== */
 
 * {
+  bg0: #1a2332;
+  bg1: #2d3a52;
+  bg2: #1e3a3a;
+  bg3: #3c4f66;
+
+  fg0: #ffe5b3;
+  fg1: #ffecc7;
+  fg2: #c4a484;
+  fg3: #96a3b0;
+
+  orange: #ff8c42;
+  red: #e74c3c;
+  green: #1e3a3a;
+  yellow: #f39c12;
+  blue: #45b7d1;
+  purple: #8e44ad;
+  cyan: #4ecdc4;
+
   font: "JetBrainsMono Nerd Font 14";
-  fg: #FFE5B3;
-  fg-muted: #C4A484;
-  border-col: rgba(255,140,66,0.2);
-  border-col-soft: rgba(255,140,66,0.1);
+  foreground: #ffe5b3;
+  background-color: transparent;
+  text-color: #ffe5b3;
 }
 
 window {
-  transparency: "real";                     /* ok con compositor (Hyprland) */
-  background-color: transparent;
-  /* Mountain sunset gradient */
-  background-image: linear-gradient(135deg,
-                                    rgba(26,35,50,0.85),
-                                    rgba(45,58,82,0.75),
-                                    rgba(139,79,126,0.65));
-  border: 1px;
-  border-color: rgba(255,140,66,0.15);
-  border-radius: 4px;
-  padding: 8px;
-  width: 540;
+  transparency: "real";
+  location: center;
+  anchor: center;
+  width: 600px;
+  background-color: #1a2332;
+  border: 2px;
+  border-color: #ff8c42;
+  border-radius: 12px;
+  padding: 16px;
 }
 
-mainbox { padding: 6px; spacing: 8px; }
+mainbox {
+  background-color: transparent;
+  spacing: 12px;
+  padding: 0px;
+  children: [ inputbar, listview, sidebar ];
+}
 
 inputbar {
-  background-color: transparent;
-  border: 0px;
-  border-radius: 0px;
-  padding: 2px 12px;
-  spacing: 10px;
+  background-color: #2d3a52;
+  border: 1px;
+  border-color: #ff8c42;
+  border-radius: 8px;
+  padding: 12px;
+  spacing: 8px;
+  children: [ prompt, textbox-prompt-colon, entry ];
 }
 
 prompt {
-  padding: 0px 8px;
-  margin: 0px 6px 0px 0px;
-  border-radius: 0px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background-color: #ff8c42;
+  text-color: #1a2332;
+}
+
+textbox-prompt-colon {
+  expand: false;
+  str: ">";
+  margin: 0px 8px 0px 0px;
+  text-color: #c4a484;
   background-color: transparent;
-  foreground: #FFE5B3;
 }
 
-textbox-prompt-colon { expand: false; str: "›"; margin: 0 6px 0 0; foreground: #C4A484; }
-entry { foreground: #FFE5B3; }
-case-indicator { enabled: false; }
-
-listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: false; border: 0; padding: 4px 0 0 0; background-color: transparent; }
-scrollbar { handle-width: 8px; border: 0; padding: 0; background-color: transparent; }
-scrollbar handle { background-color: rgba(255,255,255,0.10); border-radius: 12px; }
-
-element { padding: 8px 10px; border-radius: 2px; spacing: 8px; background-color: transparent; children: [element-icon, element-text]; orientation: horizontal; }
-element-icon { size: 20px; background-color: transparent; margin: 0px 8px 0px 0px; }
-element-text { foreground: #FFE5B3; highlight: bold underline; background-color: transparent; expand: true; vertical-align: 0.5; horizontal-align: 0.5; }
-element alternate { background-color: transparent; border-radius: 2px; }
-
-element selected {
-  background-color: rgba(255,140,66,0.15);
-  border-radius: 2px;
-  foreground: #FFECC7;
+entry {
+  text-color: #ffe5b3;
+  background-color: transparent;
+  cursor-color: #ff8c42;
 }
 
-message { background-color: transparent; border: 0px; border-radius: 0px; padding: 8px 10px; }
-textbox { foreground: #C4A484; }
-sidebar { border: 0; padding: 0; spacing: 6px; }
+case-indicator {
+  enabled: false;
+}
 
-button {
+listview {
+  background-color: transparent;
+  columns: 1;
+  lines: 12;
+  cycle: true;
+  dynamic: true;
+  scrollbar: true;
+  spacing: 2px;
+  padding: 8px 0px;
+  border: 0px;
+}
+
+scrollbar {
+  width: 6px;
+  border: 0px;
+  padding: 2px;
+  background-color: transparent;
+}
+
+scrollbar handle {
+  background-color: #ff8c42;
+  border-radius: 4px;
+}
+
+element {
+  background-color: transparent;
+  text-color: #ffe5b3;
+  padding: 10px;
+  border: 0px;
+  border-radius: 8px;
+  spacing: 8px;
+  children: [ element-icon, element-text ];
+}
+
+element normal.normal {
+  background-color: transparent;
+  text-color: #ffe5b3;
+}
+
+element normal.urgent {
+  background-color: #e74c3c;
+  text-color: #ffecc7;
+}
+
+element normal.active {
+  background-color: #1e3a3a;
+  text-color: #ffecc7;
+}
+
+element selected.normal {
+  background-color: #ff8c42;
+  text-color: #1a2332;
+}
+
+element selected.urgent {
+  background-color: #e74c3c;
+  text-color: #ffecc7;
+}
+
+element selected.active {
+  background-color: #1e3a3a;
+  text-color: #ffecc7;
+}
+
+element alternate.normal {
+  background-color: #2d3a52;
+  text-color: #ffe5b3;
+}
+
+element alternate.urgent {
+  background-color: #e74c3c;
+  text-color: #ffecc7;
+}
+
+element alternate.active {
+  background-color: #1e3a3a;
+  text-color: #ffecc7;
+}
+
+element-icon {
+  background-color: transparent;
+  size: 24px;
+  margin: 0px 8px 0px 0px;
+}
+
+element-text {
+  background-color: transparent;
+  text-color: inherit;
+  expand: true;
+  vertical-align: 0.5;
+  horizontal-align: 0.0;
+}
+
+sidebar {
   background-color: transparent;
   border: 0px;
-  border-radius: 2px; padding: 6px 10px; foreground: #C4A484;
+  spacing: 4px;
+  margin: 8px 0px 0px 0px;
 }
+
+button {
+  background-color: #2d3a52;
+  text-color: #c4a484;
+  padding: 8px 16px;
+  margin: 2px;
+  border: 1px;
+  border-color: #3c4f66;
+  border-radius: 6px;
+}
+
 button selected {
-  background-color: rgba(255,140,66,0.15);
-  border-radius: 2px;
-  foreground: #FFE5B3;
+  background-color: #ff8c42;
+  text-color: #1a2332;
+}
+
+message {
+  background-color: #1a2332;
+  border: 1px;
+  border-color: #ff8c42;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+textbox {
+  background-color: transparent;
+  text-color: #c4a484;
+  vertical-align: 0.5;
+  horizontal-align: 0.0;
 }
