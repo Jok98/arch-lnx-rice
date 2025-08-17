@@ -99,7 +99,7 @@ window#waybar {
 #custom-mpris_prev,
 #custom-mpris_next {
     color: #D4A574;
-    font-size: 14px;
+    font-size: 8px;
     min-width: 28px;
     background: linear-gradient(135deg,
     rgba(142, 68, 173, 0.3) 0%,
