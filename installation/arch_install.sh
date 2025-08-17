@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # ====== CONFIG (puoi cambiarli) ======
-HOSTNAME="archbox"
+HOSTNAME="arch"
 USERNAME="jok"
 USERPASS="changeme"          # cambia dopo il primo boot
 LOCALE="en_US.UTF-8"         # lingua sistema
@@ -188,6 +188,44 @@ pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
   noto-fonts noto-fonts-cjk ttf-jetbrains-mono ttf-font-awesome \
   fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
   grim slurp swappy wl-clipboard playerctl
+
+# Zsh, plugins, theme, and extra tools
+pacman --noconfirm --needed -S mousepad wev zsh zsh-autosuggestions zsh-syntax-highlighting zsh-theme-powerlevel10k
+
+# Ensure zsh is listed in /etc/shells and set as default for user and root
+if ! grep -q '^/bin/zsh$' /etc/shells 2>/dev/null; then
+  echo /bin/zsh >> /etc/shells
+fi
+usermod -s /bin/zsh "$USERNAME" || true
+usermod -s /bin/zsh root || true
+
+# Install Oh My Zsh for the user (unattended via git clone)
+sudo -u "$USERNAME" HOME="/home/$USERNAME" bash -euo pipefail <<'EOFZSH'
+
+# Clone Oh My Zsh if not present
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
+fi
+
+# Create minimal .zshrc with plugins and powerlevel10k
+cat >"$HOME/.zshrc" <<'EOT'
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME=""
+plugins=(git)
+source $ZSH/oh-my-zsh.sh
+
+# Zsh plugins from system packages
+fpath+=(/usr/share/zsh/plugins/zsh-syntax-highlighting /usr/share/zsh/plugins/zsh-autosuggestions)
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Powerlevel10k theme
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+EOT
+EOFZSH
+
+# Ensure ownership of zsh configuration
+chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.oh-my-zsh /home/"$USERNAME"/.zshrc || true
 
 # =========================
 # Install yay (AUR helper) - FIXED VERSION
