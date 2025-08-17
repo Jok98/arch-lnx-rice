@@ -95,24 +95,36 @@ window#waybar {
     border-color: rgba(243, 156, 18, 0.3);
 }
 
-/* Media controls */
+/* Media controls - unified block */
 #custom-mpris_prev,
+#mpris,
 #custom-mpris_next {
+    margin: 1px 0px;
+    padding: 1px 4px;
     color: #D4A574;
     font-size: 8px;
-    min-width: 28px;
+    min-width: 20px;
     background: linear-gradient(135deg,
     rgba(142, 68, 173, 0.3) 0%,
     rgba(45, 58, 82, 0.4) 100%);
     border-color: rgba(142, 68, 173, 0.2);
 }
 
+#custom-mpris_prev {
+    border-radius: 2px 0px 0px 2px;
+    border-right: none;
+}
+
+#custom-mpris_next {
+    border-radius: 0px 2px 2px 0px;
+    border-left: none;
+}
+
 #mpris {
+    border-radius: 0px;
+    border-left: none;
+    border-right: none;
     color: #E6A8E6;
-    background: linear-gradient(135deg,
-    rgba(155, 126, 189, 0.3) 0%,
-    rgba(45, 58, 82, 0.4) 100%);
-    border-color: rgba(155, 126, 189, 0.2);
 }
 
 #mpris.paused {
