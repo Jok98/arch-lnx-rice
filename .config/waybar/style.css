@@ -1,18 +1,21 @@
 /* Base font */
 * {
-    font-family: "JetBrainsMono Nerd Font";
-    font-size: 12pt;
+    font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
+    font-size: 12px;
+    font-weight: 500;
 }
 
-/* Bar background */
+/* Bar background with sunset theme */
+/* Per bordo gradient più spesso */
 window#waybar {
-    background: rgba(26, 35, 50, 0.85);
-    border-bottom: 1px solid rgba(255, 140, 66, 0.2);
-    color: #FFE5B3;
+    border: 0px solid;
+    border-image: linear-gradient(135deg,
+    rgba(255, 140, 66, 0.8) 0%,
+    rgba(231, 76, 60, 0.6) 50%,
+    rgba(30, 58, 58, 0.4) 100%) 1;
 }
 
 /* Generic module chip look */
-
 #window,
 #clock,
 #battery,
@@ -21,127 +24,243 @@ window#waybar {
 #custom-bluetooth,
 #mpris,
 #custom-mpris_prev,
-#custom-mpris_next {
-    padding: 0 6px;
-    margin: 4px 2px;
-    background: rgba(45, 58, 82, 0.4);
-    border: 1px solid rgba(255, 140, 66, 0.15);
-    border-radius: 8px;
+#custom-mpris_next,
+#tray {
+    padding: 6px 12px;
+    margin: 4px 3px;
+    background: linear-gradient(135deg,
+    rgba(45, 58, 82, 0.6) 0%,
+    rgba(30, 58, 58, 0.4) 100%);
+    border: 1px solid rgba(255, 140, 66, 0.2);
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Workspaces styling */
+#workspaces {
+    padding: 2px 10px;
+    margin: 4px 3px;
+    background: transparent;
 }
 
 #workspaces button {
-    margin: 2px 2px;
-    background: rgba(139, 79, 126, 0.4);
-    color: transparent;
+    padding: 4px 8px;
+    margin: 2px 4px;
+    background: linear-gradient(135deg,
+    rgba(30, 58, 58, 0.4) 0%,
+    rgba(44, 62, 80, 0.3) 100%);
+    color: #C4A484;
     border: none;
-    font-size: 0;
-    transition: all 0.5s ease;
-    border-radius: 6px;
-}
-#workspaces button.active {
-    background: linear-gradient(135deg, rgba(255, 140, 66, 0.8), rgba(212, 82, 106, 0.6));
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    font-size: 14px;
+    min-width: 24px;
 }
 
-#workspaces button:hover {
-    background: linear-gradient(135deg, rgba(255, 140, 66, 0.6), rgba(212, 82, 106, 0.4));
+#workspaces button.active {
+    background: linear-gradient(135deg,
+    rgba(255, 140, 66, 0.8) 0%,
+    rgba(231, 76, 60, 0.6) 50%,
+    rgba(30, 58, 58, 0.4) 100%);
+    color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(255, 140, 66, 0.3);
+}
+
+#workspaces button:hover:not(.active) {
+    background: linear-gradient(135deg,
+    rgba(255, 140, 66, 0.4) 0%,
+    rgba(231, 76, 60, 0.3) 50%,
+    rgba(30, 58, 58, 0.2) 100%);
+    color: #FFE5B3;
 }
 
 /* Window title */
 #window {
     color: #FFE5B3;
+    font-weight: 600;
+}
+
+#window.empty {
+    background: rgba(30, 58, 58, 0.2);
+    border-color: rgba(255, 140, 66, 0.1);
 }
 
 /* Clock */
 #clock {
     color: #FFECC7;
+    font-weight: 600;
+    background: linear-gradient(135deg,
+    rgba(243, 156, 18, 0.2) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(243, 156, 18, 0.3);
+}
+
+/* Media controls */
+#custom-mpris_prev,
+#custom-mpris_next {
+    color: #D4A574;
+    font-size: 14px;
+    min-width: 28px;
+    background: linear-gradient(135deg,
+    rgba(142, 68, 173, 0.3) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(142, 68, 173, 0.2);
+}
+
+#mpris {
+    color: #E6A8E6;
+    background: linear-gradient(135deg,
+    rgba(155, 126, 189, 0.3) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(155, 126, 189, 0.2);
+}
+
+#mpris.paused {
+    color: #C4A484;
+    background: linear-gradient(135deg,
+    rgba(196, 164, 132, 0.2) 0%,
+    rgba(45, 58, 82, 0.3) 100%);
 }
 
 /* Audio */
 #pulseaudio {
     color: #FFD580;
+    background: linear-gradient(135deg,
+    rgba(255, 213, 128, 0.2) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(255, 213, 128, 0.2);
 }
+
 #pulseaudio.muted {
     color: #E07A5F;
-    background: rgba(139, 79, 126, 0.2);
-    border-color: rgba(212, 82, 106, 0.3);
+    background: linear-gradient(135deg,
+    rgba(224, 122, 95, 0.3) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(224, 122, 95, 0.3);
 }
 
 /* Network */
 #network {
     color: #C4A484;
-    background: rgba(45, 58, 82, 0.3);
+    background: linear-gradient(135deg,
+    rgba(196, 164, 132, 0.2) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
     border-color: rgba(196, 164, 132, 0.2);
 }
+
 #network.wifi {
     color: #D4A574;
+    border-color: rgba(212, 165, 116, 0.3);
+}
+
+#network.disconnected {
+    color: #E07A5F;
+    background: linear-gradient(135deg,
+    rgba(224, 122, 95, 0.2) 0%,
+    rgba(45, 58, 82, 0.3) 100%);
 }
 
 /* Battery */
 #battery {
     color: #FFE066;
+    background: linear-gradient(135deg,
+    rgba(255, 224, 102, 0.2) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(255, 224, 102, 0.2);
 }
+
+#battery.good {
+    color: #4ECDC4;
+    border-color: rgba(78, 205, 196, 0.3);
+}
+
 #battery.warning {
     color: #FF8C42;
-}
-#battery.critical {
-    color: #D4526A;
+    background: linear-gradient(135deg,
+    rgba(255, 140, 66, 0.3) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(255, 140, 66, 0.4);
 }
 
-/* Bluetooth (custom) */
+#battery.critical {
+    color: #E74C3C;
+    background: linear-gradient(135deg,
+    rgba(231, 76, 60, 0.4) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(231, 76, 60, 0.5);
+    animation: blink 1s ease-in-out infinite alternate;
+}
+
+@keyframes blink {
+    to {
+        background: linear-gradient(135deg,
+        rgba(231, 76, 60, 0.6) 0%,
+        rgba(45, 58, 82, 0.5) 100%);
+    }
+}
+
+#battery.charging {
+    color: #4ECDC4;
+    background: linear-gradient(135deg,
+    rgba(78, 205, 196, 0.3) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(78, 205, 196, 0.3);
+}
+
+/* Bluetooth */
 #custom-bluetooth {
     color: #9B7EBD;
+    background: linear-gradient(135deg,
+    rgba(155, 126, 189, 0.2) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(155, 126, 189, 0.2);
 }
 
-/* Hover feedback */
+/* Tray */
+#tray {
+    background: linear-gradient(135deg,
+    rgba(30, 58, 58, 0.4) 0%,
+    rgba(45, 58, 82, 0.3) 100%);
+    border-color: rgba(255, 140, 66, 0.15);
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: rgba(231, 76, 60, 0.3);
+}
+
+/* Hover effects */
+#window:hover,
+#clock:hover,
 #pulseaudio:hover,
 #network:hover,
-#clock:hover,
 #battery:hover,
 #custom-bluetooth:hover,
 #mpris:hover,
 #custom-mpris_prev:hover,
-#custom-mpris_next:hover {
-    background: rgba(255, 255, 255, 0.03);
+#custom-mpris_next:hover,
+#tray:hover {
+    background: linear-gradient(135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 140, 66, 0.1) 50%,
+    rgba(45, 58, 82, 0.5) 100%);
 }
 
-/* Popups & tooltips styled to match Waybar */
-/* Tooltips (e.g., network details) */
+/* Tooltips */
 tooltip {
-    background: rgba(31, 38, 49, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.02);
-    border-radius: 6px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg,
+    rgba(26, 35, 50, 0.95) 0%,
+    rgba(30, 58, 58, 0.9) 100%);
+    border: 1px solid rgba(255, 140, 66, 0.3);
+    border-radius: 8px;
+    color: #E6EDF3;
 }
 
 tooltip label {
     color: #E6EDF3;
-    padding: 4px 8px;
-}
-
-/* Generic GTK menus (if any Waybar popups/menus are used) */
-menu {
-    background: rgba(31, 38, 49, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.02);
-    border-radius: 6px;
-    padding: 2px;
-}
-
-menu menuitem,
-menuitem {
-    color: #C9D1D9;
-    border-radius: 6px;
-    padding: 4px 8px;
-}
-
-menu menuitem:hover,
-menuitem:hover {
-    background: rgba(255, 255, 255, 0.03);
-    color: #E6EDF3;
-}
-
-separator,
-menu separator {
-    background: rgba(255, 255, 255, 0.02);
-    min-height: 1px;
-    margin: 2px 4px;
+    padding: 6px 10px;
 }

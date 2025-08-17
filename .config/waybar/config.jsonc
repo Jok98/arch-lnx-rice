@@ -1,88 +1,181 @@
 {
   "layer": "top",
   "position": "top",
+  "height": 32,
+  "spacing": 8,
+  "margin-top": 0,
+  "margin-left": 0,
+  "margin-right": 0,
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
   "modules-right": ["custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery"],
 
   "hyprland/workspaces": {
-    "format": " \uf2dd ",
+    "format": "{icon}",
+    "format-icons": {
+      "default": "\uf2dd"
+    },
     "all-outputs": false,
     "active-only": true,
     "move-to-monitor": false,
-    "on-click": "activate"
+    "on-click": "activate",
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
   },
-
 
   "hyprland/window": {
     "format": "{class}",
-    "max-length": 50,
-    "icon":true
+    "max-length": 45,
+    "icon": true,
+    "icon-size": 16,
+    "separate-outputs": true,
+    "rewrite": {
+      "jetbrains-idea": "\ue7b5 IntelliJ",
+      "firefox": "󰈹 Firefox",
+      "code": "󰨞 VSCode",
+      "kitty": " \uea85 Terminal",
+      "spotify": "󰓇 Spotify",
+      "discord": "󰙯 Discord",
+      "steam": "󰓓 Steam",
+      "thunar": "󰉋 Files",
+      "": "󰇄 Desktop"
+    }
   },
 
   "clock": {
-    "format": "{:%d-%m | %H:%M}",
-    "tooltip": false,
+    "format": "{:%a %d %b | %H:%M}",
+    "format-alt": "{:%Y-%m-%d | %H:%M:%S}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#FFE5B3'><b>{}</b></span>",
+        "days": "<span color='#E6EDF3'><b>{}</b></span>",
+        "weeks": "<span color='#C4A484'><b>W{}</b></span>",
+        "weekdays": "<span color='#FF8C42'><b>{}</b></span>",
+        "today": "<span color='#E74C3C'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    },
     "on-click": "gsimplecal"
   },
 
   "mpris#icon": {
-    "format": "{player_icon}",
-    "max-length": 20,
-    "tooltip": false,
+    "format": "{player_icon} {dynamic}",
+    "format-paused": "{player_icon} {dynamic}",
+    "dynamic-order": ["title", "artist"],
+    "dynamic-importance-order": ["title", "artist", "album"],
+    "dynamic-len": 25,
+    "max-length": 35,
+    "tooltip": true,
+    "tooltip-format": "{player}: {dynamic}",
     "scrolling": true,
     "player-icons": {
-      "default": "",
-      "spotify": "",
+      "default": "󰝚",
+      "spotify": "󰓇",
       "vlc": "󰕼",
-      "mpv": ""
+      "mpv": "󰐹",
+      "firefox": "󰈹",
+      "chrome": "󰊯",
+      "brave": "󰖟"
     },
-    "on-click": "playerctl play-pause"
+    "on-click": "playerctl play-pause",
+    "on-click-middle": "playerctl stop",
+    "on-scroll-up": "playerctl volume 0.05+",
+    "on-scroll-down": "playerctl volume 0.05-"
   },
 
   "custom/mpris_prev": {
-    "format": "",
-    "tooltip": false,
+    "format": "󰒮",
+    "tooltip": "Previous Track",
     "on-click": "playerctl previous"
   },
 
   "custom/mpris_next": {
-    "format": "",
-    "tooltip": false,
+    "format": "󰒭",
+    "tooltip": "Next Track",
     "on-click": "playerctl next"
   },
 
-
   "pulseaudio": {
-    "format": "{volume}% ",
-    "format-muted": "Muted ",
-    "scroll-step": 5,
+    "format": "{volume}% {icon}",
+    "format-bluetooth": "{volume}% {icon}󰂯",
+    "format-bluetooth-muted": "󰝟 {icon}󰂯",
+    "format-muted": "󰝟",
+    "format-source": "{volume}% 󰍬",
+    "format-source-muted": "󰍭",
+    "format-icons": {
+      "headphone": "󰋋",
+      "hands-free": "󰏳",
+      "headset": "󰋎",
+      "phone": "󰏲",
+      "portable": "󰦧",
+      "car": "󰄋",
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "scroll-step": 2,
+    "reverse-scrolling": 1,
     "on-click": "pavucontrol",
-    "tooltip": true
+    "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "tooltip": true,
+    "tooltip-format": "Volume: {volume}%\nSource: {desc}"
   },
 
   "custom/bluetooth": {
-    "format": "",
+    "format": "󰂯",
+    "format-disabled": "󰂲",
+    "format-off": "󰂲",
     "tooltip": "Bluetooth",
-    "on-click": "blueman-manager"
+    "tooltip-format": "Bluetooth: {status}",
+    "on-click": "blueman-manager",
+    "on-click-right": "bluetoothctl power toggle"
   },
 
   "network": {
-    "format-wifi": "  {signalStrength}%",
-    "format-ethernet": "  {ifname}",
-    "format-disconnected": "󰖪",
+    "format-wifi": "󰤨 {signalStrength}%",
+    "format-ethernet": "󰈀 Connected",
+    "format-disconnected": "󰤭 Disconnected",
+    "format-linked": "󰈁 {ifname} (No IP)",
     "tooltip": true,
-    "tooltip-format-wifi": "{essid}",
-    "on-click": "networkmanager_dmenu"
+    "tooltip-format": "Interface: {ifname}\nIP: {ipaddr}\nGateway: {gwaddr}",
+    "tooltip-format-wifi": "Network: {essid}\nSignal: {signalStrength}%\nFrequency: {frequency}MHz\nIP: {ipaddr}",
+    "tooltip-format-ethernet": "Interface: {ifname}\nIP: {ipaddr}\nSpeed: {bandwidthUpBits}/{bandwidthDownBits}",
+    "tooltip-format-disconnected": "Disconnected",
+    "max-length": 50,
+    "on-click": "networkmanager_dmenu",
+    "on-click-right": "nm-connection-editor"
   },
 
   "battery": {
     "format": "{capacity}% {icon}",
-    "format-icons": ["", "", "", "", ""],
+    "format-charging": "{capacity}% 󰂄",
+    "format-plugged": "{capacity}% 󰚥",
+    "format-alt": "{time} {icon}",
+    "format-full": "100% 󰁹",
+    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
     "states": {
-      "warning": 20,
-      "critical": 10
-    }
+      "good": 80,
+      "warning": 30,
+      "critical": 15
+    },
+    "tooltip": true,
+    "tooltip-format": "Battery: {capacity}%\nTime: {time}\nHealth: {health}%\nPower: {power}W"
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8,
+    "reverse-direction": false,
+    "show-passive-items": true
   }
 }
