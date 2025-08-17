@@ -1,20 +1,86 @@
 configuration {
-  modi: "drun,run,window";
+  /* Modi nativi per hub centrale */
+  modi: "drun,run,window,ssh,combi,keys,filebrowser";
   show-icons: true;
   icon-theme: "Papirus-Dark";
   font: "JetBrainsMono Nerd Font 14";
   terminal: "kitty";
+
+  /* Ricerca avanzata */
   matching: "fuzzy";
   case-sensitive: false;
   sort: true;
   cycle: true;
+  normalize-match: false;
+
+  /* Layout hub centrale */
   sidebar-mode: true;
-  drun-display-format: "{name}";
-  display-drun: "󰀻 Apps";
-  display-run: "󰑮 Run";
-  display-window: "󰖯 Windows";
-  lines: 12;
+  hover-select: false;
+  click-to-exit: true;
+  auto-select: false;
+
+  /* Formato display ottimizzato */
+  drun-display-format: "{name} <span size='small' alpha='70%'>[{categories}]</span>";
+  window-format: "{w:4} {c:15} {t}";
+  run-command: "{cmd}";
+  run-shell-command: "{terminal} -e {cmd}";
+
+  /* Etichette hub centrale */
+  display-drun: "App";
+  display-run: "Run";
+  display-window: "Win";
+  display-ssh: "SSH";
+  display-combi: "Search";
+  display-keys: "Binds";
+  display-filebrowser: "Files";
+
+  /* Dimensioni per hub */
+  lines: 15;
   columns: 1;
+  width: 40;
+  fixed-num-lines: true;
+
+  /* Performance e caching */
+  max-history-size: 100;
+  disable-history: false;
+  cache-dir: "/home/jok/.cache/rofi";
+
+  /* SSH nativo - hosts dal sistema */
+  ssh-client: "ssh";
+  ssh-command: "{terminal} -e {ssh-client} {host} [-p {port}]";
+  parse-hosts: true;
+  parse-known-hosts: true;
+
+  /* Combi mode - ricerca unificata */
+  combi-modi: "drun,run,window,ssh";
+  combi-hide-mode-prefix: false;
+  combi-display-format: "{mode}: {text}";
+
+  /* Applications enhancement */
+  drun-categories: "";
+  drun-match-fields: "name,generic,exec,categories,keywords,comment";
+  drun-show-actions: true;
+  drun-url-launcher: "firefox";
+  drun-use-desktop-cache: true;
+  drun-reload-desktop-cache: true;
+
+  /* Run mode enhancement */
+  run-list-command: "";
+  run-command-full: false;
+
+  /* Window mode enhancement */
+  window-match-fields: "all";
+  window-command: "wmctrl -i -R {window}";
+  window-thumbnail: false;
+
+  /* File browser nativo */
+  filebrowser-command: "xdg-open";
+  filebrowser-directory: "/home/jok";
+  filebrowser-sorting-method: "name";
+  filebrowser-directories-first: true;
+  filebrowser-show-hidden: true;
+
 }
 
+/* Importa il tema sunset */
 @import "~/.config/rofi/themes/gradient.rasi"
