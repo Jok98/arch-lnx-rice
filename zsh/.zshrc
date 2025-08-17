@@ -90,7 +90,25 @@ plugins=(
   history-substring-search
 )
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#d4a574'
 source $ZSH/oh-my-zsh.sh
+
+# --- Readability fixes for highlighting & autosuggestions ---
+# Use explicit hex colors to avoid relying on ANSI green which is very dark
+# in your Kitty theme. These settings affect zsh-syntax-highlighting and
+# zsh-autosuggestions plugins.
+
+# zsh-syntax-highlighting: make recognized commands stand out
+ZSH_HIGHLIGHT_STYLES[command]='fg=#74c7ec,bold'          # commands in PATH
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#74c7ec,bold'          # shell builtins
+ZSH_HIGHLIGHT_STYLES[function]='fg=#74c7ec,bold'         # user functions
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#74c7ec,bold'            # aliases
+ZSH_HIGHLIGHT_STYLES[command-in-path]='fg=#74c7ec,bold'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=#ff8c42,bold'       # e.g., sudo, command, nocorrect
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#c4a484'  # -o style
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#c4a484'  # --option style
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff6b6b,bold'    # errors pop in red
+
 
 # User configuration
 
