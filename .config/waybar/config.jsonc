@@ -2,19 +2,9 @@
   "layer": "top",
   "position": "top",
 
-  "modules-left": ["clock", "hyprland/window","custom/submap"],
+  "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
   "modules-right": ["custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery"],
-
-  "custom/submap": {
-    "exec": "~/.config/waybar/scripts/submap-indicator.sh",
-    "return-type": "json",
-    "format": "{}",
-    "tooltip": true,
-    "interval": "once",
-    "restart-interval": 1,
-    "signal": 8
-  },
 
   "hyprland/workspaces": {
     "format": "",

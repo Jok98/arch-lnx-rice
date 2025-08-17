@@ -144,38 +144,3 @@ menu separator {
     min-height: 1px;
     margin: 2px 4px;
 }
-
-/* Stato normale - nascosto o minimale */
-#custom-submap.inactive {
-    background: transparent;
-    color: transparent;
-    margin: 0;
-    padding: 0;
-    min-width: 0;
-}
-
-/* Supermode attiva - minimal */
-#custom-submap.supermode {
-    background: transparent;
-    color: #00E5FF; /* accent for supermode */
-    font-weight: normal;
-    padding: 0 2px;
-    margin: 0 2px;
-}
-
-/* Supermode disattivata - minimal */
-#custom-submap.inactive {
-    background: transparent;
-    color: #000000;
-    font-weight: normal;
-    padding: 0 2px;
-    margin: 0 2px;
-}
-
-/* Submap generica attiva - minimal */
-#custom-submap.active {
-    background: transparent;
-    color: #FF6B6B;
-    padding: 0 2px;
-    margin: 0 2px;
-}
