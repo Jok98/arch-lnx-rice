@@ -30,9 +30,9 @@ configuration {
   display-run: "Run";
   display-window: "Win";
   display-ssh: "SSH";
-  display-combi: "Search";
-  display-keys: "Binds";
-  display-filebrowser: "Files";
+  display-combi: "Src";
+  display-keys: "Bnd";
+  display-filebrowser: "File";
 
   /* Dimensioni per hub */
   lines: 15;
