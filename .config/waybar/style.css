@@ -6,9 +6,9 @@
 
 /* Bar background */
 window#waybar {
-    background: rgba(18, 22, 28, 0.4);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-    color: #E6EDF3;
+    background: rgba(26, 35, 50, 0.85);
+    border-bottom: 1px solid rgba(255, 140, 66, 0.2);
+    color: #FFE5B3;
 }
 
 /* Generic module chip look */
@@ -24,71 +24,72 @@ window#waybar {
 #custom-mpris_next {
     padding: 0 6px;
     margin: 4px 2px;
-    background: rgba(31, 38, 49, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.02);
-    border-radius: 6px;
+    background: rgba(45, 58, 82, 0.4);
+    border: 1px solid rgba(255, 140, 66, 0.15);
+    border-radius: 8px;
 }
 
 #workspaces button {
     margin: 2px 2px;
-    background: rgba(157, 178, 206, 0.5);
+    background: rgba(139, 79, 126, 0.4);
     color: transparent;
     border: none;
     font-size: 0;
     transition: all 0.5s ease;
+    border-radius: 6px;
 }
 #workspaces button.active {
-    background: linear-gradient(135deg, rgba(0, 229, 255, 0.6), rgba(255, 0, 212, 0.4));
+    background: linear-gradient(135deg, rgba(255, 140, 66, 0.8), rgba(212, 82, 106, 0.6));
 }
 
 #workspaces button:hover {
-    background: linear-gradient(135deg, rgba(0, 229, 255, 0.5), rgba(255, 0, 212, 0.4));
+    background: linear-gradient(135deg, rgba(255, 140, 66, 0.6), rgba(212, 82, 106, 0.4));
 }
 
 /* Window title */
 #window {
-    color: #C9D1D9;
+    color: #FFE5B3;
 }
 
 /* Clock */
 #clock {
-    color: #E6EDF3;
+    color: #FFECC7;
 }
 
 /* Audio */
 #pulseaudio {
-    color: #A7F3D0; /* mint-ish when active */
+    color: #FFD580;
 }
 #pulseaudio.muted {
-    color: #FCA5A5; /* soft red when muted */
-    background: rgba(127, 29, 29, 0.15);
-    border-color: rgba(239, 68, 68, 0.2);
+    color: #E07A5F;
+    background: rgba(139, 79, 126, 0.2);
+    border-color: rgba(212, 82, 106, 0.3);
 }
 
 /* Network */
 #network {
-    color: #93C5FD; /* light blue when connected (wifi) */
-    background: rgba(17, 28, 48, 0.25); /* semi-transparent dark blue */
-    border-color: rgba(56, 189, 248, 0.15); /* subtle blue border */
+    color: #C4A484;
+    background: rgba(45, 58, 82, 0.3);
+    border-color: rgba(196, 164, 132, 0.2);
 }
 #network.wifi {
-    color: #93C5FD; /* keep blue for wifi */
+    color: #D4A574;
 }
 
 /* Battery */
 #battery {
-    color: #FDE68A; /* warm yellow */
+    color: #FFE066;
 }
 #battery.warning {
-    color: #F59E0B;
+    color: #FF8C42;
 }
 #battery.critical {
-    color: #EF4444;
+    color: #D4526A;
 }
 
 /* Bluetooth (custom) */
 #custom-bluetooth {
-    color: #60A5FA; /* blue */
+    color: #9B7EBD;
 }
 
 /* Hover feedback */

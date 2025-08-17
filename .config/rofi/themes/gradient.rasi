@@ -2,21 +2,22 @@
 
 * {
   font: "JetBrainsMono Nerd Font 14";
-  fg: #F8FAFC;
-  fg-muted: #CDD6E3;
-  border-col: rgba(255,255,255,0.08);
-  border-col-soft: rgba(255,255,255,0.03);
+  fg: #FFE5B3;
+  fg-muted: #C4A484;
+  border-col: rgba(255,140,66,0.2);
+  border-col-soft: rgba(255,140,66,0.1);
 }
 
 window {
   transparency: "real";                     /* ok con compositor (Hyprland) */
   background-color: transparent;
-  /* niente @var dentro linear-gradient: usa RGBA "in chiaro" */
+  /* Mountain sunset gradient */
   background-image: linear-gradient(135deg,
-                                    rgba(18,22,28,0.78),
-                                    rgba(31,38,49,0.62));
+                                    rgba(26,35,50,0.85),
+                                    rgba(45,58,82,0.75),
+                                    rgba(139,79,126,0.65));
   border: 1px;
-  border-color: rgba(255,255,255,0.06);
+  border-color: rgba(255,140,66,0.15);
   border-radius: 16px;
   padding: 8px;
   width: 540;
@@ -37,11 +38,11 @@ prompt {
   margin: 0px 6px 0px 0px;
   border-radius: 0px;
   background-color: transparent;
-  foreground: #F8FAFC;
+  foreground: #FFE5B3;
 }
 
-textbox-prompt-colon { expand: false; str: "›"; margin: 0 6px 0 0; foreground: #CDD6E3; }
-entry { foreground: #F8FAFC; }
+textbox-prompt-colon { expand: false; str: "›"; margin: 0 6px 0 0; foreground: #C4A484; }
+entry { foreground: #FFE5B3; }
 case-indicator { enabled: false; }
 
 listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: false; border: 0; padding: 4px 0 0 0; background-color: transparent; }
@@ -50,26 +51,26 @@ scrollbar handle { background-color: rgba(255,255,255,0.10); border-radius: 12px
 
 element { padding: 8px 10px; border-radius: 10px; spacing: 8px; background-color: transparent; children: [element-icon, element-text]; orientation: horizontal; }
 element-icon { size: 20px; background-color: transparent; margin: 0px 8px 0px 0px; }
-element-text { foreground: #F8FAFC; highlight: bold underline; background-color: transparent; expand: true; vertical-align: 0.5; horizontal-align: 0.5; }
+element-text { foreground: #FFE5B3; highlight: bold underline; background-color: transparent; expand: true; vertical-align: 0.5; horizontal-align: 0.5; }
 element alternate { background-color: transparent; border-radius: 12px; }
 
 element selected {
-  background-color: rgba(255,255,255,0.05);
+  background-color: rgba(255,140,66,0.15);
   border-radius: 8px;
-  foreground: #F8FAFC;
+  foreground: #FFECC7;
 }
 
 message { background-color: transparent; border: 0px; border-radius: 0px; padding: 8px 10px; }
-textbox { foreground: #CDD6E3; }
+textbox { foreground: #C4A484; }
 sidebar { border: 0; padding: 0; spacing: 6px; }
 
 button {
   background-color: transparent;
   border: 0px;
-  border-radius: 8px; padding: 6px 10px; foreground: #CDD6E3;
+  border-radius: 8px; padding: 6px 10px; foreground: #C4A484;
 }
 button selected {
-  background-color: rgba(255,255,255,0.08);
+  background-color: rgba(255,140,66,0.15);
   border-radius: 8px;
-  foreground: #F8FAFC;
+  foreground: #FFE5B3;
 }

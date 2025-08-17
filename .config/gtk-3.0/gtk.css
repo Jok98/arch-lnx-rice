@@ -1,73 +1,73 @@
-/* GTK 3 override stylesheet to approximate Waybar/Hyprland look (no GTK-specific @ rules) */
+/* GTK 3 Mountain Sunset Theme */
 
 /* Global text color */
-* { color: #E6EDF3; }
+* { color: #FFE5B3; }
 
 /* Base backgrounds */
-.background, window, dialog, .window-frame { background-color: rgba(31, 38, 49, 0.3); }
+.background, window, dialog, .window-frame { background-color: rgba(45, 58, 82, 0.4); }
 
 /* Headerbar / titlebar */
 headerbar, .titlebar, .titlebar .background, .header-bar {
-  background-color: rgba(18, 22, 28, 0.4);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  background-color: rgba(26, 35, 50, 0.85);
+  border-bottom: 1px solid rgba(255, 140, 66, 0.2);
 }
 
 /* Buttons */
 button, button.toggle, button.flat, combobox > box > button {
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.02);
-  background-color: transparent;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 140, 66, 0.15);
+  background-color: rgba(139, 79, 126, 0.2);
 }
 button:hover, button.toggle:hover, button.flat:hover, combobox > box > button:hover {
-  background-color: rgba(255, 255, 255, 0.04);
+  background-color: rgba(255, 140, 66, 0.3);
 }
 button:checked, button.toggle:checked {
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: rgba(255, 140, 66, 0.4);
 }
 
 /* Entries / text inputs */
 entry, spinbutton, searchentry {
-  border-radius: 6px;
-  border: 1px solid rgba(255, 255, 255, 0.02);
-  background-color: rgba(255, 255, 255, 0.02);
-  color: #E6EDF3;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 140, 66, 0.15);
+  background-color: rgba(45, 58, 82, 0.3);
+  color: #FFE5B3;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
-  border-color: rgba(0, 229, 255, 0.2);
+  border-color: rgba(255, 140, 66, 0.4);
   box-shadow: none;
 }
 
 /* Menus */
 menu, menubar, menuitem, .popup, .csd .menu, .context-menu {
-  background-color: rgba(18, 22, 28, 0.4);
-  color: #E6EDF3;
+  background-color: rgba(26, 35, 50, 0.85);
+  color: #FFE5B3;
 }
 menuitem {
   border-radius: 6px;
   padding: 4px 8px;
 }
 menuitem:hover {
-  background-color: rgba(255, 255, 255, 0.03);
+  background-color: rgba(255, 140, 66, 0.3);
 }
 separator, menu separator {
-  background: rgba(255, 255, 255, 0.02);
+  background: rgba(255, 140, 66, 0.1);
 }
 
 /* Popovers & tooltips */
 popover, tooltip {
-  background-color: rgba(18, 22, 28, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.02);
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: rgba(26, 35, 50, 0.85);
+  border: 1px solid rgba(255, 140, 66, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* Scrollbars */
 scrollbar { background: transparent; }
 scrollbar slider {
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 6px;
+  background: rgba(255, 140, 66, 0.4);
+  border-radius: 8px;
 }
-scrollbar trough { background: rgba(255, 255, 255, 0.01); }
+scrollbar trough { background: rgba(45, 58, 82, 0.2); }
 
 /* Check/Radios minimal tweaks */
-check, radio { color: #E6EDF3; }
+check, radio { color: #FFE5B3; }
