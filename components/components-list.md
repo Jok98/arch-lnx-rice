@@ -27,12 +27,13 @@
 
 ## Extra(To install)
 
-| Component       | Description          |
-|-----------------|----------------------|
-| mousepad        | Editor di testo      |
-| wev             | wayland event viewer |
-| starship        | Prompt               |
-| zsh             | Shell                |
-| xremap-hypr-bin | Keymap               |
-|
+| Component               | Description          |
+|-------------------------|----------------------|
+| mousepad                | Editor di testo      |
+| wev                     | wayland event viewer |
+| zsh                     | Shell                |
+| Oh My Zsh               | Plugin manager       |
+| zsh-autosuggestions     | Plugin zsh           |
+| zsh-syntax-highlighting | Plugin zsh           |
+| powerlevel10k           | theme zsh            |            
 

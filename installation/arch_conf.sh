@@ -1,5 +1,6 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env zsh
+set -eu
+set -o pipefail
 
 # =======================
 # Config toggles
@@ -66,7 +67,7 @@ install_pkgs "base utilities (curl zip unzip)" curl zip unzip
 # =======================
 # Git
 # =======================
-if ! command -v git &>/dev/null; then
+if ! command -v git >/dev/null 2>&1; then
   install_pkgs "Git" git
 else
   log "✅ Git già installato."
@@ -137,7 +138,7 @@ install_java21_with_sdkman() {
   fi
 }
 
-if command -v sdk &>/dev/null && sdkman_init_safe; then
+if command -v sdk >/dev/null 2>&1 && sdkman_init_safe; then
   if ! install_java21_with_sdkman; then
     log "➡️  Fallback: installo Java 21 via pacman (jdk21-openjdk)..."
     if sudo pacman -S --needed --noconfirm jdk21-openjdk; then
@@ -158,8 +159,8 @@ fi
 # =======================
 # Maven (SDKMAN con fallback pacman)
 # =======================
-if ! command -v mvn &>/dev/null; then
-  if command -v sdk &>/dev/null && sdkman_init_safe; then
+if ! command -v mvn >/dev/null 2>&1; then
+  if command -v sdk >/dev/null 2>&1 && sdkman_init_safe; then
     log "📦 Installing Maven via SDKMAN..."
     if sdk_safe install maven; then
       installed_components+=("Maven (SDKMAN)")
@@ -180,7 +181,7 @@ fi
 # Helm (pacman first, then binary fallback)
 # =======================
 install_helm_binary() {
-  if command -v helm &>/dev/null; then
+  if command -v helm >/dev/null 2>&1; then
     log "✅ Helm già installato: $(helm version --short 2>/dev/null || echo '?')"
     skipped_components+=("Helm")
     return
@@ -205,7 +206,7 @@ install_helm_binary() {
   tar -zxf "helm-${HELM_VERSION}-linux-amd64.tar.gz"
   sudo mv linux-amd64/helm /usr/local/bin/helm
   sudo chmod +x /usr/local/bin/helm
-  if command -v helm &>/dev/null; then
+  if command -v helm >/dev/null 2>&1; then
     installed_components+=("Helm ${HELM_VERSION}")
   else
     failed_components+=("Helm")
@@ -213,7 +214,7 @@ install_helm_binary() {
   rm -rf "helm-${HELM_VERSION}-linux-amd64.tar.gz"* linux-amd64
 }
 
-if ! command -v helm &>/dev/null; then
+if ! command -v helm >/dev/null 2>&1; then
   if sudo pacman -S --needed --noconfirm helm; then
     installed_components+=("Helm (pacman)")
   else
@@ -228,7 +229,7 @@ fi
 # =======================
 # Docker (service + group)
 # =======================
-if ! command -v docker &>/dev/null; then
+if ! command -v docker >/dev/null 2>&1; then
   install_pkgs "Docker" docker
   log "⚙️ Abilito e avvio servizio Docker..."
   if sudo systemctl enable --now docker; then
@@ -258,7 +259,7 @@ fi
 # =======================
 # kubectl
 # =======================
-if ! command -v kubectl &>/dev/null; then
+if ! command -v kubectl >/dev/null 2>&1; then
   install_pkgs "kubectl" kubectl
 else
   log "✅ kubectl già installato."
@@ -277,7 +278,7 @@ install_k3d_fallback() {
   fi
 }
 
-if ! command -v k3d &>/dev/null; then
+if ! command -v k3d >/dev/null 2>&1; then
   if sudo pacman -S --needed --noconfirm k3d; then
     installed_components+=("k3d (pacman)")
   else
@@ -292,7 +293,7 @@ fi
 # =======================
 # Node.js + npm
 # =======================
-if ! command -v npm &>/dev/null; then
+if ! command -v npm >/dev/null 2>&1; then
   install_pkgs "Node.js and npm" nodejs npm
 else
   log "✅ Node.js e npm già installati."
@@ -300,34 +301,34 @@ else
 fi
 
 # =======================
-# Alias (bash)
+# Alias (zsh)
 # =======================
-if [ -f "$HOME/.bashrc" ]; then
-  if ! grep -q "^alias k='kubectl'" "$HOME/.bashrc"; then
-    log "⚙️ Aggiungo alias kubectl in ~/.bashrc..."
-    echo "alias k='kubectl'" >> "$HOME/.bashrc"
+if [ -f "$HOME/.zshrc" ]; then
+  if ! grep -q "^alias k='kubectl'" "$HOME/.zshrc"; then
+    log "⚙️ Aggiungo alias kubectl in ~/.zshrc..."
+    echo "alias k='kubectl'" >> "$HOME/.zshrc"
   else
-    log "✅ Alias kubectl già presente in ~/.bashrc."
-    skipped_components+=("alias k (bash)")
+    log "✅ Alias kubectl già presente in ~/.zshrc."
+    skipped_components+=("alias k (zsh)")
   fi
 fi
 
 # =======================
 # Final summary
 # =======================
-echo -e "\n================== ✅ INSTALLATION SUMMARY ✅ =================="
+printf "\n================== ✅ INSTALLATION SUMMARY ✅ ==================\n"
 echo "🟢 Installed components:"
 for item in "${installed_components[@]:-}"; do echo "   - $item"; done
-echo -e "\n🟡 Already present components:"
+printf "\n🟡 Already present components:\n"
 for item in "${skipped_components[@]:-}"; do echo "   - $item"; done
 if [ ${#failed_components[@]:-0} -ne 0 ]; then
-  echo -e "\n🔴 Failed components:"
+  printf "\n🔴 Failed components:\n"
   for item in "${failed_components[@]}"; do echo "   - $item"; done
 else
-  echo -e "\n✅ No failed components."
+  printf "\n✅ No failed components.\n"
 fi
-echo "===============================================================\n"
+printf "===============================================================\n\n"
 
 log "✅ Tutti i componenti specificati sono installati/configurati."
 log "ℹ️ Se sei stato aggiunto al gruppo 'docker', riapri la sessione o esegui: newgrp docker"
-log "ℹ️ Per caricare l'alias ora: source ~/.bashrc"
+log "ℹ️ Per caricare l'alias ora: source ~/.zshrc"
