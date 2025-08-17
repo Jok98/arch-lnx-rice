@@ -18,7 +18,7 @@ window {
                                     rgba(139,79,126,0.65));
   border: 1px;
   border-color: rgba(255,140,66,0.15);
-  border-radius: 16px;
+  border-radius: 4px;
   padding: 8px;
   width: 540;
 }
@@ -49,14 +49,14 @@ listview { columns: 1; lines: 12; fixed-height: 0; dynamic: true; scrollbar: fal
 scrollbar { handle-width: 8px; border: 0; padding: 0; background-color: transparent; }
 scrollbar handle { background-color: rgba(255,255,255,0.10); border-radius: 12px; }
 
-element { padding: 8px 10px; border-radius: 10px; spacing: 8px; background-color: transparent; children: [element-icon, element-text]; orientation: horizontal; }
+element { padding: 8px 10px; border-radius: 2px; spacing: 8px; background-color: transparent; children: [element-icon, element-text]; orientation: horizontal; }
 element-icon { size: 20px; background-color: transparent; margin: 0px 8px 0px 0px; }
 element-text { foreground: #FFE5B3; highlight: bold underline; background-color: transparent; expand: true; vertical-align: 0.5; horizontal-align: 0.5; }
-element alternate { background-color: transparent; border-radius: 12px; }
+element alternate { background-color: transparent; border-radius: 2px; }
 
 element selected {
   background-color: rgba(255,140,66,0.15);
-  border-radius: 8px;
+  border-radius: 2px;
   foreground: #FFECC7;
 }
 
@@ -67,10 +67,10 @@ sidebar { border: 0; padding: 0; spacing: 6px; }
 button {
   background-color: transparent;
   border: 0px;
-  border-radius: 8px; padding: 6px 10px; foreground: #C4A484;
+  border-radius: 2px; padding: 6px 10px; foreground: #C4A484;
 }
 button selected {
   background-color: rgba(255,140,66,0.15);
-  border-radius: 8px;
+  border-radius: 2px;
   foreground: #FFE5B3;
 }
