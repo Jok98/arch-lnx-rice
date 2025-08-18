@@ -28,14 +28,13 @@
 | wev                      | wayland event viewer                  |
 | zsh                      | Shell                                 |
 | Oh My Zsh                | Plugin manager                        |
-| zsh-autosuggestions      | Plugin zsh                            |
-| zsh-syntax-highlighting  | Plugin zsh                            |
-| powerlevel10k            | theme zsh                             |
 | hyprlock                 | Lock Screen                           |
 | pam                      | Authentication                        |
 
 ## Extra(To install)
 
-| Component | Description |
-|-----------|-------------|
-
+| Component               | Description |
+|-------------------------|-------------|
+| Powerlevel10k           |             |
+| zsh-autosuggestions     |             |
+| zsh-syntax-highlighting |             |
