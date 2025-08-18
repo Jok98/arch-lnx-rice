@@ -120,29 +120,46 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 # --- chroot config ---
 say "Configuring system in chroot..."
-arch-chroot /mnt /bin/bash -e <<EOFCHROOT
-set -euo pipefail
-HOSTNAME="$HOSTNAME"; USERNAME="$USERNAME"; USERPASS="$USERPASS"
-LOCALE="$LOCALE"; TIMEZONE="$TIMEZONE"; SWAP_SIZE="$SWAP_SIZE"; KEYMAP="$KEYMAP"
+arch-chroot /mnt /bin/bash <<EOFCHROOT
+# Remove strict error handling temporarily for variable assignments
+set +u
 
-ln -sf /usr/share/zoneinfo/\$TIMEZONE /etc/localtime
+# Re-define variables in chroot context
+HOSTNAME="$HOSTNAME"
+USERNAME="$USERNAME" 
+USERPASS="$USERPASS"
+LOCALE="$LOCALE"
+TIMEZONE="$TIMEZONE"
+SWAP_SIZE="$SWAP_SIZE"
+KEYMAP="$KEYMAP"
+
+# Re-enable strict error handling
+set -euo pipefail
+
+echo "[+] Starting system configuration in chroot..."
+
+# Basic system setup
+ln -sf /usr/share/zoneinfo/\${TIMEZONE} /etc/localtime
 hwclock --systohc
-# abilita e genera en_US.UTF-8
+
+# Locale setup
 sed -i 's/^#\(en_US.UTF-8\)/\1/' /etc/locale.gen
 locale-gen
-echo "LANG=\$LOCALE" > /etc/locale.conf
-echo "KEYMAP=\$KEYMAP" > /etc/vconsole.conf
+echo "LANG=\${LOCALE}" > /etc/locale.conf
+echo "KEYMAP=\${KEYMAP}" > /etc/vconsole.conf
 
-echo "\$HOSTNAME" > /etc/hostname
+# Hostname setup
+echo "\${HOSTNAME}" > /etc/hostname
 cat >> /etc/hosts <<EOT
 127.0.0.1   localhost
 ::1         localhost
-127.0.1.1   \$HOSTNAME.localdomain \$HOSTNAME
+127.0.1.1   \${HOSTNAME}.localdomain \${HOSTNAME}
 EOT
 
-echo "root:\$USERPASS" | chpasswd
-useradd -m -G wheel,audio,video,storage -s /bin/bash "\$USERNAME"
-echo "\$USERNAME:\$USERPASS" | chpasswd
+# User setup
+echo "root:\${USERPASS}" | chpasswd
+useradd -m -G wheel,audio,video,storage -s /bin/bash "\${USERNAME}"
+echo "\${USERNAME}:\${USERPASS}" | chpasswd
 sed -i 's/^# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' /etc/sudoers
 
 # Network stack (iwd + NM)
@@ -151,6 +168,7 @@ cat >/etc/NetworkManager/conf.d/wifi_backend.conf <<EOT
 [device]
 wifi.backend=iwd
 EOT
+
 mkdir -p /var/lib/iwd
 cat >/var/lib/iwd/main.conf <<'EOT'
 [General]
@@ -158,61 +176,78 @@ EnableNetworkConfiguration=true
 [Network]
 NameResolvingService=systemd
 EOT
+
 systemctl enable NetworkManager iwd
 systemctl enable fstrim.timer
 
-# microcode
-if lscpu | grep -qi intel; then pacman --noconfirm -S intel-ucode; fi
-if lscpu | grep -qi amd;   then pacman --noconfirm -S amd-ucode;   fi
+# Microcode detection and installation
+echo "[+] Detecting and installing microcode..."
+if lscpu | grep -qi intel; then 
+    echo "[+] Intel CPU detected, installing intel-ucode..."
+    pacman --noconfirm -S intel-ucode
+fi
+if lscpu | grep -qi amd; then 
+    echo "[+] AMD CPU detected, installing amd-ucode..."
+    pacman --noconfirm -S amd-ucode
+fi
 
 # Bootloader
+echo "[+] Installing systemd-boot..."
 bootctl install
 
-# swapfile su Btrfs
+# Swapfile setup on Btrfs
+echo "[+] Creating swapfile..."
 mkdir -p /swap
-btrfs filesystem mkswapfile --size \$SWAP_SIZE --uuid clear /swap/swapfile
+btrfs filesystem mkswapfile --size \${SWAP_SIZE} --uuid clear /swap/swapfile
 swapon /swap/swapfile
 echo '/swap/swapfile none swap defaults 0 0' >> /etc/fstab
 
-# Audio + BT
+# Audio + Bluetooth
+echo "[+] Installing audio and bluetooth..."
 pacman --noconfirm -S pipewire pipewire-alsa pipewire-pulse wireplumber bluez bluez-utils
 systemctl enable bluetooth
 
-# NVIDIA + initramfs
+# NVIDIA drivers
+echo "[+] Installing NVIDIA drivers..."
 pacman --noconfirm -S nvidia nvidia-utils nvidia-settings
 mkinitcpio -P
 
-# Hyprland + tools + Firefox + nm-applet + Extra components
+# Hyprland and desktop environment
+echo "[+] Installing Hyprland and desktop tools..."
 pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
   waybar hyprpaper rofi-wayland kitty alacritty firefox network-manager-applet \
   noto-fonts noto-fonts-cjk ttf-jetbrains-mono ttf-font-awesome \
   fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
-  grim slurp swappy wl-clipboard playerctl hyprlock pam
+  grim slurp swappy wl-clipboard playerctl hyprlock pam mousepad wev
 
-# Zsh, plugins, theme, and extra tools
-pacman --noconfirm --needed -S mousepad wev zsh zsh-autosuggestions zsh-syntax-highlighting zsh-theme-powerlevel10k
+# Zsh and plugins
+echo "[+] Installing zsh and plugins..."
+pacman --noconfirm --needed -S zsh zsh-autosuggestions zsh-syntax-highlighting zsh-theme-powerlevel10k
 
-# Ensure zsh is listed in /etc/shells and set as default for user and root
-if ! grep -q '^/bin/zsh$' /etc/shells 2>/dev/null; then
+# Ensure zsh is in /etc/shells and set as default shell
+if ! grep -q '^/bin/zsh\$' /etc/shells 2>/dev/null; then
   echo /bin/zsh >> /etc/shells
 fi
-usermod -s /bin/zsh "$USERNAME" || true
+usermod -s /bin/zsh "\${USERNAME}" || true
 usermod -s /bin/zsh root || true
 
-# Install Oh My Zsh for the user (unattended via git clone)
-sudo -u "$USERNAME" HOME="/home/$USERNAME" bash -euo pipefail <<'EOFZSH'
+# Install Oh My Zsh for the user
+echo "[+] Setting up Oh My Zsh for user \${USERNAME}..."
+sudo -u "\${USERNAME}" HOME="/home/\${USERNAME}" bash <<'EOFZSH'
+set -euo pipefail
 
 # Clone Oh My Zsh if not present
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git "$HOME/.oh-my-zsh"
+if [ ! -d "\${HOME}/.oh-my-zsh" ]; then
+  echo "[+] Cloning Oh My Zsh..."
+  git clone --depth=1 https://github.com/ohmyzsh/ohmyzsh.git "\${HOME}/.oh-my-zsh"
 fi
 
-# Create minimal .zshrc with plugins and powerlevel10k
-cat >"$HOME/.zshrc" <<'EOT'
-export ZSH="$HOME/.oh-my-zsh"
+# Create zshrc with proper escaping
+cat >"\${HOME}/.zshrc" <<'EOT'
+export ZSH="\$HOME/.oh-my-zsh"
 ZSH_THEME=""
 plugins=(git)
-source $ZSH/oh-my-zsh.sh
+source \$ZSH/oh-my-zsh.sh
 
 # Zsh plugins from system packages
 fpath+=(/usr/share/zsh/plugins/zsh-syntax-highlighting /usr/share/zsh/plugins/zsh-autosuggestions)
@@ -224,100 +259,89 @@ source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 EOT
 EOFZSH
 
-# Ensure ownership of zsh configuration
-chown -R "$USERNAME":"$USERNAME" /home/"$USERNAME"/.oh-my-zsh /home/"$USERNAME"/.zshrc || true
+# Fix ownership
+chown -R "\${USERNAME}:\${USERNAME}" "/home/\${USERNAME}/.oh-my-zsh" "/home/\${USERNAME}/.zshrc" || true
 
-# =========================
-# Install yay (AUR helper) - FIXED VERSION
-# =========================
+# Install yay AUR helper
 echo "[+] Installing yay AUR helper..."
-
-# 1) Installa dipendenze necessarie
 pacman --noconfirm --needed -S git base-devel go
 
-# 2) Build e installa yay come utente normale
-sudo -u "\$USERNAME" bash -euo pipefail <<'EOFYAY'
-export HOME="/home/$USERNAME"
-export PATH="/usr/bin:/usr/local/bin:$PATH"
+# Build yay as normal user with improved error handling
+sudo -u "\${USERNAME}" bash <<'EOFYAY'
+set -euo pipefail
+export HOME="/home/\${USERNAME}"
+export PATH="/usr/bin:/usr/local/bin:\${PATH}"
 
-# Crea directory temporanea
+echo "[+] Building yay in temporary directory..."
 TMPDIR="\$(mktemp -d)"
-cd "\$TMPDIR"
+cd "\${TMPDIR}"
 
 echo "[+] Cloning yay repository..."
 git clone --depth 1 https://aur.archlinux.org/yay.git
 cd yay
 
-echo "[+] Building and installing yay package..."
+echo "[+] Building and installing yay..."
 makepkg -si --noconfirm --needed
 
-# Cleanup immediato
+# Cleanup
 cd /
-rm -rf "\$TMPDIR"
+rm -rf "\${TMPDIR}"
 
-# Verifica immediata nell'stesso contesto
-echo "[+] Verifying yay installation..."
+# Verify installation
 if command -v yay >/dev/null 2>&1; then
     echo "[+] yay installed successfully: \$(yay --version | head -n1)"
-    # Test basic functionality
-    yay --version >/dev/null 2>&1 && echo "[+] yay functionality verified"
 else
-    echo "[ERROR] yay installation verification failed"
+    echo "[ERROR] yay installation failed"
     exit 1
 fi
 EOFYAY
 
-echo "[+] yay installation completed successfully"
+echo "[+] yay installation completed"
 
-# 3) Double check con nuovo processo (opzionale, non bloccante)
-sudo -u "\$USERNAME" bash -c 'command -v yay >/dev/null 2>&1' && echo "[+] yay available in fresh shell" || echo "[WARNING] yay verification in fresh shell failed, but continuing..."
+# Wait a moment for yay to be fully available
+sleep 3
 
-# 4) Install AUR packages con gestione errori migliorata
+# Install AUR packages with better error handling
 echo "[+] Installing AUR packages..."
 
-# Aspetta un momento per essere sicuri che yay sia completamente disponibile
-sleep 2
+# Function to install AUR package with retry
+install_aur_package() {
+    local package="\$1"
+    local max_attempts=3
+    local attempt=1
+    
+    while [ \$attempt -le \$max_attempts ]; do
+        echo "[+] Installing \${package} (attempt \${attempt}/\${max_attempts})..."
+        if sudo -u "\${USERNAME}" bash -c "
+            export HOME='/home/\${USERNAME}'
+            export PATH='/usr/bin:/usr/local/bin:\${PATH}'
+            yay -S --noconfirm --needed \${package}
+        "; then
+            echo "[+] \${package} installed successfully"
+            return 0
+        else
+            echo "[WARNING] \${package} installation failed on attempt \${attempt}"
+            ((attempt++))
+            sleep 2
+        fi
+    done
+    
+    echo "[WARNING] Failed to install \${package} after \${max_attempts} attempts, continuing..."
+    return 1
+}
 
-# JetBrains Toolbox
-echo "[+] Installing jetbrains-toolbox..."
-sudo -u "\$USERNAME" bash -euo pipefail <<'EOFJB'
-export HOME="/home/$USERNAME"
-export PATH="/usr/bin:/usr/local/bin:$PATH"
+# Install JetBrains Toolbox
+install_aur_package "jetbrains-toolbox"
 
-# Verifica che yay sia disponibile prima di procedere
-if ! command -v yay >/dev/null 2>&1; then
-    echo "[ERROR] yay not found, cannot install AUR packages"
-    exit 1
-fi
-
-echo "[+] yay available, installing jetbrains-toolbox..."
-if yay -S --noconfirm --needed jetbrains-toolbox; then
-    echo "[+] jetbrains-toolbox installed successfully"
-else
-    echo "[WARNING] jetbrains-toolbox installation failed, continuing..."
-fi
-EOFJB
-
-# NetworkManager dmenu
-echo "[+] Installing networkmanager-dmenu-git..."
-sudo -u "\$USERNAME" bash -euo pipefail <<'EOFNM'
-export HOME="/home/$USERNAME"
-export PATH="/usr/bin:/usr/local/bin:$PATH"
-
-if yay -S --noconfirm --needed networkmanager-dmenu-git; then
-    echo "[+] networkmanager-dmenu-git installed successfully"
-else
-    echo "[WARNING] networkmanager-dmenu-git installation failed, continuing..."
-fi
-EOFNM
-
-echo "[+] AUR packages installation completed"
+# Install NetworkManager dmenu
+install_aur_package "networkmanager-dmenu-git"
 
 # Create Pictures directory for screenshots
-mkdir -p /home/\$USERNAME/Pictures
-chown \$USERNAME:\$USERNAME /home/\$USERNAME/Pictures
+mkdir -p "/home/\${USERNAME}/Pictures"
+chown "\${USERNAME}:\${USERNAME}" "/home/\${USERNAME}/Pictures"
 
-# greetd (agreety)
+# Setup greetd
+echo "[+] Setting up greetd display manager..."
 pacman --noconfirm -S greetd
 cat >/etc/greetd/config.toml <<'EOT'
 [terminal]
@@ -328,9 +352,12 @@ user = "greeter"
 EOT
 systemctl enable greetd
 
-# Hyprland config utente (US layout + bind base)
-mkdir -p /home/\$USERNAME/.config/{hypr,waybar,rofi,hyprpaper}
-cat >/home/\$USERNAME/.config/hypr/hyprland.conf <<'EOT'
+# Create user configuration directories
+echo "[+] Setting up user configurations..."
+mkdir -p "/home/\${USERNAME}/.config"/{hypr,waybar,rofi,hyprpaper}
+
+# Hyprland configuration
+cat >"/home/\${USERNAME}/.config/hypr/hyprland.conf" <<'EOT'
 monitor=,preferred,auto,1
 exec-once = waybar &
 exec-once = hyprpaper &
@@ -340,7 +367,7 @@ input {
   kb_layout = us
 }
 
-# Binds
+# Key bindings
 bind = SUPER, Return, exec, kitty
 bind = SUPER, D, exec, rofi -show drun
 bind = SUPER, Q, killactive
@@ -349,8 +376,8 @@ bind = SUPER, V, togglefloating
 bind = SUPER, F, fullscreen
 EOT
 
-# Waybar config minima
-cat >/home/\$USERNAME/.config/waybar/config <<'EOT'
+# Waybar configuration
+cat >"/home/\${USERNAME}/.config/waybar/config" <<'EOT'
 {
   "layer": "top",
   "position": "top",
@@ -360,15 +387,16 @@ cat >/home/\$USERNAME/.config/waybar/config <<'EOT'
 }
 EOT
 
-# Hyprpaper (wallpaper base)
-cat >/home/\$USERNAME/.config/hyprpaper/hyprpaper.conf <<'EOT'
+# Hyprpaper configuration
+cat >"/home/\${USERNAME}/.config/hyprpaper/hyprpaper.conf" <<'EOT'
 wallpaper = ,/usr/share/pixmaps/archlinux-logo.png
 EOT
 
-# Setup autostart for JetBrains Toolbox (solo se installato)
-if sudo -u "\$USERNAME" command -v jetbrains-toolbox >/dev/null 2>&1; then
-    mkdir -p /home/\$USERNAME/.config/autostart
-    cat >/home/\$USERNAME/.config/autostart/jetbrains-toolbox.desktop <<'EOT'
+# Setup JetBrains Toolbox autostart if installed
+if command -v jetbrains-toolbox >/dev/null 2>&1; then
+    echo "[+] Setting up JetBrains Toolbox autostart..."
+    mkdir -p "/home/\${USERNAME}/.config/autostart"
+    cat >"/home/\${USERNAME}/.config/autostart/jetbrains-toolbox.desktop" <<'EOT'
 [Desktop Entry]
 Icon=/opt/jetbrains-toolbox/toolbox.svg
 Exec=/opt/jetbrains-toolbox/jetbrains-toolbox --minimize
@@ -385,18 +413,19 @@ X-GNOME-Autostart-Delay=10
 X-MATE-Autostart-Delay=10
 X-KDE-autostart-after=panel
 EOT
-    echo "[+] JetBrains Toolbox autostart configured"
 else
     echo "[WARNING] JetBrains Toolbox not found, skipping autostart configuration"
 fi
 
-chown -R \$USERNAME:\$USERNAME /home/\$USERNAME/.config
+# Fix ownership of all user config files
+chown -R "\${USERNAME}:\${USERNAME}" "/home/\${USERNAME}/.config"
 
-# pacman QoL
+# Pacman configuration improvements
+echo "[+] Configuring pacman..."
 sed -i 's/^#Color/Color/' /etc/pacman.conf
 sed -i 's/^#ParallelDownloads = .*/ParallelDownloads = 10/' /etc/pacman.conf
 
-echo "[+] System configuration completed successfully"
+echo "[+] System configuration completed successfully in chroot"
 EOFCHROOT
 
 # --- boot entry + fix UUID ---
@@ -408,7 +437,9 @@ final_uuid_fix "$ROOT"
 arch-chroot /mnt bootctl update || true
 chmod 600 /mnt/boot/loader/random-seed 2>/dev/null || true
 
-say "All done. Unmounting and rebooting..."
+say "Installation completed successfully! Unmounting and rebooting..."
 swapoff /mnt/swap/swapfile 2>/dev/null || true
 umount -R /mnt || true
+echo "System will reboot in 5 seconds..."
+sleep 5
 reboot
