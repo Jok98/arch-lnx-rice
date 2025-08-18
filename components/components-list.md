@@ -24,15 +24,18 @@
 | nerdfont                 | Font                                  |
 | networkmanager-dmenu-git | Menu dmenu per NetworkManager         |
 | playerctl                | Controllo player multimediali via CLI |
-| mousepad                | Editor di testo      |
-| wev                     | wayland event viewer |
-| zsh                     | Shell                |
-| Oh My Zsh               | Plugin manager       |
-| zsh-autosuggestions     | Plugin zsh           |
-| zsh-syntax-highlighting | Plugin zsh           |
-| powerlevel10k           | theme zsh            |
+| mousepad                 | Editor di testo                       |
+| wev                      | wayland event viewer                  |
+| zsh                      | Shell                                 |
+| Oh My Zsh                | Plugin manager                        |
+| zsh-autosuggestions      | Plugin zsh                            |
+| zsh-syntax-highlighting  | Plugin zsh                            |
+| powerlevel10k            | theme zsh                             |
 
 ## Extra(To install)
 
-N/A
+| Component  | Description     |
+|------------|-----------------|
+| hyprcursor | Cursor Hyprland |
+|
 
