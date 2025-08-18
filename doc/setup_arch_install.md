@@ -15,20 +15,5 @@ lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS
 
 ### - via curl
 ```shell
-curl -s https://raw.githubusercontent.com/Jok98/Jok98.github.io/main/notes/dev/ubuntu/arch_install.sh | bash -s -- nvme0n1
-```
-
-
-
-### - via usb
-Mount the usb
-```shell
-mount /dev/sdb1 /mnt
-```
-
-Run the sh
-```shell
-cd /mnt
-chmod +x arch_install.sh
-./arch_install.sh
+curl -s https://raw.githubusercontent.com/Jok98/arch-lnx-rice/main/installation/arch_install.sh | bash -s -- nvme0n1
 ```
