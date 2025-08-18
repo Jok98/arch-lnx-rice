@@ -283,7 +283,7 @@ chown -R "${USERNAME}:${USERNAME}" "${USER_HOME}/.oh-my-zsh" "${USER_HOME}/.zshr
 echo "[+] Installing yay AUR helper..."
 pacman --noconfirm --needed -S git base-devel go
 
-# Create yay installation script
+# Create yay installation script with multiple sources
 cat > /tmp/install_yay.sh << 'EOFYAYSCRIPT'
 #!/bin/bash
 set -euo pipefail
@@ -291,81 +291,134 @@ set -euo pipefail
 USERNAME="$1"
 USER_HOME="/home/$1"
 
-echo "[+] Installing yay for user: $USERNAME"
+echo "[+] Installing AUR helper for user: $USERNAME"
 
-# Create temporary directory
-TMPDIR="$(mktemp -d)"
-cd "$TMPDIR"
+install_yay() {
+    local repo_url="$1"
+    local name="$2"
+    
+    echo "[+] Trying to install yay from: $name"
+    
+    # Create temporary directory
+    TMPDIR="$(mktemp -d)"
+    cd "$TMPDIR"
+    
+    echo "[+] Cloning yay repository from $name..."
+    if git clone --depth 1 "$repo_url" yay; then
+        cd yay
+        echo "[+] Building and installing yay..."
+        if makepkg -si --noconfirm --needed; then
+            # Cleanup
+            cd /
+            rm -rf "$TMPDIR"
+            
+            # Verify installation
+            if command -v yay >/dev/null 2>&1; then
+                echo "[+] yay installed successfully: $(yay --version | head -n1)"
+                return 0
+            fi
+        fi
+    fi
+    
+    # Cleanup on failure
+    cd /
+    rm -rf "$TMPDIR"
+    return 1
+}
 
-echo "[+] Cloning yay repository..."
-git clone --depth 1 https://aur.archlinux.org/yay.git
-cd yay
+install_paru() {
+    echo "[+] Trying to install paru as alternative..."
+    
+    # Create temporary directory
+    TMPDIR="$(mktemp -d)"
+    cd "$TMPDIR"
+    
+    echo "[+] Cloning paru repository..."
+    if git clone --depth 1 https://aur.archlinux.org/paru.git; then
+        cd paru
+        echo "[+] Building and installing paru..."
+        if makepkg -si --noconfirm --needed; then
+            # Cleanup
+            cd /
+            rm -rf "$TMPDIR"
+            
+            # Verify installation
+            if command -v paru >/dev/null 2>&1; then
+                echo "[+] paru installed successfully: $(paru --version | head -n1)"
+                # Create yay alias for compatibility
+                echo 'alias yay="paru"' >> "$USER_HOME/.bashrc"
+                echo 'alias yay="paru"' >> "$USER_HOME/.zshrc"
+                return 0
+            fi
+        fi
+    fi
+    
+    # Cleanup on failure
+    cd /
+    rm -rf "$TMPDIR"
+    return 1
+}
 
-echo "[+] Building and installing yay..."
-makepkg -si --noconfirm --needed
+# Try multiple sources for yay
+echo "[+] Attempting to install AUR helper..."
 
-# Cleanup
-cd /
-rm -rf "$TMPDIR"
-
-# Verify installation
-if command -v yay >/dev/null 2>&1; then
-    echo "[+] yay installed successfully: $(yay --version | head -n1)"
-else
-    echo "[ERROR] yay installation failed"
-    exit 1
+# Source 1: GitHub (more reliable)
+if install_yay "https://github.com/Jguer/yay.git" "GitHub"; then
+    exit 0
 fi
+
+echo "[WARNING] GitHub source failed, trying AUR..."
+
+# Source 2: Official AUR
+if install_yay "https://aur.archlinux.org/yay.git" "AUR"; then
+    exit 0
+fi
+
+echo "[WARNING] AUR source failed, trying GitLab mirror..."
+
+# Source 3: GitLab mirror
+if install_yay "https://gitlab.archlinux.org/archlinux/packaging/packages/yay.git" "GitLab"; then
+    exit 0
+fi
+
+echo "[WARNING] All yay sources failed, trying paru as alternative..."
+
+# Fallback: Install paru instead
+if install_paru; then
+    exit 0
+fi
+
+echo "[ERROR] Failed to install any AUR helper (yay/paru)"
+echo "[INFO] You can install it manually after reboot with:"
+echo "  git clone https://github.com/Jguer/yay.git"
+echo "  cd yay && makepkg -si"
+exit 1
 EOFYAYSCRIPT
 
 chmod +x /tmp/install_yay.sh
-sudo -u "${USERNAME}" bash /tmp/install_yay.sh "${USERNAME}"
-rm /tmp/install_yay.sh
+if sudo -u "${USERNAME}" bash /tmp/install_yay.sh "${USERNAME}"; then
+    echo "[+] AUR helper installation completed successfully"
+    
+    # Install AUR packages only if AUR helper is available
+    echo "[+] Installing AUR packages..."
+    
+    # Install JetBrains Toolbox
+    echo "[+] Installing JetBrains Toolbox..."
+    sudo -u "${USERNAME}" bash /tmp/install_aur.sh "${USERNAME}" "jetbrains-toolbox" || echo "[WARNING] JetBrains Toolbox installation failed, continuing..."
+    
+    # Install NetworkManager dmenu
+    echo "[+] Installing NetworkManager dmenu..."
+    sudo -u "${USERNAME}" bash /tmp/install_aur.sh "${USERNAME}" "networkmanager-dmenu-git" || echo "[WARNING] NetworkManager dmenu installation failed, continuing..."
+else
+    echo "[WARNING] AUR helper installation failed completely"
+    echo "[INFO] Skipping all AUR packages"
+    echo "[INFO] After reboot, you can manually install yay with:"
+    echo "       git clone https://github.com/Jguer/yay.git && cd yay && makepkg -si"
+    echo "       Then install: yay -S jetbrains-toolbox networkmanager-dmenu-git"
+fi
 
-echo "[+] yay installation completed"
-sleep 3
-
-# Install AUR packages
-echo "[+] Installing AUR packages..."
-
-# Create AUR package installation script
-cat > /tmp/install_aur.sh << 'EOFAURSCRIPT'
-#!/bin/bash
-set -euo pipefail
-
-USERNAME="$1"
-PACKAGE="$2"
-MAX_ATTEMPTS=3
-
-echo "[+] Installing AUR package: $PACKAGE for user: $USERNAME"
-
-for attempt in $(seq 1 $MAX_ATTEMPTS); do
-    echo "[+] Installing $PACKAGE (attempt $attempt/$MAX_ATTEMPTS)..."
-    if yay -S --noconfirm --needed "$PACKAGE"; then
-        echo "[+] $PACKAGE installed successfully"
-        exit 0
-    else
-        echo "[WARNING] $PACKAGE installation failed on attempt $attempt"
-        if [ $attempt -lt $MAX_ATTEMPTS ]; then
-            sleep 2
-        fi
-    fi
-done
-
-echo "[WARNING] Failed to install $PACKAGE after $MAX_ATTEMPTS attempts"
-exit 1
-EOFAURSCRIPT
-
-chmod +x /tmp/install_aur.sh
-
-# Install JetBrains Toolbox
-echo "[+] Installing JetBrains Toolbox..."
-sudo -u "${USERNAME}" bash /tmp/install_aur.sh "${USERNAME}" "jetbrains-toolbox" || echo "[WARNING] JetBrains Toolbox installation failed, continuing..."
-
-# Install NetworkManager dmenu
-echo "[+] Installing NetworkManager dmenu..."
-sudo -u "${USERNAME}" bash /tmp/install_aur.sh "${USERNAME}" "networkmanager-dmenu-git" || echo "[WARNING] NetworkManager dmenu installation failed, continuing..."
-
-rm /tmp/install_aur.sh
+# Cleanup AUR installation scripts
+rm -f /tmp/install_yay.sh /tmp/install_aur.sh
 
 # Create Pictures directory for screenshots
 mkdir -p "/home/${USERNAME}/Pictures"
