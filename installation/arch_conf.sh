@@ -301,6 +301,36 @@ else
 fi
 
 # =======================
+# Zsh plugins (Powerlevel10k, autosuggestions, syntax-highlighting)
+# =======================
+install_zsh_plugin() {
+  local plugin_name="$1"
+  local plugin_url="$2"
+  local plugin_dir="$3"
+  
+  if [ -d "$plugin_dir" ]; then
+    log "✅ $plugin_name già installato."
+    skipped_components+=("$plugin_name")
+  else
+    log "📥 Installing $plugin_name..."
+    if git clone "$plugin_url" "$plugin_dir"; then
+      installed_components+=("$plugin_name")
+    else
+      failed_components+=("$plugin_name")
+    fi
+  fi
+}
+
+# Powerlevel10k
+install_zsh_plugin "Powerlevel10k" "https://github.com/romkatv/powerlevel10k.git" "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+
+# zsh-autosuggestions
+install_zsh_plugin "zsh-autosuggestions" "https://github.com/zsh-users/zsh-autosuggestions" "$HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+
+# zsh-syntax-highlighting
+install_zsh_plugin "zsh-syntax-highlighting" "https://github.com/zsh-users/zsh-syntax-highlighting.git" "$HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+
+# =======================
 # Alias (zsh)
 # =======================
 if [ -f "$HOME/.zshrc" ]; then
