@@ -344,6 +344,43 @@ if [ -f "$HOME/.zshrc" ]; then
 fi
 
 # =======================
+# Cursor theme (Hyprcursor + Bibata)
+# =======================
+install_pkgs "Hyprcursor" hyprcursor
+
+# Install bibata-cursor-theme via yay if available; fallback to pacman if possible
+if command -v yay >/dev/null 2>&1; then
+  log "📦 Installing bibata-cursor-theme via yay..."
+  if yay -S --needed --noconfirm bibata-cursor-theme; then
+    installed_components+=("bibata-cursor-theme (yay)")
+  else
+    failed_components+=("bibata-cursor-theme (yay)")
+  fi
+else
+  log "⚠️ yay non trovato; provo via pacman bibata-cursor-theme (se presente nei repo)"
+  if sudo pacman -S --needed --noconfirm bibata-cursor-theme; then
+    installed_components+=("bibata-cursor-theme (pacman)")
+  else
+    skipped_components+=("bibata-cursor-theme (no yay)")
+    log "⚠️ Impossibile installare bibata-cursor-theme senza yay. Consulta doc/cursor.md"
+  fi
+fi
+
+# Ensure icons directory and copy Bibata-Modern-Amber into local icons
+log "🎨 Copio tema cursore Bibata-Modern-Amber in ~/.local/share/icons/ ..."
+mkdir -p "$HOME/.local/share/icons/"
+if [ -d "/usr/share/icons/Bibata-Modern-Amber" ]; then
+  if cp -r "/usr/share/icons/Bibata-Modern-Amber" "$HOME/.local/share/icons/"; then
+    installed_components+=("Bibata-Modern-Amber (copied to ~/.local/share/icons)")
+  else
+    failed_components+=("copy Bibata-Modern-Amber to ~/.local/share/icons")
+  fi
+else
+  log "⚠️ /usr/share/icons/Bibata-Modern-Amber non trovato. Verificare che il path esista."
+  skipped_components+=("Bibata copy (source missing)")
+fi
+
+# =======================
 # Final summary
 # =======================
 printf "\n================== ✅ INSTALLATION SUMMARY ✅ ==================\n"
