@@ -1,0 +1,1 @@
+- When I ask you to modify the Hyprland environment or its components to work under the arch-lnx-rice directory, make the change and apply it with export-config.sh. If the change concerns Zsh, use apply-zsh-config.sh instead.
