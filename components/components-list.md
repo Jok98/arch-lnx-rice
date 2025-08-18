@@ -31,11 +31,11 @@
 | zsh-autosuggestions      | Plugin zsh                            |
 | zsh-syntax-highlighting  | Plugin zsh                            |
 | powerlevel10k            | theme zsh                             |
+| hyprlock                 | Lock Screen                           |
+| pam                      | Authentication                        |
 
 ## Extra(To install)
 
-| Component  | Description     |
-|------------|-----------------|
-| hyprcursor | Cursor Hyprland |
-|
+| Component | Description |
+|-----------|-------------|
 

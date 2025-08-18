@@ -187,7 +187,7 @@ pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
   waybar hyprpaper rofi-wayland kitty alacritty firefox network-manager-applet \
   noto-fonts noto-fonts-cjk ttf-jetbrains-mono ttf-font-awesome \
   fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
-  grim slurp swappy wl-clipboard playerctl
+  grim slurp swappy wl-clipboard playerctl hyprlock pam
 
 # Zsh, plugins, theme, and extra tools
 pacman --noconfirm --needed -S mousepad wev zsh zsh-autosuggestions zsh-syntax-highlighting zsh-theme-powerlevel10k
