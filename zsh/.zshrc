@@ -144,5 +144,18 @@ autoload -Uz compinit && compinit -i
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+# --- SDKMAN init (safe con set -u) ---
 export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+if [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]; then
+  case $- in
+    *u*)
+      set +u
+      source "$SDKMAN_DIR/bin/sdkman-init.sh"
+      set -u
+      ;;
+    *)
+      source "$SDKMAN_DIR/bin/sdkman-init.sh"
+      ;;
+  esac
+fi
+# --- fine SDKMAN init ---
