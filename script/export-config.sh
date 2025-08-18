@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/zsh
 set -euo pipefail
 
 # Cartella dello script
@@ -20,7 +20,8 @@ mkdir -p "$TARGET_DIR"
 
 # Rimuovi le cartelle di destinazione che verranno sostituite
 # (solo le directory presenti in SOURCE_DIR, non l'intera ~/.config)
-shopt -s dotglob nullglob
+# In zsh, usiamo setopt invece di shopt
+setopt dotglob nullglob
 for entry in "$SOURCE_DIR"/*; do
   base_name="$(basename "$entry")"
   target_path="$TARGET_DIR/$base_name"
@@ -29,7 +30,7 @@ for entry in "$SOURCE_DIR"/*; do
     rm -rf -- "$target_path"
   fi
 done
-shopt -u dotglob nullglob
+unsetopt dotglob nullglob
 
 # Copia (sovrascrive, mantiene permessi, include file nascosti)
 echo "-> Copio da: $SOURCE_DIR"
@@ -85,7 +86,7 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
   fi
 
   # Attendi che hyprpaper parta (socket creato o processo presente)
-  for i in $(seq 1 40); do # ~10s (40 * 0.25s)
+  for i in {1..40}; do # ~10s (40 * 0.25s) - zsh range syntax
     if [ -S "$HP_SOCKET1" ] || [ -S "$HP_SOCKET2" ] || [ -S "$HP_SOCKET3" ] || [ -S "$HP_SOCKET4" ] || pgrep -x hyprpaper >/dev/null 2>&1; then
       echo "✓ hyprpaper avviato."
       break
@@ -96,7 +97,7 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
   # Fallback: se non ancora confermato, prova ad avviare direttamente e attendi un altro po'
   if ! pgrep -x hyprpaper >/dev/null 2>&1 && [ ! -S "$HP_SOCKET1" ] && [ ! -S "$HP_SOCKET2" ] && [ ! -S "$HP_SOCKET3" ] && [ ! -S "$HP_SOCKET4" ]; then
     env HYPRLAND_INSTANCE_SIGNATURE="$SIG" XDG_RUNTIME_DIR="$RUNTIME_DIR" nohup hyprpaper -c "$HOME/.config/hyprpaper/hyprpaper.conf" >/dev/null 2>&1 &
-    for i in $(seq 1 20); do # ~5s
+    for i in {1..20}; do # ~5s - zsh range syntax
       if [ -S "$HP_SOCKET1" ] || [ -S "$HP_SOCKET2" ] || [ -S "$HP_SOCKET3" ] || [ -S "$HP_SOCKET4" ] || pgrep -x hyprpaper >/dev/null 2>&1; then
         echo "✓ hyprpaper avviato (fallback)."
         break
@@ -125,7 +126,7 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
     hyprctl dispatch exec "waybar" >/dev/null 2>&1 || true
 
     # Attendi che Waybar parta
-    for i in $(seq 1 40); do # ~10s
+    for i in {1..40}; do # ~10s - zsh range syntax
       if pgrep -x waybar >/dev/null 2>&1; then
         echo "✓ Waybar avviato."
         break
@@ -136,7 +137,7 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
     # Fallback: prova ad avviarlo direttamente se non è ancora partito
     if ! pgrep -x waybar >/dev/null 2>&1; then
       nohup waybar >/dev/null 2>&1 &
-      for i in $(seq 1 20); do # ~5s
+      for i in {1..20}; do # ~5s - zsh range syntax
         if pgrep -x waybar >/dev/null 2>&1; then
           echo "✓ Waybar avviato (fallback)."
           break
