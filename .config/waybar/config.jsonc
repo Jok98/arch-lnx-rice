@@ -9,7 +9,7 @@
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery"],
+  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -179,6 +179,14 @@
     "interval": 60,
     "tooltip": true,
     "tooltip-format": "System uptime: {}"
+  },
+
+  "custom/shortcuts": {
+    "format": "󰌌",
+    "tooltip": "Hyprland Shortcuts",
+    "tooltip-format": "Click to view keyboard shortcuts",
+    "on-click": "~/.config/hypr/script/show-shortcuts.sh --show",
+    "interval": "once"
   },
 
   "tray": {
