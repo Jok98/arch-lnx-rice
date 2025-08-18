@@ -222,7 +222,7 @@ pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
 
 # Zsh and plugins
 echo "[+] Installing zsh and plugins..."
-pacman --noconfirm --needed -S zsh zsh-autosuggestions zsh-syntax-highlighting zsh-theme-powerlevel10k
+pacman --noconfirm --needed -S zsh zsh-autosuggestions zsh-syntax-highlighting
 
 # Ensure zsh is in /etc/shells and set as default shell
 if ! grep -q '^/bin/zsh\$' /etc/shells 2>/dev/null; then
@@ -245,7 +245,7 @@ fi
 # Create zshrc with proper escaping
 cat >"\${HOME}/.zshrc" <<'EOT'
 export ZSH="\$HOME/.oh-my-zsh"
-ZSH_THEME=""
+ZSH_THEME="robbyrussell"
 plugins=(git)
 source \$ZSH/oh-my-zsh.sh
 
@@ -254,8 +254,9 @@ fpath+=(/usr/share/zsh/plugins/zsh-syntax-highlighting /usr/share/zsh/plugins/zs
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
-# Powerlevel10k theme
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+# Note: Powerlevel10k can be installed manually after first boot
+# Run: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
+# Then change ZSH_THEME="powerlevel10k/powerlevel10k" and run: p10k configure
 EOT
 EOFZSH
 
