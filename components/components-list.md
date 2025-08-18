@@ -38,3 +38,6 @@
 | Powerlevel10k           |             |
 | zsh-autosuggestions     |             |
 | zsh-syntax-highlighting |             |
+| hyprcursor              |             |
+| bibata-cursor-git       |             |
+
