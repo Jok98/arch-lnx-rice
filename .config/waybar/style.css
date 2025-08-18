@@ -25,6 +25,7 @@ window#waybar {
 #mpris,
 #custom-mpris_prev,
 #custom-mpris_next,
+#custom-uptime,
 #tray {
     padding: 1px 6px;
     margin: 1px 2px;
@@ -83,6 +84,16 @@ window#waybar {
 #window.empty {
     background: rgba(30, 58, 58, 0.2);
     border-color: rgba(255, 140, 66, 0.1);
+}
+
+/* Uptime */
+#custom-uptime {
+    color: #FFECC7;
+    font-weight: 600;
+    background: linear-gradient(135deg,
+    rgba(45, 58, 82, 0.4) 100%,
+    rgba(243, 156, 18, 0.2) 0%);
+    border-color: rgba(243, 156, 18, 0.3);
 }
 
 /* Clock */
@@ -255,6 +266,7 @@ window#waybar {
 #mpris:hover,
 #custom-mpris_prev:hover,
 #custom-mpris_next:hover,
+#custom-uptime:hover,
 #tray:hover {
     background: linear-gradient(135deg,
     rgba(255, 255, 255, 0.1) 0%,
