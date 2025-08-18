@@ -233,7 +233,7 @@ usermod -s /bin/zsh root || true
 
 # Install Oh My Zsh for the user
 echo "[+] Setting up Oh My Zsh for user \${USERNAME}..."
-sudo -u "\${USERNAME}" HOME="/home/\${USERNAME}" bash <<'EOFZSH'
+sudo -u "\${USERNAME}" HOME="/home/\${USERNAME}" bash <<"EOFZSH"
 set -euo pipefail
 
 # Clone Oh My Zsh if not present
@@ -243,7 +243,7 @@ if [ ! -d "\${HOME}/.oh-my-zsh" ]; then
 fi
 
 # Create zshrc with proper escaping
-cat >"\${HOME}/.zshrc" <<'EOT'
+cat >"\${HOME}/.zshrc" <<"EOT"
 export ZSH="\$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 plugins=(git)
@@ -268,7 +268,7 @@ echo "[+] Installing yay AUR helper..."
 pacman --noconfirm --needed -S git base-devel go
 
 # Build yay as normal user with improved error handling
-sudo -u "\${USERNAME}" bash <<'EOFYAY'
+sudo -u "\${USERNAME}" bash <<"EOFYAY"
 set -euo pipefail
 export HOME="/home/\${USERNAME}"
 export PATH="/usr/bin:/usr/local/bin:\${PATH}"
