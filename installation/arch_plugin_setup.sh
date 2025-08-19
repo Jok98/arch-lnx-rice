@@ -4,7 +4,7 @@ set -o pipefail
 
 # =======================
 # Desktop Environment Setup Script
-# Hyprland components, cursors, nstack plugin, Zsh plugins
+# Hyprland components, cursors, hyprWorkspaceLayouts plugin, Zsh plugins
 # =======================
 
 installed_components=()
@@ -120,64 +120,42 @@ else
 fi
 
 # =======================
-# Hyprland nstack plugin
+# Hyprland hyprWorkspaceLayouts plugin
 # =======================
-install_nstack_plugin() {
+install_hypr_workspace_layouts_plugin() {
   # Check if hyprpm is available
   if ! command -v hyprpm >/dev/null 2>&1; then
     log "❌ hyprpm non trovato. Assicurati che Hyprland sia installato."
-    failed_components+=("nstack plugin (hyprpm missing)")
+    failed_components+=("hyprWorkspaceLayouts plugin (hyprpm missing)")
     return 1
   fi
 
-  # Check if nstack is already installed
-  if hyprpm list | grep -q "hyprland-plugins"; then
-    log "✅ Plugin nstack già installato."
-    skipped_components+=("nstack plugin")
+  # Check if hyprWorkspaceLayouts is already installed/enabled
+  if hyprpm list | grep -qi "hyprWorkspaceLayouts"; then
+    log "✅ Plugin hyprWorkspaceLayouts già installato/abilitato."
+    skipped_components+=("hyprWorkspaceLayouts plugin")
     return 0
   fi
 
-  log "📦 Installing nstack plugin per Hyprland..."
-  
-  # Install build dependencies
-  if ! install_pkgs "build dependencies for nstack" base-devel cmake meson ninja; then
-    failed_components+=("nstack plugin dependencies")
-    return 1
+  log "📦 Installing hyprWorkspaceLayouts plugin per Hyprland..."
+
+  # Add the plugin repository (idempotente)
+  if ! hyprpm add https://github.com/zakk4223/hyprWorkspaceLayouts; then
+    log "ℹ️ Repository hyprWorkspaceLayouts forse già aggiunto, continuo..."
   fi
 
-  # Clone and install hyprland-plugins repository
-  local temp_dir=$(mktemp -d)
-  cd "$temp_dir"
-  
-  if git clone https://github.com/hyprwm/hyprland-plugins.git; then
-    cd hyprland-plugins
-    
-    # Add the plugin repository to hyprpm
-    if hyprpm add .; then
-      # Enable and install nstack
-      if hyprpm enable hyprland-plugins && hyprpm update; then
-        installed_components+=("nstack plugin")
-        log "✅ Plugin nstack installato e abilitato."
-      else
-        failed_components+=("nstack plugin enable/update")
-        log "❌ Errore durante l'abilitazione del plugin nstack."
-      fi
-    else
-      failed_components+=("nstack plugin add")
-      log "❌ Errore durante l'aggiunta del repository plugin."
-    fi
+  # Enable the plugin and update
+  if hyprpm enable hyprWorkspaceLayouts && hyprpm update; then
+    installed_components+=("hyprWorkspaceLayouts plugin")
+    log "✅ Plugin hyprWorkspaceLayouts installato e abilitato."
   else
-    failed_components+=("nstack plugin clone")
-    log "❌ Errore durante il clone del repository hyprland-plugins."
+    failed_components+=("hyprWorkspaceLayouts plugin enable/update")
+    log "❌ Errore durante l'abilitazione del plugin hyprWorkspaceLayouts."
   fi
-  
-  # Cleanup
-  cd "$HOME"
-  rm -rf "$temp_dir"
 }
 
-# Install nstack plugin
-install_nstack_plugin
+# Install hyprWorkspaceLayouts plugin
+install_hypr_workspace_layouts_plugin
 
 # =======================
 # Final summary
@@ -197,4 +175,4 @@ printf "===============================================================\n\n"
 
 log "✅ Setup desktop environment completato."
 log "ℹ️ Per caricare i plugin Zsh ora: source ~/.zshrc"
-log "ℹ️ Riavvia Hyprland per attivare il plugin nstack."
+log "ℹ️ Riavvia Hyprland per attivare il plugin hyprWorkspaceLayouts."

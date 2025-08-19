@@ -40,4 +40,15 @@
 | zsh-syntax-highlighting |             |
 | hyprcursor              |             |
 | bibata-cursor-git       |             |
+| hyprWorkspaceLayouts    |             |
+
+### hyprWorkspaceLayouts
+
+```shell
+hyprpm add https://github.com/zakk4223/hyprWorkspaceLayouts
+```
+
+```shell
+hyprpm enable hyprWorkspaceLayouts
+```
 
