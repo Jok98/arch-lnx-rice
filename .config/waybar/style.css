@@ -26,6 +26,7 @@ window#waybar {
 #custom-mpris_prev,
 #custom-mpris_next,
 #custom-uptime,
+#custom-wlogout,
 #tray {
     padding: 1px 6px;
     margin: 1px 2px;
@@ -239,6 +240,22 @@ window#waybar {
     border-color: rgba(155, 126, 189, 0.2);
 }
 
+/* Wlogout */
+#custom-wlogout {
+    color: #E07A5F;
+    background: linear-gradient(135deg,
+    rgba(224, 122, 95, 0.3) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(224, 122, 95, 0.3);
+}
+
+#custom-wlogout:hover {
+    background: linear-gradient(135deg,
+    rgba(224, 122, 95, 0.5) 0%,
+    rgba(45, 58, 82, 0.5) 100%);
+    border-color: rgba(224, 122, 95, 0.5);
+}
+
 /* Tray */
 #tray {
     background: linear-gradient(135deg,
@@ -267,6 +284,7 @@ window#waybar {
 #custom-mpris_prev:hover,
 #custom-mpris_next:hover,
 #custom-uptime:hover,
+#custom-wlogout:hover,
 #tray:hover {
     background: linear-gradient(135deg,
     rgba(255, 255, 255, 0.1) 0%,

@@ -9,7 +9,7 @@
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery"],
+  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery", "custom/wlogout"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -195,5 +195,12 @@
     "spacing": 8,
     "reverse-direction": false,
     "show-passive-items": true
+  },
+
+  "custom/wlogout": {
+    "format": "󰐥",
+    "tooltip": "Power Menu",
+    "tooltip-format": "Click to open power menu",
+    "on-click": "wlogout -b 13 -c 5 -r 5 -m 5 -p layer-shell"
   }
 }
