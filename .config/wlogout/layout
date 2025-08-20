@@ -1,36 +1,78 @@
 {
-    "label" : "lock",
-    "action" : "loginctl lock-session",
-    "text" : "Lock",
-    "keybind" : "l"
+    "label" : "void",
+    "action" : "",
+    "text" : "",
+    "keybind" : ""
 }
 {
-    "label" : "hibernate",
-    "action" : "systemctl hibernate",
-    "text" : "Hibernate",
-    "keybind" : "h"
+    "label" : "void",
+    "action" : "",
+    "text" : "",
+    "keybind" : ""
 }
 {
-    "label" : "logout",
-    "action" : "loginctl terminate-user $USER",
-    "text" : "Logout",
-    "keybind" : "e"
+    "label" : "void",
+    "action" : "",
+    "text" : "",
+    "keybind" : ""
 }
 {
-    "label" : "shutdown",
-    "action" : "systemctl poweroff",
-    "text" : "Shutdown",
-    "keybind" : "s"
+    "label" : "void",
+    "action" : "",
+    "text" : "",
+    "keybind" : ""
 }
 {
     "label" : "suspend",
     "action" : "systemctl suspend",
-    "text" : "Suspend",
+    "text" : "",
     "keybind" : "u"
+}
+{
+    "label" : "logout",
+    "action" : "loginctl terminate-user $USER",
+    "text" : "",
+    "keybind" : "e"
+}
+{
+    "label" : "lock",
+    "action" : "hyprlock",
+    "text" : "",
+    "keybind" : "l"
+}
+{
+    "label" : "shutdown",
+    "action" : "systemctl poweroff",
+    "text" : "",
+    "keybind" : "s"
 }
 {
     "label" : "reboot",
     "action" : "systemctl reboot",
-    "text" : "Reboot",
+    "text" : "",
     "keybind" : "r"
+}
+{
+    "label" : "void",
+    "action" : "",
+    "text" : "",
+    "keybind" : ""
+}
+{
+    "label" : "void",
+    "action" : "",
+    "text" : "",
+    "keybind" : ""
+}
+{
+    "label" : "void",
+    "action" : "",
+    "text" : "",
+    "keybind" : ""
+}
+{
+    "label" : "void",
+    "action" : "",
+    "text" : "",
+    "keybind" : ""
 }
