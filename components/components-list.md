@@ -41,14 +41,9 @@
 | hyprcursor              |             |
 | bibata-cursor-git       |             |
 | hyprWorkspaceLayouts    |             |
+| Thunar                  |             |
 
-### hyprWorkspaceLayouts
+### Thunar
 
-```shell
-hyprpm add https://github.com/zakk4223/hyprWorkspaceLayouts
-```
 
-```shell
-hyprpm enable hyprWorkspaceLayouts
-```
 

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+
+    <!-- Kitty -->
+    <action>
+        <icon>utilities-terminal</icon>
+        <name>Open Terminal Here</name>
+        <unique-id>1701234567</unique-id>
+        <command>kitty --working-directory %f</command>
+        <description>Run kitty from here</description>
+        <patterns>*</patterns>
+        <startup-notify/>
+        <directories/>
+    </action>
+
+    <!-- IntelliJ IDEA -->
+    <action>
+        <icon>code</icon>
+        <name>Open in IntelliJ</name>
+        <unique-id>1701234569</unique-id>
+        <command>idea %f</command>
+        <description>Open in IntelliJ IDEA</description>
+        <patterns>*</patterns>
+        <startup-notify/>
+        <directories/>
+        <text-files/>
+    </action>
+
+    <!-- Git status -->
+    <action>
+        <icon>git</icon>
+        <name>Git Status</name>
+        <unique-id>1701234570</unique-id>
+        <command>kitty --working-directory %f -e sh -c "git status; echo '\nPress any key to close...'; read"</command>
+        <description>Git status</description>
+        <patterns>*</patterns>
+        <startup-notify/>
+        <directories/>
+    </action>
+
+    <!-- Edit as Root -->
+    <action>
+        <icon>text-editor</icon>
+        <name>Edit as Root</name>
+        <unique-id>1701234571</unique-id>
+        <command>pkexec mousepad %f</command>
+        <description>Mod file as admin</description>
+        <patterns>*</patterns>
+        <startup-notify/>
+        <text-files/>
+    </action>
+
+    <!-- Copy absolute path -->
+    <action>
+        <icon>edit-copy</icon>
+        <name>Copy Path</name>
+        <unique-id>1701234572</unique-id>
+        <command>echo -n %f | wl-copy</command>
+        <description>Copy absolute path</description>
+        <patterns>*</patterns>
+        <startup-notify/>
+        <directories/>
+        <text-files/>
+        <audio-files/>
+        <image-files/>
+        <video-files/>
+        <other-files/>
+    </action>
+
+    <!-- Maven build -->
+    <action>
+        <icon>applications-development</icon>
+        <name>Maven Build</name>
+        <unique-id>1701234573</unique-id>
+        <command>kitty --working-directory %f -e sh -c "mvn clean install; echo '\nBuild completed. Press any key to close...'; read"</command>
+        <description>Run Maven clean install</description>
+        <patterns>pom.xml</patterns>
+        <startup-notify/>
+        <text-files/>
+    </action>
+
+    <!-- Docker compose up -->
+    <action>
+        <icon>docker</icon>
+        <name>Docker Compose Up</name>
+        <unique-id>1701234575</unique-id>
+        <command>kitty --working-directory %f -e sh -c "docker-compose up -d; echo '\nDocker services started. Press any key to close...'; read"</command>
+        <description>Avvia servizi Docker Compose</description>
+        <patterns>docker-compose.yml;docker-compose.yaml</patterns>
+        <startup-notify/>
+        <text-files/>
+    </action>
+
+</actions>

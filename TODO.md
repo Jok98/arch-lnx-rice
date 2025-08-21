@@ -1,3 +1,3 @@
-- improve rofi style
+- add file manager
 - fix networkmanager_dmenu installation
 - fix wlogout installation

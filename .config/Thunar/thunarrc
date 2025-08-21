@@ -1,0 +1,57 @@
+# ~/.config/Thunar/thunarrc - Configurazione ottimizzata per sviluppatori
+
+[Configuration]
+# Vista predefinita (IconView | DetailView | CompactView)
+DefaultView=ThunarDetailView
+
+# Zoom levels ottimizzati
+LastCompactViewZoomLevel=THUNAR_ZOOM_LEVEL_SMALL
+LastDetailsViewZoomLevel=THUNAR_ZOOM_LEVEL_SMALLER
+LastIconViewZoomLevel=THUNAR_ZOOM_LEVEL_NORMAL
+
+# Colonne in vista dettagli (ottimizzato per dev)
+LastDetailsViewColumnOrder=THUNAR_COLUMN_NAME,THUNAR_COLUMN_SIZE,THUNAR_COLUMN_TYPE,THUNAR_COLUMN_DATE_MODIFIED
+LastDetailsViewColumnWidths=250,80,120,150
+LastDetailsViewFixedColumns=FALSE
+LastDetailsViewVisibleColumns=THUNAR_COLUMN_DATE_MODIFIED,THUNAR_COLUMN_NAME,THUNAR_COLUMN_SIZE,THUNAR_COLUMN_TYPE
+
+# Location bar (ThunarLocationEntry per path editing)
+LastLocationBar=ThunarLocationEntry
+
+# Sidebar configurazione
+LastSeparatorPosition=200
+LastSidePane=ThunarShortcutsPane
+
+# Ordinamento intelligente
+LastSortColumn=THUNAR_COLUMN_NAME
+LastSortOrder=GTK_SORT_ASCENDING
+
+# UI Elements
+LastStatusbarVisible=TRUE
+LastShowHidden=TRUE
+
+# Finestra
+LastWindowHeight=700
+LastWindowWidth=1200
+LastWindowMaximized=FALSE
+
+# Behavior ottimizzato per sviluppatori
+MiscVolumeManagement=TRUE
+MiscCaseSensitive=TRUE
+MiscDateStyle=THUNAR_DATE_STYLE_ISO
+MiscFoldersFirst=TRUE
+MiscHorizontalWheelNavigates=FALSE
+MiscRecursivePermissions=THUNAR_RECURSIVE_PERMISSIONS_ASK
+MiscRememberGeometry=TRUE
+MiscShowAboutTemplates=TRUE
+MiscShowThumbnails=TRUE
+MiscSingleClick=FALSE
+MiscSingleClickTimeout=500
+MiscTextBesideIcons=FALSE
+
+# Sidebar icons
+ShortcutsIconEmblems=TRUE
+ShortcutsIconSize=THUNAR_ICON_SIZE_SMALLER
+SidePane=ThunarShortcutsPane
+TreeIconEmblems=TRUE
+TreeIconSize=THUNAR_ICON_SIZE_SMALLER
