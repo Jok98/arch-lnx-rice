@@ -1,4 +1,6 @@
-- add file manager
+- add thunar installation and plugins
+- install journal
+- install xdg-desktop-portal
 - fix hyprland-share-picker
 - fix networkmanager_dmenu installation
 - fix wlogout installation
