@@ -1,3 +1,4 @@
 - add file manager
+- fix hyprland-share-picker
 - fix networkmanager_dmenu installation
 - fix wlogout installation
