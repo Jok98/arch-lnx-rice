@@ -137,6 +137,15 @@ install_hypr_workspace_layouts_plugin() {
     return 0
   fi
 
+  # Install required build dependencies before installing the plugin
+  install_pkgs "hyprWorkspaceLayouts deps (meson cpio cmake)" meson cpio cmake
+
+  # Update hyprpm before attempting installation
+  log "↻ Eseguo 'hyprpm update' prima dell'installazione del plugin..."
+  if ! hyprpm update; then
+    log "⚠️ 'hyprpm update' non è riuscito. Riproverò dopo aver aggiunto il repository del plugin."
+  fi
+
   log "📦 Installing hyprWorkspaceLayouts plugin per Hyprland..."
 
   # Add the plugin repository (idempotente)
@@ -144,12 +153,17 @@ install_hypr_workspace_layouts_plugin() {
     log "ℹ️ Repository hyprWorkspaceLayouts forse già aggiunto, continuo..."
   fi
 
-  # Enable the plugin and update
-  if hyprpm enable hyprWorkspaceLayouts && hyprpm update; then
+  # Update again to make sure new repo is fetched
+  if ! hyprpm update; then
+    log "⚠️ Impossibile aggiornare dopo l'aggiunta del repository, continuo comunque..."
+  fi
+
+  # Enable the plugin
+  if hyprpm enable hyprWorkspaceLayouts; then
     installed_components+=("hyprWorkspaceLayouts plugin")
     log "✅ Plugin hyprWorkspaceLayouts installato e abilitato."
   else
-    failed_components+=("hyprWorkspaceLayouts plugin enable/update")
+    failed_components+=("hyprWorkspaceLayouts plugin enable")
     log "❌ Errore durante l'abilitazione del plugin hyprWorkspaceLayouts."
   fi
 }
