@@ -39,7 +39,7 @@ create_shortcut_html() {
         }
         h1 {
             text-align: center;
-            color: #f38ba8;
+            color: #C77DFF;
             margin-bottom: 30px;
         }
         .section {
@@ -47,10 +47,10 @@ create_shortcut_html() {
             background: #313244;
             padding: 20px;
             border-radius: 10px;
-            border-left: 4px solid #89b4fa;
+            border-left: 4px solid #C77DFF;
         }
         .section h2 {
-            color: #89b4fa;
+            color: #C77DFF;
             margin-top: 0;
             border-bottom: 2px solid #45475a;
             padding-bottom: 10px;
