@@ -306,3 +306,27 @@ tooltip label {
     color: #E6EDF3;
     padding: 6px 10px;
 }
+/* Notification indicator */
+#custom-notification {
+    color: #FFE5B3;
+    background: linear-gradient(135deg,
+    rgba(45, 58, 82, 0.4) 0%,
+    rgba(30, 58, 58, 0.3) 100%);
+    border-color: rgba(255, 140, 66, 0.2);
+    font-size: 14px;
+    min-width: 20px;
+}
+
+#custom-notification.notification {
+    background: linear-gradient(135deg,
+    rgba(255, 140, 66, 0.4) 0%,
+    rgba(231, 76, 60, 0.3) 100%);
+    border-color: rgba(255, 140, 66, 0.4);
+}
+
+#custom-notification.dnd-notification {
+    background: linear-gradient(135deg,
+    rgba(231, 76, 60, 0.4) 0%,
+    rgba(45, 58, 82, 0.4) 100%);
+    border-color: rgba(231, 76, 60, 0.4);
+}
