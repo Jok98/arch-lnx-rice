@@ -159,3 +159,5 @@ if [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]; then
   esac
 fi
 # --- fine SDKMAN init ---
+
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#C77DFF,bold'

@@ -3,7 +3,7 @@
 
     <!-- Kitty -->
     <action>
-        <icon>utilities-terminal</icon>
+        <icon>utilities-terminal-symbolic</icon>
         <name>Open Terminal Here</name>
         <unique-id>1701234567</unique-id>
         <command>kitty --working-directory %f</command>
@@ -15,7 +15,7 @@
 
     <!-- IntelliJ IDEA -->
     <action>
-        <icon>code</icon>
+        <icon>applications-development-symbolic</icon>
         <name>Open in IntelliJ</name>
         <unique-id>1701234569</unique-id>
         <command>idea %f</command>
@@ -28,7 +28,7 @@
 
     <!-- Git status -->
     <action>
-        <icon>git</icon>
+        <icon>system-run-symbolic</icon>
         <name>Git Status</name>
         <unique-id>1701234570</unique-id>
         <command>kitty --working-directory %f -e sh -c "git status; echo '\nPress any key to close...'; read"</command>
@@ -40,7 +40,7 @@
 
     <!-- Edit as Root -->
     <action>
-        <icon>text-editor</icon>
+        <icon>accessories-text-editor-symbolic</icon>
         <name>Edit as Root</name>
         <unique-id>1701234571</unique-id>
         <command>pkexec mousepad %f</command>
@@ -52,7 +52,7 @@
 
     <!-- Copy absolute path -->
     <action>
-        <icon>edit-copy</icon>
+        <icon>edit-copy-symbolic</icon>
         <name>Copy Path</name>
         <unique-id>1701234572</unique-id>
         <command>echo -n %f | wl-copy</command>
@@ -69,7 +69,7 @@
 
     <!-- Maven build -->
     <action>
-        <icon>applications-development</icon>
+        <icon>applications-development-symbolic</icon>
         <name>Maven Build</name>
         <unique-id>1701234573</unique-id>
         <command>kitty --working-directory %f -e sh -c "mvn clean install; echo '\nBuild completed. Press any key to close...'; read"</command>
@@ -81,7 +81,7 @@
 
     <!-- Docker compose up -->
     <action>
-        <icon>docker</icon>
+        <icon>system-run-symbolic</icon>
         <name>Docker Compose Up</name>
         <unique-id>1701234575</unique-id>
         <command>kitty --working-directory %f -e sh -c "docker-compose up -d; echo '\nDocker services started. Press any key to close...'; read"</command>
