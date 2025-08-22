@@ -120,6 +120,25 @@ else
 fi
 
 # =======================
+# Core applications (Thunar and wlogout)
+# =======================
+# Ensure Thunar file manager
+if command -v thunar >/dev/null 2>&1; then
+  log "✅ Thunar già installato."
+  skipped_components+=("Thunar")
+else
+  install_pkgs "Thunar" thunar
+fi
+
+# Ensure wlogout
+if command -v wlogout >/dev/null 2>&1; then
+  log "✅ wlogout già installato."
+  skipped_components+=("wlogout")
+else
+  install_pkgs "wlogout" wlogout
+fi
+
+# =======================
 # Hyprland hyprWorkspaceLayouts plugin
 # =======================
 install_hypr_workspace_layouts_plugin() {

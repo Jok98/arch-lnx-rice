@@ -41,9 +41,8 @@
 | hyprcursor              |             |
 | bibata-cursor-git       |             |
 | hyprWorkspaceLayouts    |             |
+| wlogout                 |             |
 | Thunar                  |             |
-
-### Thunar
 
 
 
