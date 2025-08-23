@@ -9,38 +9,38 @@ window, dialog { background-color: rgba(45, 58, 82, 0.4); }
 /* Headerbar / titlebar */
 headerbar, .titlebar {
   background-color: rgba(26, 35, 50, 0.85);
-  border-bottom: 1px solid rgba(255, 140, 66, 0.2);
+  border-bottom: 1px solid rgba(199, 125, 255, 0.2);
 }
 
 /* Buttons */
 button, button.toggle, button.flat {
   border-radius: 8px;
-  border: 1px solid rgba(255, 140, 66, 0.15);
+  border: 1px solid rgba(199, 125, 255, 0.15);
   background-color: rgba(139, 79, 126, 0.2);
 }
 button:hover, button.toggle:hover, button.flat:hover {
-  background-color: rgba(255, 140, 66, 0.3);
+  background-color: rgba(199, 125, 255, 0.3);
 }
 button:checked, button.toggle:checked {
-  background-color: rgba(255, 140, 66, 0.4);
+  background-color: rgba(199, 125, 255, 0.4);
 }
 
 /* Entries / text inputs */
 entry, spinbutton, searchentry {
   border-radius: 8px;
-  border: 1px solid rgba(255, 140, 66, 0.15);
+  border: 1px solid rgba(199, 125, 255, 0.15);
   background-color: rgba(45, 58, 82, 0.3);
   color: #FFE5B3;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
-  border-color: rgba(255, 140, 66, 0.4);
+  border-color: rgba(199, 125, 255, 0.4);
   box-shadow: none;
 }
 
 /* Popovers & tooltips */
 popover, tooltip {
   background-color: rgba(26, 35, 50, 0.85);
-  border: 1px solid rgba(255, 140, 66, 0.15);
+  border: 1px solid rgba(199, 125, 255, 0.15);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -48,7 +48,7 @@ popover, tooltip {
 /* Scrollbars */
 scrollbar { background: transparent; }
 scrollbar slider {
-  background: rgba(255, 140, 66, 0.4);
+  background: rgba(199, 125, 255, 0.4);
   border-radius: 8px;
 }
 scrollbar trough { background: rgba(45, 58, 82, 0.2); }

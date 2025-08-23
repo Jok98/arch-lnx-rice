@@ -44,5 +44,9 @@
 | wlogout                 |             |
 | Thunar                  |             |
 
+```shell
+hyprpm add https://github.com/zakk4223/hyprNStack
+hyprpm enable hyprNStack
+```
 
 
