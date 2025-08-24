@@ -9,7 +9,7 @@
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "network", "battery", "custom/wlogout"],
+  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "tray", "battery", "custom/wlogout"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
