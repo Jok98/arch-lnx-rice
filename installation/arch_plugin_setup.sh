@@ -139,6 +139,25 @@ else
 fi
 
 # =======================
+# Utilities (swaync and btop)
+# =======================
+# Ensure swaync
+if command -v swaync >/dev/null 2>&1; then
+  log "✅ swaync già installato."
+  skipped_components+=("swaync")
+else
+  install_pkgs "swaync" swaync
+fi
+
+# Ensure btop
+if command -v btop >/dev/null 2>&1; then
+  log "✅ btop già installato."
+  skipped_components+=("btop")
+else
+  install_pkgs "btop" btop
+fi
+
+# =======================
 # Hyprland hyprWorkspaceLayouts plugin
 # =======================
 install_hypr_workspace_layouts_plugin() {
