@@ -1,0 +1,92 @@
+#btop theme matching GTK Mountain Sunset colors
+#Based on your GTK 3 theme colors
+
+# Colors should be in 6 or 2 character hexadecimal or single spaced rgb decimal: "#RRGGBB", "#BW" or "0-255 0-255 0-255"
+# example for white: "#ffffff", "#ff" or "255 255 255".
+
+# All graphs and meters can be gradients
+# For single color graphs leave "mid" and "end" variable empty.
+# Use "start" and "end" variables for two color gradient
+# Use "start", "mid" and "end" for three color gradient
+
+# Main background, empty for terminal default, need to be empty if you want transparent background
+theme[main_bg]=""
+
+# Main text color - warm cream to match waybar
+theme[main_fg]="#ffb62a"
+
+# Title color for boxes - orange accent
+theme[title]="#FF8C42"
+
+# Highlight color for keyboard shortcuts - orange accent
+theme[hi_fg]="#FF8C42"
+
+# Background color of selected items - dark blue from waybar
+theme[selected_bg]="#2D3A52"
+
+# Foreground color of selected items - warm cream
+theme[selected_fg]="#ffb62a"
+
+# Color of inactive/disabled text - dimmed cream
+theme[inactive_fg]="#C4A484"
+
+# Color of text appearing on top of graphs - warm cream
+theme[graph_text]="#ffb62a"
+
+# Misc colors for processes box - orange accent
+theme[proc_misc]="#FF8C42"
+
+# Cpu box outline color - orange border
+theme[cpu_box]="#FF8C42"
+
+# Memory/disks box outline color - orange border
+theme[mem_box]="#FF8C42"
+
+# Net up/down box outline color - orange border
+theme[net_box]="#FF8C42"
+
+# Processes box outline color - orange border
+theme[proc_box]="#FF8C42"
+
+# Box divider line and small boxes line color - muted orange
+theme[div_line]="#C4A484"
+
+# Temperature graph colors - warm sunset gradient matching waybar
+theme[temp_start]="#FFE066"
+theme[temp_mid]="#FF8C42"
+theme[temp_end]="#E74C3C"
+
+# CPU graph colors - orange to cream gradient matching waybar
+theme[cpu_start]="#FF8C42"
+theme[cpu_mid]="#FFE066"
+theme[cpu_end]="#ffb62a"
+
+# Mem/Disk free meter - cream to light tones
+theme[free_start]="#ffb62a"
+theme[free_mid]=""
+theme[free_end]="#ffb62a"
+
+# Mem/Disk cached meter - blue-teal tones matching waybar battery
+theme[cached_start]="#4ECDC4"
+theme[cached_mid]=""
+theme[cached_end]="#9B7EBD"
+
+# Mem/Disk available meter - warm cream matching main text
+theme[available_start]="#ffb62a"
+theme[available_mid]=""
+theme[available_end]="#ffb62a"
+
+# Mem/Disk used meter - warning orange gradient
+theme[used_start]="#FFD580"
+theme[used_mid]="#FF8C42"
+theme[used_end]="#E07A5F"
+
+# Download graph colors - teal to blue gradient
+theme[download_start]="#4ECDC4"
+theme[download_mid]="#9B7EBD"
+theme[download_end]="#C4A484"
+
+# Upload graph colors - orange accent gradient matching waybar
+theme[upload_start]="#FF8C42"
+theme[upload_mid]="#FFE066"
+theme[upload_end]="#ffb62a"
