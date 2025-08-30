@@ -102,8 +102,8 @@ window#waybar {
     color: #FFECC7;
     font-weight: 600;
     background: linear-gradient(135deg,
-    rgba(243, 156, 18, 0.2) 0%,
-    rgba(45, 58, 82, 0.4) 100%);
+    rgba(45, 58, 82, 0.4) 100%,
+    rgba(243, 156, 18, 0.2) 0%);
     border-color: rgba(243, 156, 18, 0.3);
 }
 
@@ -113,13 +113,13 @@ window#waybar {
 #custom-mpris_next {
     margin: 1px 0px;
     padding: 1px 4px;
-    color: #D4A574;
+    color: #FFECC7;
     font-size: 8px;
     min-width: 20px;
     background: linear-gradient(135deg,
-    rgba(142, 68, 173, 0.3) 0%,
-    rgba(45, 58, 82, 0.4) 100%);
-    border-color: rgba(142, 68, 173, 0.2);
+    rgba(45, 58, 82, 0.4) 100%,
+    rgba(243, 156, 18, 0.2) 0%);
+    border-color: rgba(243, 156, 18, 0.3);
 }
 
 #custom-mpris_prev {
@@ -148,11 +148,12 @@ window#waybar {
 
 /* Audio */
 #pulseaudio {
-    color: #FFD580;
+    color: #FFECC7;
+    font-weight: 600;
     background: linear-gradient(135deg,
-    rgba(255, 213, 128, 0.2) 0%,
-    rgba(45, 58, 82, 0.4) 100%);
-    border-color: rgba(255, 213, 128, 0.2);
+    rgba(45, 58, 82, 0.4) 100%,
+    rgba(243, 156, 18, 0.2) 0%);
+    border-color: rgba(243, 156, 18, 0.3);
 }
 
 #pulseaudio.muted {
@@ -161,6 +162,10 @@ window#waybar {
     rgba(224, 122, 95, 0.3) 0%,
     rgba(45, 58, 82, 0.4) 100%);
     border-color: rgba(224, 122, 95, 0.3);
+}
+
+#custom-shortcuts{
+    color: #FFE5B3;
 }
 
 /* Network */
@@ -233,20 +238,21 @@ window#waybar {
 
 /* Bluetooth */
 #custom-bluetooth {
-    color: #9B7EBD;
+    color: #FFECC7;
+    font-weight: 600;
     background: linear-gradient(135deg,
-    rgba(155, 126, 189, 0.2) 0%,
-    rgba(45, 58, 82, 0.4) 100%);
-    border-color: rgba(155, 126, 189, 0.2);
+    rgba(45, 58, 82, 0.4) 100%,
+    rgba(243, 156, 18, 0.2) 0%);
+    border-color: rgba(243, 156, 18, 0.3);
 }
 
 /* Wlogout */
 #custom-wlogout {
     color: #E07A5F;
     background: linear-gradient(135deg,
-    rgba(224, 122, 95, 0.3) 0%,
-    rgba(45, 58, 82, 0.4) 100%);
-    border-color: rgba(224, 122, 95, 0.3);
+    rgba(45, 58, 82, 0.4) 100%,
+    rgba(243, 156, 18, 0.2) 0%);
+    border-color: rgba(243, 156, 18, 0.3);
 }
 
 #custom-wlogout:hover {
