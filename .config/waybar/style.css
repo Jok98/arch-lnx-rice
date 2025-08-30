@@ -61,24 +61,24 @@ window#waybar {
 
 #workspaces button.active {
     background: linear-gradient(135deg,
-    rgba(140, 0, 255, 0.4) 0%,
-    rgba(11, 0, 37, 0.3) 50%,
-    rgba(30, 58, 58, 0.2) 100%);
+    rgba(255, 140, 66, 0.8) 0%,
+    rgba(231, 76, 60, 0.6) 50%,
+    rgba(30, 58, 58, 0.4) 100%);
     color: #FFFFFF;
     box-shadow: 0 2px 8px rgba(255, 140, 66, 0.3);
 }
 
 #workspaces button:hover:not(.active) {
     background: linear-gradient(135deg,
-    rgba(140, 0, 255, 0.4) 0%,
-    rgba(11, 0, 37, 0.3) 50%,
+    rgba(255, 140, 66, 0.4) 0%,
+    rgba(231, 76, 60, 0.3) 50%,
     rgba(30, 58, 58, 0.2) 100%);
-    color: #C77DFF;
+    color: #FFE5B3;
 }
 
 /* Window title */
 #window {
-    color: #C77DFF;
+    color: #FFE5B3;
     font-weight: 600;
 }
 
@@ -89,7 +89,7 @@ window#waybar {
 
 /* Uptime */
 #custom-uptime {
-    color: #C77DFF;
+    color: #FFECC7;
     font-weight: 600;
     background: linear-gradient(135deg,
     rgba(45, 58, 82, 0.4) 100%,
@@ -99,7 +99,7 @@ window#waybar {
 
 /* Clock */
 #clock {
-    color: #C77DFF;
+    color: #FFECC7;
     font-weight: 600;
     background: linear-gradient(135deg,
     rgba(243, 156, 18, 0.2) 0%,
@@ -308,7 +308,7 @@ tooltip label {
 }
 /* Notification indicator */
 #custom-notification {
-    color: #C77DFF;
+    color: #FFE5B3;
     background: linear-gradient(135deg,
     rgba(45, 58, 82, 0.4) 0%,
     rgba(30, 58, 58, 0.3) 100%);

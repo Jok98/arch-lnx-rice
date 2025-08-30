@@ -1,7 +1,7 @@
 /* GTK 3 Mountain Sunset Theme */
 
 /* Global text color */
-* { color: #C77DFF; }
+* { color: #FFE5B3; }
 
 /* Base backgrounds */
 .background, window, dialog, .window-frame { background-color: rgba(45, 58, 82, 0.4); }
@@ -30,7 +30,7 @@ entry, spinbutton, searchentry {
   border-radius: 8px;
   border: 1px solid rgba(199, 125, 255, 0.15);
   background-color: rgba(45, 58, 82, 0.3);
-  color: #C77DFF;
+  color: #FFE5B3;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
   border-color: rgba(199, 125, 255, 0.4);
@@ -40,7 +40,7 @@ entry:focus, spinbutton:focus, searchentry:focus {
 /* Menus */
 menu, menubar, menuitem, .popup, .csd .menu, .context-menu {
   background-color: rgba(26, 35, 50, 0.85);
-  color: #C77DFF;
+  color: #FFE5B3;
 }
 menuitem {
   border-radius: 6px;
@@ -70,4 +70,4 @@ scrollbar slider {
 scrollbar trough { background: rgba(45, 58, 82, 0.2); }
 
 /* Check/Radios minimal tweaks */
-check, radio { color: #C77DFF; }
+check, radio { color: #FFE5B3; }
