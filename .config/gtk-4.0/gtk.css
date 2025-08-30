@@ -1,7 +1,7 @@
 /* GTK 4 Mountain Sunset Theme */
 
 /* Global text color */
-* { color: #FFE5B3; }
+* { color: #C77DFF; }
 
 /* Base backgrounds */
 window, dialog { background-color: rgba(45, 58, 82, 0.4); }
@@ -30,7 +30,7 @@ entry, spinbutton, searchentry {
   border-radius: 8px;
   border: 1px solid rgba(199, 125, 255, 0.15);
   background-color: rgba(45, 58, 82, 0.3);
-  color: #FFE5B3;
+  color: #C77DFF;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
   border-color: rgba(199, 125, 255, 0.4);
@@ -54,4 +54,4 @@ scrollbar slider {
 scrollbar trough { background: rgba(45, 58, 82, 0.2); }
 
 /* Minimal tweaks for checks/radios */
-check, radio { color: #FFE5B3; }
+check, radio { color: #C77DFF; }
