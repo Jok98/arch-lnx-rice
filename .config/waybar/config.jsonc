@@ -9,7 +9,7 @@
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/bluetooth", "tray", "battery", "custom/wlogout"],
+  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "network", "custom/bluetooth", "battery", "custom/wlogout"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -31,6 +31,7 @@
     "icon": false,
     "icon-size": 20,
     "separate-outputs": true,
+    "tooltip": false,
     "rewrite": {
       "jetbrains-idea": "\ue7b5 IntelliJ",
       "firefox": "󰈹 Firefox",
@@ -98,13 +99,13 @@
 
   "custom/mpris_prev": {
     "format": "󰒮",
-    "tooltip": "Previous Track",
+    "tooltip": false,
     "on-click": "playerctl previous"
   },
 
   "custom/mpris_next": {
     "format": "󰒭",
-    "tooltip": "Next Track",
+    "tooltip": false,
     "on-click": "playerctl next"
   },
 
@@ -198,7 +199,7 @@
 
   "custom/wlogout": {
     "format": "󰐥",
-    "tooltip": "Power Menu",
+    "tooltip": false,
     "tooltip-format": "Click to open power menu",
     "on-click": "wlogout -b 13 -c 5 -r 5 -m 5 -p layer-shell"
   }
