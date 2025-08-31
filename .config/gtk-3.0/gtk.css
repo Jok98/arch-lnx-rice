@@ -1,7 +1,7 @@
 /* GTK 3 Mountain Sunset Theme */
 
-/* Global text color */
-* { color: #FFE5B3; }
+/* Global text color (kitty foreground) */
+* { color: #ffb366; }
 
 /* Base backgrounds */
 .background, window, dialog, .window-frame { background-color: rgba(45, 58, 82, 0.4); }
@@ -30,7 +30,7 @@ entry, spinbutton, searchentry {
   border-radius: 8px;
   border: 1px solid rgba(199, 125, 255, 0.15);
   background-color: rgba(45, 58, 82, 0.3);
-  color: #C77DFF;
+  color: #ffb366;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
   border-color: rgba(199, 125, 255, 0.4);
