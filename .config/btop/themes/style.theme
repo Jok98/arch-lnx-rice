@@ -12,81 +12,81 @@
 # Main background, empty for terminal default, need to be empty if you want transparent background
 theme[main_bg]=""
 
-# Main text color - warm cream to match waybar
-theme[main_fg]="#ffb62a"
+# Main text color - kitty foreground
+theme[main_fg]="#ffb366"
 
-# Title color for boxes - orange accent
-theme[title]="#FF8C42"
+# Title color for boxes - accent purple
+theme[title]="#C77DFF"
 
-# Highlight color for keyboard shortcuts - orange accent
-theme[hi_fg]="#FF8C42"
+# Highlight color for keyboard shortcuts - accent purple
+theme[hi_fg]="#C77DFF"
 
-# Background color of selected items - dark blue from waybar
-theme[selected_bg]="#2D3A52"
+# Background color of selected items - dim background
+theme[selected_bg]="#2a3442"
 
-# Foreground color of selected items - warm cream
-theme[selected_fg]="#ffb62a"
+# Foreground color of selected items - kitty foreground
+theme[selected_fg]="#ffb366"
 
-# Color of inactive/disabled text - dimmed cream
-theme[inactive_fg]="#C4A484"
+# Color of inactive/disabled text - muted blue
+theme[inactive_fg]="#8FB4FF"
 
-# Color of text appearing on top of graphs - warm cream
-theme[graph_text]="#ffb62a"
+# Color of text appearing on top of graphs - kitty foreground
+theme[graph_text]="#ffb366"
 
-# Misc colors for processes box - orange accent
-theme[proc_misc]="#FF8C42"
+# Misc colors for processes box - purple accent
+theme[proc_misc]="#C77DFF"
 
-# Cpu box outline color - orange border
-theme[cpu_box]="#FF8C42"
+# Cpu box outline color - purple border
+theme[cpu_box]="#C77DFF"
 
-# Memory/disks box outline color - orange border
-theme[mem_box]="#FF8C42"
+# Memory/disks box outline color - purple border
+theme[mem_box]="#C77DFF"
 
-# Net up/down box outline color - orange border
-theme[net_box]="#FF8C42"
+# Net up/down box outline color - purple border
+theme[net_box]="#C77DFF"
 
-# Processes box outline color - orange border
-theme[proc_box]="#FF8C42"
+# Processes box outline color - purple border
+theme[proc_box]="#C77DFF"
 
-# Box divider line and small boxes line color - muted orange
-theme[div_line]="#C4A484"
+# Box divider line and small boxes line color - subtle dim
+theme[div_line]="#2a3442"
 
-# Temperature graph colors - warm sunset gradient matching waybar
-theme[temp_start]="#FFE066"
-theme[temp_mid]="#FF8C42"
-theme[temp_end]="#E74C3C"
+# Temperature graph colors - yellow to red (warning scale)
+theme[temp_start]="#ffb366"
+theme[temp_mid]="#FF6B6B"
+theme[temp_end]="#FF8787"
 
-# CPU graph colors - orange to cream gradient matching waybar
-theme[cpu_start]="#FF8C42"
-theme[cpu_mid]="#FFE066"
-theme[cpu_end]="#ffb62a"
+# CPU graph colors - purple to blue gradient
+theme[cpu_start]="#C77DFF"
+theme[cpu_mid]="#7AA2F7"
+theme[cpu_end]="#3d4f68"
 
-# Mem/Disk free meter - cream to light tones
-theme[free_start]="#ffb62a"
+# Mem/Disk free meter - foreground orange
+theme[free_start]="#ffb366"
 theme[free_mid]=""
-theme[free_end]="#ffb62a"
+theme[free_end]="#ffb366"
 
-# Mem/Disk cached meter - blue-teal tones matching waybar battery
-theme[cached_start]="#4ECDC4"
+# Mem/Disk cached meter - cyan to blue
+theme[cached_start]="#7DCFFF"
 theme[cached_mid]=""
-theme[cached_end]="#9B7EBD"
+theme[cached_end]="#7AA2F7"
 
-# Mem/Disk available meter - warm cream matching main text
-theme[available_start]="#ffb62a"
+# Mem/Disk available meter - foreground orange
+theme[available_start]="#ffb366"
 theme[available_mid]=""
-theme[available_end]="#ffb62a"
+theme[available_end]="#ffb366"
 
-# Mem/Disk used meter - warning orange gradient
-theme[used_start]="#FFD580"
-theme[used_mid]="#FF8C42"
-theme[used_end]="#E07A5F"
+# Mem/Disk used meter - purple tinted usage
+theme[used_start]="#D9A0FF"
+theme[used_mid]="#C77DFF"
+theme[used_end]="#7AA2F7"
 
-# Download graph colors - teal to blue gradient
-theme[download_start]="#4ECDC4"
-theme[download_mid]="#9B7EBD"
-theme[download_end]="#C4A484"
+# Download graph colors - blue gradient
+theme[download_start]="#7AA2F7"
+theme[download_mid]="#8FB4FF"
+theme[download_end]="#D9A0FF"
 
-# Upload graph colors - orange accent gradient matching waybar
-theme[upload_start]="#FF8C42"
-theme[upload_mid]="#FFE066"
-theme[upload_end]="#ffb62a"
+# Upload graph colors - purple gradient
+theme[upload_start]="#C77DFF"
+theme[upload_mid]="#D9A0FF"
+theme[upload_end]="#7AA2F7"
