@@ -1,19 +1,24 @@
 /* ===================================
-   ~/.config/rofi/themes/minimal-sunset.rasi
-   MINIMAL SUNSET THEME - ULTRA CLEAN
+   ~/.config/rofi/themes/mountain-sunset.rasi
+   MOUNTAIN SUNSET THEME (kitty-aligned)
    =================================== */
 
 * {
-  /* Palette sunset minimalista */
-  bg-primary: #1a1a1aA0;     /* Nero semitrasparente 62% */
-  bg-secondary: #2a2a2a80;   /* Grigio scuro semitrasparente 50% */
-  bg-accent: #ff6b35C0;      /* Orange sunset semitrasparente 75% */
+  /* Palette - Mountain Sunset */
+  bg-primary: #1a2332E0;     /* #1a2332, 88% opacity */
+  bg-secondary: #2a3442CC;   /* #2a3442, 80% opacity */
+  bg-tertiary: #3d4f6880;    /* #3d4f68, 50% opacity */
 
-  fg-primary: #ffe4d6;       /* Bianco caldo per testo principale */
-  fg-secondary: #ffb898;     /* Orange chiaro per testo secondario */
-  fg-muted: #d4a574;         /* Beige per elementi disabilitati */
+  fg-primary: #ffb366;       /* kitty foreground */
+  fg-secondary: #D9A0FF;     /* kitty color12 for subtle headers */
+  fg-muted: #8FB4FF;         /* kitty color13 for placeholders */
 
-  border-color: #ff6b3540;   /* Orange molto trasparente per bordi */
+  accent-purple: #C77DFF;    /* primary accent */
+  accent-blue:   #7AA2F7;    /* secondary accent */
+  accent-red:    #FF6B6B;    /* destructive */
+  accent-green:  #95E6CB;    /* confirm */
+
+  border-color:  #C77DFF33;  /* subtle purple border */
 
   background-color: transparent;
   text-color: @fg-primary;
@@ -28,22 +33,23 @@ window {
   background-color: @bg-primary;
   border: 1px;
   border-color: @border-color;
-  border-radius: 16px;
-  padding: 24px;
+  border-radius: 14px;
+  padding: 20px;
 }
 
 mainbox {
   background-color: transparent;
-  spacing: 16px;
+  spacing: 14px;
   children: [ inputbar, listview ];
 }
 
 inputbar {
   background-color: @bg-secondary;
-  border: 0px;
+  border: 1px;
+  border-color: #C77DFF26;
   border-radius: 12px;
-  padding: 16px;
-  spacing: 12px;
+  padding: 12px;
+  spacing: 10px;
   children: [ prompt, entry ];
 }
 
@@ -56,7 +62,7 @@ prompt {
 entry {
   background-color: transparent;
   text-color: @fg-primary;
-  cursor-color: @bg-accent;
+  cursor-color: @accent-purple;
   placeholder: "Search...";
   placeholder-color: @fg-muted;
 }
@@ -69,16 +75,16 @@ listview {
   dynamic: true;
   scrollbar: false;
   spacing: 4px;
-  padding: 8px 0px;
+  padding: 6px 0px;
 }
 
 element {
   background-color: transparent;
   text-color: @fg-primary;
-  padding: 12px 16px;
+  padding: 10px 12px;
   border: 0px;
   border-radius: 10px;
-  spacing: 12px;
+  spacing: 10px;
   children: [ element-icon, element-text ];
 }
 
@@ -88,15 +94,22 @@ element normal.normal {
 }
 
 element selected.normal {
-  background-color: @bg-accent;
-  text-color: #1a1a1a;
+  background-color: #C77DFFCC;
+  text-color: #1a2332;
 }
 
 element alternate.normal {
-  background-color: @bg-secondary;
+  background-color: @bg-tertiary;
   text-color: @fg-primary;
 }
 
+/* Hover state */
+element normal.active, element selected.active, element normal.urgent {
+  background-color: #C77DFF26;
+  text-color: @fg-primary;
+}
+
+/* Icons and text */
 element-icon {
   background-color: transparent;
   size: 20px;
@@ -110,7 +123,22 @@ element-text {
   vertical-align: 0.5;
 }
 
-/* Rimuovi sidebar per massima pulizia */
+/* Message / error colors */
+message {
+  background-color: @bg-secondary;
+  border: 1px;
+  border-color: #C77DFF26;
+  border-radius: 10px;
+  padding: 8px 12px;
+}
+
+error-message {
+  background-color: @bg-secondary;
+  border: 1px;
+  border-color: #FF6B6B66;
+}
+
+/* Sidebar disabled for ultra-clean look */
 sidebar {
   enabled: false;
 }
