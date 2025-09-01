@@ -52,7 +52,7 @@ window#waybar {
     background: linear-gradient(135deg,
     rgba(42, 52, 66, 0.45) 0%,  /* #2a3442 */
     rgba(61, 79, 104, 0.35) 100% /* #3d4f68 */);
-    color: #ffb366; /* kitty foreground */
+    /* foreground is setted by gtk */
     border: 0px solid rgba(199, 125, 255, 0.20);
     border-radius: 14px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -74,12 +74,12 @@ window#waybar {
     rgba(122, 162, 247, 0.35) 0%,  /* #7AA2F7 */
     rgba(199, 125, 255, 0.30) 50%, /* #C77DFF */
     rgba(42, 52, 66, 0.25) 100%    /* #2a3442 */);
-    color: #ffb366;
+    /* foreground is setted by gtk */
 }
 
 /* Window title */
 #window {
-    color: #ffb366; /* kitty foreground */
+    /* foreground is setted by gtk */
     font-weight: 600;
 }
 
@@ -90,7 +90,7 @@ window#waybar {
 
 /* Uptime */
 #custom-uptime {
-    color: #ffb366;
+    color: #ffc0a4;
     font-weight: 600;
     background: linear-gradient(135deg,
     rgba(61, 79, 104, 0.40) 100%,  /* #3d4f68 */
@@ -100,7 +100,7 @@ window#waybar {
 
 /* Clock */
 #clock {
-    color: #ffb366;
+    color: #ffc0a4;
     font-weight: 600;
     background: linear-gradient(135deg,
     rgba(61, 79, 104, 0.40) 100%,  /* #3d4f68 */
@@ -114,7 +114,7 @@ window#waybar {
 #custom-mpris_next {
     margin: 1px 0px;
     padding: 1px 4px;
-    color: #ffb366;
+    color: #ffc0a4;
     font-size: 8px;
     min-width: 20px;
     background: linear-gradient(135deg,
@@ -149,7 +149,7 @@ window#waybar {
 
 /* Audio */
 #pulseaudio {
-    color: #ffb366;
+    color: #ffc0a4;
     font-weight: 600;
     background: linear-gradient(135deg,
     rgba(61, 79, 104, 0.40) 100%,  /* #3d4f68 */
@@ -166,7 +166,7 @@ window#waybar {
 }
 
 #custom-shortcuts{
-    color: #ffb366;
+    color: #ffc0a4;
 }
 
 /* Network */
@@ -179,7 +179,7 @@ window#waybar {
 }
 
 #network.wifi {
-    color: #8FB4FF; /* kitty color13 */
+    color: #ffc0a4; /* kitty color13 */
     border-color: rgba(122, 162, 247, 0.30);
 }
 
@@ -306,16 +306,16 @@ tooltip {
     rgba(61, 79, 104, 0.90) 100%);
     border: 1px solid rgba(199, 125, 255, 0.30);
     border-radius: 8px;
-    color: #ffb366;
+    color: #ffc0a4;
 }
 
 tooltip label {
-    color: #ffb366;
+    color: #ffc0a4;
     padding: 6px 10px;
 }
 /* Notification indicator */
 #custom-notification {
-    color: #ffb366;
+    color: #ffc0a4;
     background: linear-gradient(135deg,
     rgba(61, 79, 104, 0.40) 0%,
     rgba(26, 35, 50, 0.30) 100%);
