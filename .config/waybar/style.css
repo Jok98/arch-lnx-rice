@@ -135,7 +135,7 @@ window#waybar {
     font-size: 8px;
     min-width: 20px;
     background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    border-color: rgba(255, 192, 164, 0.00);
 }
 
 #custom-mpris_prev {
