@@ -90,8 +90,13 @@ plugins=(
   history-substring-search
 )
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#C77DFF'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#e5a4ff'
 source $ZSH/oh-my-zsh.sh
+
+# Common ls aliases
+alias ll='ls -alh --group-directories-first --color=auto'
+alias la='ls -A'
+alias l='ls -CF'
 
 # --- Readability fixes for highlighting & autosuggestions ---
 # Use explicit hex colors to avoid relying on ANSI green which is very dark
@@ -99,15 +104,15 @@ source $ZSH/oh-my-zsh.sh
 # zsh-autosuggestions plugins.
 
 # zsh-syntax-highlighting: make recognized commands stand out
-ZSH_HIGHLIGHT_STYLES[command]='fg=#C77DFF,bold'          # commands in PATH
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=#C77DFF,bold'          # shell builtins
-ZSH_HIGHLIGHT_STYLES[function]='fg=#C77DFF,bold'         # user functions
-ZSH_HIGHLIGHT_STYLES[alias]='fg=#C77DFF,bold'            # aliases
-ZSH_HIGHLIGHT_STYLES[command-in-path]='fg=#C77DFF,bold'
-ZSH_HIGHLIGHT_STYLES[precommand]='fg=#ff8000,bold'       # e.g., sudo, command, nocorrect
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#ff8000'  # -o style
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#ff8000'  # --option style
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#ff6b6b,bold'    # errors pop in red
+ZSH_HIGHLIGHT_STYLES[command]='fg=#e5a4ff,bold'          # commands in PATH
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#e5a4ff,bold'          # shell builtins
+ZSH_HIGHLIGHT_STYLES[function]='fg=#e5a4ff,bold'         # user functions
+ZSH_HIGHLIGHT_STYLES[alias]='fg=#e5a4ff,bold'            # aliases
+ZSH_HIGHLIGHT_STYLES[command-in-path]='fg=#e5a4ff,bold'
+ZSH_HIGHLIGHT_STYLES[precommand]='fg=#e5a4ff,bold'       # e.g., sudo, command, nocorrect
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#ffc0a4'  # -o style
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#ffc0a4'  # --option style
+ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#1a2332,bg=#e5a4ff,bold'    # errors pop in accent
 
 
 # User configuration
@@ -160,4 +165,4 @@ if [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]; then
 fi
 # --- fine SDKMAN init ---
 
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=#C77DFF,bold'
+ZSH_HIGHLIGHT_STYLES[builtin]='fg=#e5a4ff,bold'

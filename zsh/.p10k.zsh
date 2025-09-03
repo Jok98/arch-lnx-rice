@@ -65,7 +65,7 @@
     # dotnet_version        # .NET version (https://dotnet.microsoft.com)
     # php_version           # php version (https://www.php.net/)
     # laravel_version       # laravel php framework version (https://laravel.com/)
-    # java_version          # java version (https://www.java.com/)
+    java_version            # java version (https://www.java.com/)
     # package               # name@version from package.json (https://docs.npmjs.com/files/package.json)
     rbenv                   # ruby version from rbenv (https://github.com/rbenv/rbenv)
     rvm                     # ruby version from rvm (https://rvm.io)
@@ -77,7 +77,7 @@
     phpenv                  # php version from phpenv (https://github.com/phpenv/phpenv)
     scalaenv                # scala version from scalaenv (https://github.com/scalaenv/scalaenv)
     haskell_stack           # haskell version from stack (https://haskellstack.org/)
-    kubecontext             # current kubernetes context (https://kubernetes.io/)
+    # kubecontext           # current kubernetes context (hidden)
     terraform               # terraform workspace (https://www.terraform.io)
     # terraform_version     # terraform version (https://www.terraform.io)
     aws                     # aws profile (https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html)
@@ -143,9 +143,9 @@
 
   # Connect left prompt lines with these symbols. You'll probably want to use the same color
   # as POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND below.
-  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='%238F╭─'
-  typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_PREFIX='%238F├─'
-  typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='%238F╰─'
+  typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX='%183F╭─'
+  typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_PREFIX='%183F├─'
+  typeset -g POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX='%183F╰─'
   # Connect right prompt lines with these symbols.
   typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_SUFFIX=
   typeset -g POWERLEVEL9K_MULTILINE_NEWLINE_PROMPT_SUFFIX=
@@ -161,7 +161,7 @@
   if [[ $POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_CHAR != ' ' ]]; then
     # The color of the filler. You'll probably want to match the color of POWERLEVEL9K_MULTILINE
     # ornaments defined above.
-    typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=238
+    typeset -g POWERLEVEL9K_MULTILINE_FIRST_PROMPT_GAP_FOREGROUND=183
     # Start filler from the edge of the screen if there are no left segments on the first line.
     typeset -g POWERLEVEL9K_EMPTY_LINE_LEFT_PROMPT_FIRST_SEGMENT_END_SYMBOL='%{%}'
     # End filler on the edge of the screen if there are no right segments on the first line.
@@ -192,8 +192,8 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color.
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND=232
-  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND=7
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#1a2332'
+  typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND='#e5a4ff'
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
 
@@ -201,9 +201,9 @@
   # Transparent background.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_BACKGROUND=
   # Green prompt symbol if the last command succeeded.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=76
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#e5a4ff'
   # Red prompt symbol if the last command failed.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=196
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND='#e5a4ff'
   # Default prompt symbol.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='❯'
   # Prompt symbol in command vi mode.
@@ -222,19 +222,19 @@
 
   ##################################[ dir: current directory ]##################################
   # Current directory background color.
-  typeset -g POWERLEVEL9K_DIR_BACKGROUND=4
+  typeset -g POWERLEVEL9K_DIR_BACKGROUND='#1a2332'
   # Default current directory foreground color.
-  typeset -g POWERLEVEL9K_DIR_FOREGROUND=254
+  typeset -g POWERLEVEL9K_DIR_FOREGROUND='#ffc0a4'
   # If directory is too long, shorten some of its segments to the shortest possible unique
   # prefix. The shortened directory can be tab-completed to the original.
   typeset -g POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_unique
   # Replace removed segment suffixes with this symbol.
   typeset -g POWERLEVEL9K_SHORTEN_DELIMITER=
   # Color of the shortened directory segments.
-  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND=250
+  typeset -g POWERLEVEL9K_DIR_SHORTENED_FOREGROUND='#e5a4ff'
   # Color of the anchor directory segments. Anchor segments are never shortened. The first
   # segment is always an anchor.
-  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND=255
+  typeset -g POWERLEVEL9K_DIR_ANCHOR_FOREGROUND='#e5a4ff'
   # Display anchor directory segments in bold.
   typeset -g POWERLEVEL9K_DIR_ANCHOR_BOLD=true
   # Don't shorten directories that contain any of these files. They are anchors.
@@ -363,22 +363,29 @@
   #####################################[ vcs: git status ]######################################
   # Version control background colors.
 # Clean repository (everything OK) - Orange
-typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND=208
+typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND='#1a2332'
 
 # Modified files - Orange (still workable)
-typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND=208
+typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='#1a2332'
 
 # Untracked files - Orange (still workable)
-typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND=208
+typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='#1a2332'
 
 # Behind remote (out of sync) - Dark Purple
-typeset -g POWERLEVEL9K_VCS_BEHIND_BACKGROUND=56
+typeset -g POWERLEVEL9K_VCS_BEHIND_BACKGROUND='#1a2332'
 
 # Ahead of remote (out of sync) - Dark Purple
-typeset -g POWERLEVEL9K_VCS_AHEAD_BACKGROUND=56
+typeset -g POWERLEVEL9K_VCS_AHEAD_BACKGROUND='#1a2332'
 
 # Conflicted state - Dark Purple (problematic)
-typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=56
+typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND='#1a2332'
+  # Make VCS segment text readable on dark background (avoid default blue)
+  typeset -g POWERLEVEL9K_VCS_CLEAN_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_VCS_BEHIND_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_VCS_AHEAD_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_VCS_CONFLICTED_FOREGROUND='#e5a4ff'
 
   # Branch icon. Set this parameter to '\UE0A0 ' for the popular Powerline branch icon.
   typeset -g POWERLEVEL9K_VCS_BRANCH_ICON='\uF126 '
@@ -406,11 +413,12 @@ typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=56
     fi
 
     # Styling for different parts of Git status.
-    local       meta='%7F' # white foreground
-    local      clean='%0F' # black foreground
-    local   modified='%0F' # black foreground
-    local  untracked='%0F' # black foreground
-    local conflicted='%1F' # red foreground
+    # Use high-contrast hex foregrounds to avoid unreadable blue/default colors.
+    local       meta='%F{#e5a4ff}'
+    local      clean='%F{#e5a4ff}'
+    local   modified='%F{#e5a4ff}'
+    local  untracked='%F{#e5a4ff}'
+    local conflicted='%F{#e5a4ff}'
 
     local res
 
@@ -532,42 +540,42 @@ typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=56
   # it will signify success by turning green.
   typeset -g POWERLEVEL9K_STATUS_OK=true
   typeset -g POWERLEVEL9K_STATUS_OK_VISUAL_IDENTIFIER_EXPANSION='✔'
-  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND=2
-  typeset -g POWERLEVEL9K_STATUS_OK_BACKGROUND=0
+  typeset -g POWERLEVEL9K_STATUS_OK_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_STATUS_OK_BACKGROUND='#1a2332'
 
   # Status when some part of a pipe command fails but the overall exit status is zero. It may look
   # like this: 1|0.
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE=true
   typeset -g POWERLEVEL9K_STATUS_OK_PIPE_VISUAL_IDENTIFIER_EXPANSION='✔'
-  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND=2
-  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_BACKGROUND=0
+  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_STATUS_OK_PIPE_BACKGROUND='#1a2332'
 
   # Status when it's just an error code (e.g., '1'). No need to show it if prompt_char is enabled as
   # it will signify error by turning red.
   typeset -g POWERLEVEL9K_STATUS_ERROR=true
   typeset -g POWERLEVEL9K_STATUS_ERROR_VISUAL_IDENTIFIER_EXPANSION='✘'
-  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND=3
-  typeset -g POWERLEVEL9K_STATUS_ERROR_BACKGROUND=1
+  typeset -g POWERLEVEL9K_STATUS_ERROR_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_STATUS_ERROR_BACKGROUND='#1a2332'
 
   # Status when the last command was terminated by a signal.
   typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL=true
   # Use terse signal names: "INT" instead of "SIGINT(2)".
   typeset -g POWERLEVEL9K_STATUS_VERBOSE_SIGNAME=false
   typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_VISUAL_IDENTIFIER_EXPANSION='✘'
-  typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_FOREGROUND=3
-  typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_BACKGROUND=1
+  typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_STATUS_ERROR_SIGNAL_BACKGROUND='#1a2332'
 
   # Status when some part of a pipe command fails and the overall exit status is also non-zero.
   # It may look like this: 1|0.
   typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE=true
   typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_VISUAL_IDENTIFIER_EXPANSION='✘'
-  typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_FOREGROUND=3
-  typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_BACKGROUND=1
+  typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_FOREGROUND='#e5a4ff'
+  typeset -g POWERLEVEL9K_STATUS_ERROR_PIPE_BACKGROUND='#1a2332'
 
   ###################[ command_execution_time: duration of the last command ]###################
   # Execution time color.
-  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND=0
-  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND=3
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='#1a2332'
+  typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND='#e5a4ff'
   # Show duration of the last command if takes at least this many seconds.
   typeset -g POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
   # Show this many fractional digits. Zero means round to seconds.
@@ -851,19 +859,19 @@ typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=56
 
   ###########[ vi_mode: vi mode (you don't need this if you've enabled prompt_char) ]###########
   # Foreground color.
-  typeset -g POWERLEVEL9K_VI_MODE_FOREGROUND=0
+  typeset -g POWERLEVEL9K_VI_MODE_FOREGROUND='#e5a4ff'
   # Text and color for normal (a.k.a. command) vi mode.
   typeset -g POWERLEVEL9K_VI_COMMAND_MODE_STRING=NORMAL
-  typeset -g POWERLEVEL9K_VI_MODE_NORMAL_BACKGROUND=2
+  typeset -g POWERLEVEL9K_VI_MODE_NORMAL_BACKGROUND='#1a2332'
   # Text and color for visual vi mode.
   typeset -g POWERLEVEL9K_VI_VISUAL_MODE_STRING=VISUAL
-  typeset -g POWERLEVEL9K_VI_MODE_VISUAL_BACKGROUND=4
+  typeset -g POWERLEVEL9K_VI_MODE_VISUAL_BACKGROUND='#1a2332'
   # Text and color for overtype (a.k.a. overwrite and replace) vi mode.
   typeset -g POWERLEVEL9K_VI_OVERWRITE_MODE_STRING=OVERTYPE
-  typeset -g POWERLEVEL9K_VI_MODE_OVERWRITE_BACKGROUND=3
+  typeset -g POWERLEVEL9K_VI_MODE_OVERWRITE_BACKGROUND='#1a2332'
   # Text and color for insert vi mode.
   typeset -g POWERLEVEL9K_VI_INSERT_MODE_STRING=
-  typeset -g POWERLEVEL9K_VI_MODE_INSERT_FOREGROUND=8
+  typeset -g POWERLEVEL9K_VI_MODE_INSERT_FOREGROUND='#e5a4ff'
   # Custom icon.
   # typeset -g POWERLEVEL9K_VI_MODE_VISUAL_IDENTIFIER_EXPANSION='⭐'
 
@@ -1816,6 +1824,207 @@ typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND=56
   typeset -g POWERLEVEL9K_EXAMPLE_FOREGROUND=3
   typeset -g POWERLEVEL9K_EXAMPLE_BACKGROUND=1
   # typeset -g POWERLEVEL9K_EXAMPLE_VISUAL_IDENTIFIER_EXPANSION='⭐'
+
+  ######################################[ palette overrides ]######################################
+  # Mountain Sunset unified colors
+  typeset -g P10K_BG='#1a2332'
+  typeset -g P10K_FG='#ffc0a4'
+  typeset -g P10K_ACC='#e5a4ff'
+
+  # Common segments
+  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_BACKGROUND_JOBS_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_DIRENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_DIRENV_FOREGROUND=$P10K_FG
+
+  # ASDF + languages/tools
+  typeset -g POWERLEVEL9K_ASDF_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_RUBY_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_RUBY_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_PYTHON_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_PYTHON_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_GOLANG_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_GOLANG_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_NODEJS_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_NODEJS_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_RUST_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_RUST_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_DOTNET_CORE_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_DOTNET_CORE_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_FLUTTER_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_FLUTTER_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_LUA_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_LUA_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_JAVA_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_JAVA_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_PERL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_PERL_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_ERLANG_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_ERLANG_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_ELIXIR_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_ELIXIR_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_POSTGRES_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_POSTGRES_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_PHP_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_PHP_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_HASKELL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_HASKELL_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ASDF_JULIA_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ASDF_JULIA_FOREGROUND=$P10K_FG
+
+  # File managers, shells, tools
+  typeset -g POWERLEVEL9K_NORDVPN_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_NORDVPN_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_RANGER_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_RANGER_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_YAZI_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_YAZI_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_NNN_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_NNN_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_LF_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_LF_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_XPLR_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_XPLR_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_VIM_SHELL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_VIM_SHELL_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_MIDNIGHT_COMMANDER_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_MIDNIGHT_COMMANDER_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_NIX_SHELL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_NIX_SHELL_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_CHEZMOI_SHELL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_CHEZMOI_SHELL_FOREGROUND=$P10K_FG
+
+  # Disk usage
+  typeset -g POWERLEVEL9K_DISK_USAGE_NORMAL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_DISK_USAGE_WARNING_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_DISK_USAGE_CRITICAL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_DISK_USAGE_NORMAL_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_DISK_USAGE_WARNING_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_DISK_USAGE_CRITICAL_FOREGROUND=$P10K_FG
+
+  # RAM / SWAP / LOAD
+  typeset -g POWERLEVEL9K_RAM_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_RAM_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_SWAP_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_SWAP_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_LOAD_NORMAL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_LOAD_WARNING_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_LOAD_CRITICAL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_LOAD_NORMAL_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_LOAD_WARNING_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_LOAD_CRITICAL_FOREGROUND=$P10K_FG
+
+  # TODO / Taskwarrior / Timewarrior
+  typeset -g POWERLEVEL9K_TODO_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_TODO_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_TASKWARRIOR_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_TASKWARRIOR_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_TIMEWARRIOR_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_TIMEWARRIOR_FOREGROUND=$P10K_FG
+
+  # Per-directory history
+  typeset -g POWERLEVEL9K_PER_DIRECTORY_HISTORY_LOCAL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_PER_DIRECTORY_HISTORY_GLOBAL_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_PER_DIRECTORY_HISTORY_LOCAL_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_PER_DIRECTORY_HISTORY_GLOBAL_FOREGROUND=$P10K_FG
+
+  # CPU arch and context
+  typeset -g POWERLEVEL9K_CPU_ARCH_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_CPU_ARCH_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_CONTEXT_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_CONTEXT_ROOT_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_CONTEXT_FOREGROUND=$P10K_FG
+
+  # Python/Go/Node environments and versions
+  typeset -g POWERLEVEL9K_VIRTUALENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_VIRTUALENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_ANACONDA_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_ANACONDA_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_PYENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_PYENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_GOENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_GOENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_NODENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_NODENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_NVM_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_NVM_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_NODEENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_NODEENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_NODE_VERSION_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_NODE_VERSION_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_GO_VERSION_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_GO_VERSION_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_RUST_VERSION_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_RUST_VERSION_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_DOTNET_VERSION_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_DOTNET_VERSION_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_PHP_VERSION_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_PHP_VERSION_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_LARAVEL_VERSION_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_LARAVEL_VERSION_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_RBENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_RBENV_FOREGROUND=$P10K_FG
+typeset -g POWERLEVEL9K_JAVA_VERSION_BACKGROUND=$P10K_BG
+typeset -g POWERLEVEL9K_JAVA_VERSION_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_PACKAGE_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_PACKAGE_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_RVM_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_RVM_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_FVM_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_FVM_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_LUAENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_LUAENV_FOREGROUND=$P10K_FG
+typeset -g POWERLEVEL9K_JENV_BACKGROUND=$P10K_BG
+typeset -g POWERLEVEL9K_JENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_PLENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_PLENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_PHPENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_PHPENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_SCALAENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_SCALAENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_HASKELL_STACK_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_HASKELL_STACK_FOREGROUND=$P10K_FG
+
+  # Terraform, kube, clouds
+  typeset -g POWERLEVEL9K_TERRAFORM_OTHER_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_TERRAFORM_OTHER_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_TERRAFORM_VERSION_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_TERRAFORM_VERSION_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_KUBECONTEXT_DEFAULT_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_AWS_DEFAULT_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_AWS_DEFAULT_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_AWS_EB_ENV_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_AWS_EB_ENV_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_AZURE_OTHER_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_AZURE_OTHER_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_GCLOUD_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_GCLOUD_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_GOOGLE_APP_CRED_DEFAULT_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_GOOGLE_APP_CRED_DEFAULT_FOREGROUND=$P10K_FG
+
+  # Network and system
+  typeset -g POWERLEVEL9K_TOOLBOX_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_TOOLBOX_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_PUBLIC_IP_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_PUBLIC_IP_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_VPN_IP_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_VPN_IP_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_IP_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_IP_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_PROXY_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_PROXY_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_BATTERY_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_BATTERY_LOW_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_BATTERY_DISCONNECTED_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_WIFI_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_WIFI_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_TIME_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_TIME_FOREGROUND=$P10K_FG
+  typeset -g POWERLEVEL9K_EXAMPLE_BACKGROUND=$P10K_BG
+  typeset -g POWERLEVEL9K_EXAMPLE_FOREGROUND=$P10K_FG
 
   # Transient prompt works similarly to the builtin transient_rprompt option. It trims down prompt
   # when accepting a command line. Supported values:
