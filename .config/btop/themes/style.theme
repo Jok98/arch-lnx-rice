@@ -13,80 +13,80 @@
 theme[main_bg]=""
 
 # Main text color - kitty foreground
-theme[main_fg]="#ffb366"
+theme[main_fg]="#ffc0a4"
 
 # Title color for boxes - accent purple
-theme[title]="#C77DFF"
+theme[title]="#e5a4ff"
 
 # Highlight color for keyboard shortcuts - accent purple
-theme[hi_fg]="#C77DFF"
+theme[hi_fg]="#e5a4ff"
 
 # Background color of selected items - dim background
-theme[selected_bg]="#2a3442"
+theme[selected_bg]="#1a2332"
 
 # Foreground color of selected items - kitty foreground
-theme[selected_fg]="#ffb366"
+theme[selected_fg]="#ffc0a4"
 
 # Color of inactive/disabled text - muted blue
-theme[inactive_fg]="#8FB4FF"
+theme[inactive_fg]="#ffc0a4"
 
 # Color of text appearing on top of graphs - kitty foreground
-theme[graph_text]="#ffb366"
+theme[graph_text]="#ffc0a4"
 
 # Misc colors for processes box - purple accent
-theme[proc_misc]="#C77DFF"
+theme[proc_misc]="#e5a4ff"
 
 # Cpu box outline color - purple border
-theme[cpu_box]="#C77DFF"
+theme[cpu_box]="#e5a4ff"
 
 # Memory/disks box outline color - purple border
-theme[mem_box]="#C77DFF"
+theme[mem_box]="#e5a4ff"
 
 # Net up/down box outline color - purple border
-theme[net_box]="#C77DFF"
+theme[net_box]="#e5a4ff"
 
 # Processes box outline color - purple border
-theme[proc_box]="#C77DFF"
+theme[proc_box]="#e5a4ff"
 
 # Box divider line and small boxes line color - subtle dim
-theme[div_line]="#2a3442"
+theme[div_line]="#1a2332"
 
 # Temperature graph colors - yellow to red (warning scale)
-theme[temp_start]="#ffb366"
-theme[temp_mid]="#FF6B6B"
-theme[temp_end]="#FF8787"
+theme[temp_start]="#e5a4ff"
+theme[temp_mid]="#e5a4ff"
+theme[temp_end]="#e5a4ff"
 
 # CPU graph colors - purple to blue gradient
-theme[cpu_start]="#C77DFF"
-theme[cpu_mid]="#7AA2F7"
-theme[cpu_end]="#3d4f68"
+theme[cpu_start]="#e5a4ff"
+theme[cpu_mid]="#e5a4ff"
+theme[cpu_end]="#e5a4ff"
 
 # Mem/Disk free meter - foreground orange
-theme[free_start]="#ffb366"
+theme[free_start]="#ffc0a4"
 theme[free_mid]=""
-theme[free_end]="#ffb366"
+theme[free_end]="#ffc0a4"
 
 # Mem/Disk cached meter - cyan to blue
-theme[cached_start]="#7DCFFF"
+theme[cached_start]="#e5a4ff"
 theme[cached_mid]=""
-theme[cached_end]="#7AA2F7"
+theme[cached_end]="#e5a4ff"
 
 # Mem/Disk available meter - foreground orange
-theme[available_start]="#ffb366"
+theme[available_start]="#ffc0a4"
 theme[available_mid]=""
-theme[available_end]="#ffb366"
+theme[available_end]="#ffc0a4"
 
 # Mem/Disk used meter - purple tinted usage
-theme[used_start]="#D9A0FF"
-theme[used_mid]="#C77DFF"
-theme[used_end]="#7AA2F7"
+theme[used_start]="#e5a4ff"
+theme[used_mid]="#e5a4ff"
+theme[used_end]="#e5a4ff"
 
 # Download graph colors - blue gradient
-theme[download_start]="#7AA2F7"
-theme[download_mid]="#8FB4FF"
-theme[download_end]="#D9A0FF"
+theme[download_start]="#e5a4ff"
+theme[download_mid]="#e5a4ff"
+theme[download_end]="#e5a4ff"
 
 # Upload graph colors - purple gradient
-theme[upload_start]="#C77DFF"
-theme[upload_mid]="#D9A0FF"
-theme[upload_end]="#7AA2F7"
+theme[upload_start]="#e5a4ff"
+theme[upload_mid]="#e5a4ff"
+theme[upload_end]="#e5a4ff"

@@ -4,21 +4,21 @@
    =================================== */
 
 * {
-  /* Palette - Mountain Sunset */
-  bg-primary: #1a2332E0;     /* #1a2332, 88% opacity */
-  bg-secondary: #2a3442CC;   /* #2a3442, 80% opacity */
-  bg-tertiary: #3d4f6880;    /* #3d4f68, 50% opacity */
+  /* Palette from doc/colors.css - 40% opacity backgrounds */
+  bg-primary: #1a233266;   /* 40% */
+  bg-secondary: #1a233266; /* 40% */
+  bg-tertiary: #1a233266;  /* 40% */
 
-  fg-primary: #ffb366;       /* kitty foreground */
-  fg-secondary: #D9A0FF;     /* kitty color12 for subtle headers */
-  fg-muted: #8FB4FF;         /* kitty color13 for placeholders */
+  fg-primary: #ffc0a4;     /* main text */
+  fg-secondary: #e5a4ff;   /* secondary */
+  fg-muted: #ffc0a4;       /* keep simple */
 
-  accent-purple: #C77DFF;    /* primary accent */
-  accent-blue:   #7AA2F7;    /* secondary accent */
-  accent-red:    #FF6B6B;    /* destructive */
-  accent-green:  #95E6CB;    /* confirm */
+  accent-purple: #e5a4ff;  /* accent */
+  accent-blue:   #e5a4ff;  /* unify */
+  accent-red:    #e5a4ff;  /* unify */
+  accent-green:  #e5a4ff;  /* unify */
 
-  border-color:  #C77DFF33;  /* subtle purple border */
+  border-color:  #ffc0a499; /* rgba(255,192,164,0.60) */
 
   background-color: transparent;
   text-color: @fg-primary;
@@ -46,7 +46,7 @@ mainbox {
 inputbar {
   background-color: @bg-secondary;
   border: 1px;
-  border-color: #C77DFF26;
+  border-color: #ffc0a433;
   border-radius: 12px;
   padding: 12px;
   spacing: 10px;
@@ -94,7 +94,7 @@ element normal.normal {
 }
 
 element selected.normal {
-  background-color: #C77DFFCC;
+  background-color: #E5A4FFCC;
   text-color: #1a2332;
 }
 
@@ -105,7 +105,7 @@ element alternate.normal {
 
 /* Hover state */
 element normal.active, element selected.active, element normal.urgent {
-  background-color: #C77DFF26;
+  background-color: #E5A4FF26;
   text-color: @fg-primary;
 }
 
@@ -127,7 +127,7 @@ element-text {
 message {
   background-color: @bg-secondary;
   border: 1px;
-  border-color: #C77DFF26;
+  border-color: #ffc0a433;
   border-radius: 10px;
   padding: 8px 12px;
 }
@@ -135,7 +135,7 @@ message {
 error-message {
   background-color: @bg-secondary;
   border: 1px;
-  border-color: #FF6B6B66;
+  border-color: #ffc0a466;
 }
 
 /* Sidebar disabled for ultra-clean look */

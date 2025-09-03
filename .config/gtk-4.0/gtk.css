@@ -4,43 +4,43 @@
 * { color: #ffc0a4; }
 
 /* Base backgrounds */
-window, dialog { background-color: rgba(45, 58, 82, 0.4); }
+window, dialog { background-color: rgba(26, 35, 50, 0.40); }
 
 /* Headerbar / titlebar */
 headerbar, .titlebar {
-  background-color: rgba(26, 35, 50, 0.85);
-  border-bottom: 1px solid rgba(199, 125, 255, 0.2);
+  background-color: rgba(26, 35, 50, 0.40);
+  border-bottom: 1px solid rgba(255, 192, 164, 0.60);
 }
 
 /* Buttons */
 button, button.toggle, button.flat {
   border-radius: 8px;
-  border: 1px solid rgba(199, 125, 255, 0.15);
-  background-color: rgba(139, 79, 126, 0.2);
+  border: 1px solid rgba(229, 164, 255, 0.15);
+  background-color: rgba(229, 164, 255, 0.20);
 }
 button:hover, button.toggle:hover, button.flat:hover {
-  background-color: rgba(199, 125, 255, 0.3);
+  background-color: rgba(229, 164, 255, 0.30);
 }
 button:checked, button.toggle:checked {
-  background-color: rgba(199, 125, 255, 0.4);
+  background-color: rgba(229, 164, 255, 0.40);
 }
 
 /* Entries / text inputs */
 entry, spinbutton, searchentry {
   border-radius: 8px;
-  border: 1px solid rgba(199, 125, 255, 0.15);
-  background-color: rgba(45, 58, 82, 0.3);
-  color: #ffb366;
+  border: 1px solid rgba(229, 164, 255, 0.15);
+  background-color: rgba(26, 35, 50, 0.40);
+  color: #ffc0a4;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
-  border-color: rgba(199, 125, 255, 0.4);
+  border-color: rgba(229, 164, 255, 0.40);
   box-shadow: none;
 }
 
 /* Popovers & tooltips */
 popover, tooltip {
-  background-color: rgba(26, 35, 50, 0.85);
-  border: 1px solid rgba(199, 125, 255, 0.15);
+  background-color: rgba(26, 35, 50, 0.40);
+  border: 1px solid rgba(229, 164, 255, 0.15);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
@@ -48,10 +48,31 @@ popover, tooltip {
 /* Scrollbars */
 scrollbar { background: transparent; }
 scrollbar slider {
-  background: rgba(199, 125, 255, 0.4);
+  background: rgba(229, 164, 255, 0.40);
   border-radius: 8px;
 }
-scrollbar trough { background: rgba(45, 58, 82, 0.2); }
+scrollbar trough { background: rgba(26, 35, 50, 0.20); }
 
 /* Minimal tweaks for checks/radios */
-check, radio { color: #C77DFF; }
+check, radio { color: #e5a4ff; }
+
+/* Selection (e.g., file/folder lists) */
+.view:selected,
+.view:selected:focus,
+treeview.view:selected,
+treeview.view:selected:focus,
+iconview.view:selected,
+iconview.view:selected:focus,
+GtkIconView:selected,
+GtkIconView:selected:focus,
+GtkListBoxRow:selected,
+GtkListBoxRow:selected:focus {
+  background-color: rgba(229, 164, 255, 0.40);
+  color: #1a2332;
+}
+
+/* Drag selection rectangle */
+.rubberband {
+  background-color: rgba(229, 164, 255, 0.20);
+  border: 1px solid rgba(229, 164, 255, 0.60);
+}

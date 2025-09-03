@@ -5,15 +5,40 @@
     font-weight: 500;
 }
 
+/* Palette from doc/colors.css (GTK CSS has no CSS variables) */
+
+/* Hard overrides to ensure the palette applies everywhere */
+window#waybar {
+    background-color: rgba(26, 35, 50, 0.40);
+}
+
+#window,
+#clock,
+#battery,
+#network,
+#pulseaudio,
+#custom-bluetooth,
+#mpris,
+#custom-mpris_prev,
+#custom-mpris_next,
+#custom-uptime,
+#custom-wlogout,
+#tray {
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
+    color: #ffc0a4;
+}
+
+#workspaces button.active {
+    background: #e5a4ff;
+    color: #1a2332;
+    box-shadow: 0 2px 8px rgba(229, 164, 255, 0.35);
+}
+
 /* Bar background with sunset theme */
 /* Per bordo gradient più spesso */
 window#waybar {
-    border: 0px solid;
-    /* Kitty-aligned border gradient: purple -> warm orange -> dark */
-    border-image: linear-gradient(135deg,
-    rgba(199, 125, 255, 0.75) 0%,   /* #C77DFF */
-    rgba(255, 179, 102, 0.55) 50%,  /* #ffb366 */
-    rgba(42, 52, 66, 0.45) 100%     /* #2a3442 */) 1;
+    border: 0px solid rgba(255, 192, 164, 0.60);
 }
 
 /* Generic module chip look */
@@ -31,10 +56,8 @@ window#waybar {
 #tray {
     padding: 1px 6px;
     margin: 1px 2px;
-    background: linear-gradient(135deg,
-    rgba(61, 79, 104, 0.55) 0%,   /* #3d4f68 */
-    rgba(26, 35, 50, 0.40) 100%   /* #1a2332 */);
-    border: 1px solid rgba(199, 125, 255, 0.20); /* #C77DFF */
+    background: #1a2332;
+    border: 1px solid rgba(255, 192, 164, 0.60);
     border-radius: 4px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -49,11 +72,9 @@ window#waybar {
 #workspaces button {
     padding: 1px 1px;
     margin: 0px 3px;
-    background: linear-gradient(135deg,
-    rgba(42, 52, 66, 0.45) 0%,  /* #2a3442 */
-    rgba(61, 79, 104, 0.35) 100% /* #3d4f68 */);
-    /* foreground is setted by gtk */
-    border: 0px solid rgba(199, 125, 255, 0.20);
+    background: #1a2332;
+    /* foreground is set by gtk */
+    border: 1px solid rgba(255, 192, 164, 0.60);
     border-radius: 14px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     font-size: 14px;
@@ -62,9 +83,9 @@ window#waybar {
 
 #workspaces button.active {
     background: linear-gradient(135deg,
-    rgba(199, 125, 255, 0.85) 0%,  /* #C77DFF */
-    rgba(138, 99, 199, 0.80) 50%,  /* deeper purple mix */
-    rgba(42, 52, 66, 0.50) 100%    /* #2a3442 */);
+    rgba(85, 0, 143, 0.63) 0%,  /* #C77DFF */
+    rgba(39, 0, 97, 0.63) 50%,  /* deeper purple mix */
+    rgba(44, 54, 69, 0.5) 100%    /* #2a3442 */);
     color: #1a2332; /* inverted for contrast on accent bg */
     box-shadow: 0 2px 8px rgba(199, 125, 255, 0.35);
 }
@@ -85,27 +106,23 @@ window#waybar {
 
 #window.empty {
     background: rgba(26, 35, 50, 0.25); /* #1a2332 */
-    border-color: rgba(199, 125, 255, 0.15); /* #C77DFF */
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 /* Uptime */
 #custom-uptime {
     color: #ffc0a4;
     font-weight: 600;
-    background: linear-gradient(135deg,
-    rgba(61, 79, 104, 0.40) 100%,  /* #3d4f68 */
-    rgba(122, 162, 247, 0.20) 0%   /* #7AA2F7 */);
-    border-color: rgba(199, 125, 255, 0.30);
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 /* Clock */
 #clock {
     color: #ffc0a4;
     font-weight: 600;
-    background: linear-gradient(135deg,
-    rgba(61, 79, 104, 0.40) 100%,  /* #3d4f68 */
-    rgba(199, 125, 255, 0.20) 0%   /* #C77DFF */);
-    border-color: rgba(199, 125, 255, 0.30);
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 /* Media controls - unified block */
@@ -117,10 +134,8 @@ window#waybar {
     color: #ffc0a4;
     font-size: 8px;
     min-width: 20px;
-    background: linear-gradient(135deg,
-    rgba(61, 79, 104, 0.40) 100%,  /* #3d4f68 */
-    rgba(122, 162, 247, 0.15) 0%   /* #7AA2F7 */);
-    border-color: rgba(199, 125, 255, 0.0);
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #custom-mpris_prev {
@@ -137,32 +152,26 @@ window#waybar {
     border-radius: 0px;
     border-left: none;
     border-right: none;
-    color: #D9A0FF; /* kitty color12 */
+    color: #ffc0a4;
 }
 
 #mpris.paused {
-    color: #8FB4FF; /* kitty color13 */
-    background: linear-gradient(135deg,
-    rgba(122, 162, 247, 0.20) 0%, /* #7AA2F7 */
-    rgba(26, 35, 50, 0.30) 100%   /* #1a2332 */);
+    color: #ffc0a4;
+    background: #1a2332;
 }
 
 /* Audio */
 #pulseaudio {
     color: #ffc0a4;
     font-weight: 600;
-    background: linear-gradient(135deg,
-    rgba(61, 79, 104, 0.40) 100%,  /* #3d4f68 */
-    rgba(199, 125, 255, 0.20) 0%   /* #C77DFF */);
-    border-color: rgba(199, 125, 255, 0.30);
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #pulseaudio.muted {
-    color: #FF6B6B; /* kitty red */
-    background: linear-gradient(135deg,
-    rgba(255, 107, 107, 0.25) 0%,
-    rgba(26, 35, 50, 0.40) 100%);
-    border-color: rgba(255, 107, 107, 0.30);
+    color: #ffc0a4;
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #custom-shortcuts{
@@ -171,104 +180,82 @@ window#waybar {
 
 /* Network */
 #network {
-    color: #7AA2F7; /* kitty blue for connectivity */
-    background: linear-gradient(135deg,
-    rgba(122, 162, 247, 0.20) 0%,
-    rgba(26, 35, 50, 0.40) 100%);
-    border-color: rgba(122, 162, 247, 0.25);
+    color: #ffc0a4;
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #network.wifi {
-    color: #ffc0a4; /* kitty color13 */
-    border-color: rgba(122, 162, 247, 0.30);
+    color: #ffc0a4;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #network.disconnected {
-    color: #FF6B6B; /* kitty red */
-    background: linear-gradient(135deg,
-    rgba(255, 107, 107, 0.25) 0%,
-    rgba(26, 35, 50, 0.30) 100%);
+    color: #ffc0a4;
+    background: #1a2332;
 }
 
 /* Battery */
 #battery {
-    color: #ffb366; /* use kitty foreground for normal */
-    background: linear-gradient(135deg,
-    rgba(61, 79, 104, 0.35) 0%,
-    rgba(26, 35, 50, 0.40) 100%);
-    border-color: rgba(199, 125, 255, 0.20);
+    color: #ffc0a4;
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #battery.good {
-    color: #95E6CB; /* kitty green */
-    border-color: rgba(149, 230, 203, 0.30);
+    color: #ffc0a4;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #battery.warning {
-    color: #ffb366; /* kitty yellow/orange */
-    background: linear-gradient(135deg,
-    rgba(255, 179, 102, 0.30) 0%,
-    rgba(26, 35, 50, 0.40) 100%);
-    border-color: rgba(255, 179, 102, 0.40);
+    color: #ffc0a4;
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #battery.critical {
-    color: #FF6B6B; /* kitty red */
-    background: linear-gradient(135deg,
-    rgba(255, 107, 107, 0.40) 0%,
-    rgba(26, 35, 50, 0.40) 100%);
-    border-color: rgba(255, 107, 107, 0.50);
+    color: #e5a4ff;
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
     animation: blink 1s ease-in-out infinite alternate;
 }
 
 @keyframes blink {
     to {
-        background: linear-gradient(135deg,
-        rgba(255, 107, 107, 0.60) 0%,
-        rgba(26, 35, 50, 0.50) 100%);
+        background: rgba(229, 164, 255, 0.15);
     }
 }
 
 #battery.charging {
-    color: #95E6CB; /* kitty green */
-    background: linear-gradient(135deg,
-    rgba(149, 230, 203, 0.30) 0%,
-    rgba(26, 35, 50, 0.40) 100%);
-    border-color: rgba(149, 230, 203, 0.30);
+    color: #ffc0a4;
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 /* Bluetooth */
 #custom-bluetooth {
-    color: #7DCFFF; /* kitty cyan */
+    color: #ffc0a4;
     font-weight: 600;
-    background: linear-gradient(135deg,
-    rgba(61, 79, 104, 0.40) 100%,
-    rgba(26, 35, 50, 0.30) 0%);
-    border-color: rgba(125, 207, 255, 0.20);
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 /* Wlogout */
 #custom-wlogout {
-    color: #FF6B6B; /* kitty red for power */
-    background: linear-gradient(135deg,
-    rgba(61, 79, 104, 0.40) 100%,
-    rgba(26, 35, 50, 0.30) 0%);
-    border-color: rgba(255, 107, 107, 0.30);
+    color: #ffc0a4;
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #custom-wlogout:hover {
-    background: linear-gradient(135deg,
-    rgba(255, 107, 107, 0.45) 0%,
-    rgba(26, 35, 50, 0.50) 100%);
-    border-color: rgba(255, 107, 107, 0.45);
+    background: rgba(229, 164, 255, 0.10);
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 /* Tray */
 #tray {
-    background: linear-gradient(135deg,
-    rgba(42, 52, 66, 0.40) 0%, /* #2a3442 */
-    rgba(61, 79, 104, 0.30) 100% /* #3d4f68 */);
-    border-color: rgba(199, 125, 255, 0.15);
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #tray > .passive {
@@ -277,7 +264,7 @@ window#waybar {
 
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
-    background-color: rgba(255, 107, 107, 0.30); /* kitty red */
+    background-color: rgba(229, 164, 255, 0.30);
 }
 
 /* Hover effects */
@@ -293,18 +280,13 @@ window#waybar {
 #custom-uptime:hover,
 #custom-wlogout:hover,
 #tray:hover {
-    background: linear-gradient(135deg,
-    rgba(199, 125, 255, 0.10) 0%,  /* purple shimmer */
-    rgba(122, 162, 247, 0.10) 50%, /* blue shimmer */
-    rgba(61, 79, 104, 0.50) 100%   /* #3d4f68 */);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 /* Tooltips */
 tooltip {
-    background: linear-gradient(135deg,
-    rgba(26, 35, 50, 0.95) 0%,
-    rgba(61, 79, 104, 0.90) 100%);
-    border: 1px solid rgba(199, 125, 255, 0.30);
+    background: rgba(26, 35, 50, 0.95);
+    border: 1px solid rgba(255, 192, 164, 0.60);
     border-radius: 8px;
     color: #ffc0a4;
 }
@@ -316,24 +298,40 @@ tooltip label {
 /* Notification indicator */
 #custom-notification {
     color: #ffc0a4;
-    background: linear-gradient(135deg,
-    rgba(61, 79, 104, 0.40) 0%,
-    rgba(26, 35, 50, 0.30) 100%);
-    border-color: rgba(199, 125, 255, 0.20);
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
     font-size: 14px;
     min-width: 20px;
 }
 
 #custom-notification.notification {
-    background: linear-gradient(135deg,
-    rgba(199, 125, 255, 0.35) 0%,
-    rgba(122, 162, 247, 0.25) 100%);
-    border-color: rgba(199, 125, 255, 0.35);
+    background: rgba(229, 164, 255, 0.15);
+    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #custom-notification.dnd-notification {
-    background: linear-gradient(135deg,
-    rgba(42, 52, 66, 0.40) 0%, /* #2a3442 */
-    rgba(26, 35, 50, 0.40) 100%  /* #1a2332 */);
-    border-color: rgba(42, 52, 66, 0.40);
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
+}
+
+/* Enforce single-color background transparency across modules */
+#window,
+#clock,
+#battery,
+#network,
+#pulseaudio,
+#custom-bluetooth,
+#mpris,
+#custom-mpris_prev,
+#custom-mpris_next,
+#custom-uptime,
+#custom-wlogout,
+#tray,
+#custom-notification,
+#custom-notification.dnd-notification {
+    background: rgba(26, 35, 50, 0.40);
+}
+
+#workspaces button {
+    background: rgba(26, 35, 50, 0.40);
 }
