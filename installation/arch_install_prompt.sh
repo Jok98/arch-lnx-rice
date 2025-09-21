@@ -29,18 +29,16 @@ ask_choice() {
   exec 3>&1
   echo >&2
   echo "$prompt" >&2
-  while true; do
-    select opt in "${labels[@]}"; do
-      if [[ -n "$opt" ]]; then
-        idx=$((REPLY-1))
-        printf '%s\n' "${values[$idx]}" >&3
-        exec 3>&-
-        return 0
-      fi
-      echo "Scelta non valida, riprova." >&2
-      break
-    done >&2
-  done
+  
+  select opt in "${labels[@]}"; do
+    if [[ -n "$opt" ]]; then
+      idx=$((REPLY-1))
+      printf '%s\n' "${values[$idx]}" >&3
+      exec 3>&-
+      return 0
+    fi
+    echo "Scelta non valida, riprova." >&2
+  done >&2
 }
 
 # Modificata per non accettare un default
