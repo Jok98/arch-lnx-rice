@@ -527,6 +527,6 @@ fi
 say "Installation completed successfully! Unmounting and rebooting..."
 swapoff /mnt/swap/swapfile 2>/dev/null || true
 umount -R /mnt || true
-echo "V.0.6 | System will reboot in 5 seconds..."
+echo "V.0.7 | System will reboot in 5 seconds..."
 sleep 5
 reboot
