@@ -2,9 +2,6 @@
 set -euo pipefail
 
 # ====== CONFIG (puoi cambiarli) ======
-HOSTNAME="arch"
-USERNAME="jok"
-USERPASS="changeme"          # cambia dopo il primo boot
 LOCALE="en_US.UTF-8"         # lingua sistema
 KEYMAP="us"                  # layout tastiera console
 TIMEZONE="Europe/Rome"
@@ -46,21 +43,37 @@ ask_choice() {
   done
 }
 
-ask_input() {
-  local prompt="$1" default="$2" value
-  echo >&2
-  printf "%s [%s]: " "$prompt" "$default" >&2
-  read -r value
-  printf '%s\n' "${value:-$default}"
+# Modificata per non accettare un default
+ask_input_mandatory() {
+  local prompt="$1" value
+  while true; do
+    echo >&2
+    printf "%s: " "$prompt" >&2
+    read -r value
+    if [[ -n "$value" ]]; then
+      printf '%s\n' "$value"
+      return 0
+    else
+      echo "Input non può essere vuoto." >&2
+    fi
+  done
 }
 
-ask_secret() {
-  local prompt="$1" default="$2" value
-  echo >&2
-  printf "%s [%s]: " "$prompt" "$default" >&2
-  read -rs value
-  echo >&2
-  printf '%s\n' "${value:-$default}"
+# Modificata per non accettare un default
+ask_secret_mandatory() {
+  local prompt="$1" value
+  while true; do
+    echo >&2
+    printf "%s: " "$prompt" >&2
+    read -rs value
+    echo >&2
+    if [[ -n "$value" ]]; then
+      printf '%s\n' "$value"
+      return 0
+    else
+      echo "La password non può essere vuota." >&2
+    fi
+  done
 }
 
 need_cmd pacstrap; need_cmd lsblk; need_cmd blkid; need_cmd mkfs.fat
@@ -86,9 +99,10 @@ GPU_CHOICE=$(ask_choice "Driver GPU" \
   "amd::Driver AMD/Mesa" \
   "none::Solo driver open-source (nessun driver dedicato)")
 
-HOSTNAME=$(ask_input "Hostname del sistema" "$HOSTNAME")
-USERNAME=$(ask_input "Nome utente amministratore" "$USERNAME")
-USERPASS=$(ask_secret "Password per root e ${USERNAME}" "$USERPASS")
+# --- Richieste utente obbligatorie ---
+HOSTNAME=$(ask_input_mandatory "Inserisci l'hostname del sistema")
+USERNAME=$(ask_input_mandatory "Inserisci il nome utente amministratore")
+USERPASS=$(ask_secret_mandatory "Inserisci la password per root e ${USERNAME}")
 
 LOCALE_SELECTION=$(ask_choice "Seleziona locale di sistema" \
   "en_US.UTF-8::English (US)" \
@@ -97,7 +111,7 @@ LOCALE_SELECTION=$(ask_choice "Seleziona locale di sistema" \
   "es_ES.UTF-8::Español" \
   "custom::Altro (inserisci manualmente)")
 if [[ "$LOCALE_SELECTION" == "custom" ]]; then
-  LOCALE=$(ask_input "Locale completo (es. en_US.UTF-8)" "$LOCALE")
+  LOCALE=$(ask_input_mandatory "Locale completo (es. en_US.UTF-8)")
 else
   LOCALE="$LOCALE_SELECTION"
 fi
@@ -110,7 +124,7 @@ KEYMAP_SELECTION=$(ask_choice "Layout tastiera per la console" \
   "es::Spagnolo" \
   "custom::Altro (inserisci manualmente)")
 if [[ "$KEYMAP_SELECTION" == "custom" ]]; then
-  KEYMAP=$(ask_input "Layout tastiera (es. us, it)" "$KEYMAP")
+  KEYMAP=$(ask_input_mandatory "Layout tastiera (es. us, it)")
 else
   KEYMAP="$KEYMAP_SELECTION"
 fi
@@ -123,7 +137,7 @@ TIMEZONE_SELECTION=$(ask_choice "Seleziona timezone" \
   "Asia/Tokyo::Asia/Tokyo" \
   "custom::Altro (inserisci manualmente)")
 if [[ "$TIMEZONE_SELECTION" == "custom" ]]; then
-  TIMEZONE=$(ask_input "Timezone (es. Europe/Rome)" "$TIMEZONE")
+  TIMEZONE=$(ask_input_mandatory "Timezone (es. Europe/Rome)")
 else
   TIMEZONE="$TIMEZONE_SELECTION"
 fi
@@ -135,7 +149,7 @@ SWAP_SIZE_SELECTION=$(ask_choice "Dimensione del file di swap" \
   "16G::16 GiB" \
   "custom::Personalizzata")
 if [[ "$SWAP_SIZE_SELECTION" == "custom" ]]; then
-  SWAP_SIZE=$(ask_input "Dimensione swap (es. 8G)" "$SWAP_SIZE")
+  SWAP_SIZE=$(ask_input_mandatory "Dimensione swap (es. 8G)")
 else
   SWAP_SIZE="$SWAP_SIZE_SELECTION"
 fi
