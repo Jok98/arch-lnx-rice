@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# V 0.5
+
 # ====== CONFIG (puoi cambiarli) ======
 LOCALE="en_US.UTF-8"         # lingua sistema
 KEYMAP="us"                  # layout tastiera console
