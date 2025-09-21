@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# V 0.5
-
 # ====== CONFIG (puoi cambiarli) ======
 LOCALE="en_US.UTF-8"         # lingua sistema
 KEYMAP="us"                  # layout tastiera console
@@ -527,7 +525,6 @@ fi
 say "Installation completed successfully! Unmounting and rebooting..."
 swapoff /mnt/swap/swapfile 2>/dev/null || true
 umount -R /mnt || true
-echo "System will reboot in 5 seconds..."
+echo " V.0.5 | System will reboot in 5 seconds..."
 sleep 5
-# V 0.5
 reboot
