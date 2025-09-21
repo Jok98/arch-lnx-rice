@@ -26,19 +26,21 @@ ask_choice() {
   done
 
   local PS3="Seleziona un'opzione: "
-  exec 3>&1
+  
+  # Stampa il prompt iniziale su standard error, così non viene catturato
   echo >&2
   echo "$prompt" >&2
   
+  # select stampa già il menu su stderr di default
   select opt in "${labels[@]}"; do
     if [[ -n "$opt" ]]; then
       idx=$((REPLY-1))
-      printf '%s\n' "${values[$idx]}" >&3
-      exec 3>&-
+      # Stampa il risultato su standard output per essere catturato da $(...)
+      printf '%s\n' "${values[$idx]}"
       return 0
     fi
     echo "Scelta non valida, riprova." >&2
-  done >&2
+  done
 }
 
 # Modificata per non accettare un default
@@ -525,6 +527,6 @@ fi
 say "Installation completed successfully! Unmounting and rebooting..."
 swapoff /mnt/swap/swapfile 2>/dev/null || true
 umount -R /mnt || true
-echo " V.0.5 | System will reboot in 5 seconds..."
+echo "V.0.6 | System will reboot in 5 seconds..."
 sleep 5
 reboot
