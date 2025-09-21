@@ -303,7 +303,7 @@ mount "$ESP" /mnt/boot
 
 # --- pacstrap ---
 say "Installing base system..."
-BASE_PACKAGES=(base linux linux-firmware vim sudo networkmanager iwd git base-devel)
+BASE_PACKAGES=(base linux linux-firmware vim sudo networkmanager iwd git base-devel curl)
 if [[ "$FILESYSTEM_CHOICE" == "btrfs" ]]; then
   BASE_PACKAGES+=(btrfs-progs)
 fi
@@ -383,11 +383,11 @@ systemctl enable fstrim.timer
 
 # Microcode detection and installation
 echo "[+] Detecting and installing microcode..."
-if lscpu | grep -qi intel; then 
+if lscpu | grep -qi intel; then
     echo "[+] Intel CPU detected, installing intel-ucode..."
     pacman --noconfirm -S intel-ucode
 fi
-if lscpu | grep -qi amd; then 
+if lscpu | grep -qi amd; then
     echo "[+] AMD CPU detected, installing amd-ucode..."
     pacman --noconfirm -S amd-ucode
 fi
@@ -467,21 +467,18 @@ usermod -s /bin/zsh root || true
 # Install Oh My Zsh for the user
 echo "[+] Setting up Oh My Zsh for user ${USERNAME}..."
 USER_HOME="/home/${USERNAME}"
+sudo -u "${USERNAME}" sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
+# Install Oh My Zsh for root
+echo "[+] Setting up Oh My Zsh for root..."
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
 
-# Create Oh My Zsh setup script
-@@ -494,45 +727,49 @@ MimeType=x-scheme-handler/jetbrains;
-X-GNOME-Autostart-enabled=true
-StartupNotify=false
-X-GNOME-Autostart-Delay=10
-X-MATE-Autostart-Delay=10
-X-KDE-autostart-after=panel
-EOT
-else
-    echo "[WARNING] JetBrains Toolbox not found, skipping autostart configuration"
-fi
+# Configure plugins for both user and root
+echo "[+] Configuring Zsh plugins..."
+sed -i 's/^plugins=(git)$/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "${USER_HOME}/.zshrc"
+sed -i 's/^plugins=(git)$/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "/root/.zshrc"
 
-# Fix ownership of all user config files
-chown -R "${USERNAME}:${USERNAME}" "/home/${USERNAME}/.config"
+# Fix ownership of all user files
+chown -R "${USERNAME}:${USERNAME}" "/home/${USERNAME}"
 
 # Pacman configuration improvements
 echo "[+] Configuring pacman..."
