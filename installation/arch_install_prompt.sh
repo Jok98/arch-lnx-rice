@@ -27,29 +27,25 @@ ask_choice() {
 
   local PS3="Seleziona un'opzione: "
   
-  # Stampa il prompt iniziale su standard error, così non viene catturato
   echo >&2
   echo "$prompt" >&2
   
-  # select stampa già il menu su stderr di default
   select opt in "${labels[@]}"; do
     if [[ -n "$opt" ]]; then
       idx=$((REPLY-1))
-      # Stampa il risultato su standard output per essere catturato da $(...)
       printf '%s\n' "${values[$idx]}"
       return 0
     fi
     echo "Scelta non valida, riprova." >&2
-  done
+  done < /dev/tty
 }
 
-# Modificata per non accettare un default
 ask_input_mandatory() {
   local prompt="$1" value
   while true; do
     echo >&2
     printf "%s: " "$prompt" >&2
-    read -r value
+    read -r value < /dev/tty
     if [[ -n "$value" ]]; then
       printf '%s\n' "$value"
       return 0
@@ -59,13 +55,12 @@ ask_input_mandatory() {
   done
 }
 
-# Modificata per non accettare un default
 ask_secret_mandatory() {
   local prompt="$1" value
   while true; do
     echo >&2
     printf "%s: " "$prompt" >&2
-    read -rs value
+    read -rs value < /dev/tty
     echo >&2
     if [[ -n "$value" ]]; then
       printf '%s\n' "$value"
@@ -78,12 +73,27 @@ ask_secret_mandatory() {
 
 need_cmd pacstrap; need_cmd lsblk; need_cmd blkid; need_cmd mkfs.fat
 
-# --- argomento obbligatorio: disco target ---
-if [[ $# -lt 1 ]]; then
-  die "Usage: $0 <disk>   e.g.  $0 nvme0n1   or   $0 /dev/nvme0n1"
-fi
-if [[ "$1" == /dev/* ]]; then DISK="$1"; else DISK="/dev/$1"; fi
-[[ -b "$DISK" ]] || die "Block device not found: $DISK"
+# --- Selezione interattiva del disco ---
+say "Selezione del disco di installazione"
+lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS | grep -v 'loop'
+echo
+
+while true; do
+  DISK_NAME=$(ask_input_mandatory "Inserisci il nome del disco su cui installare (es. sda o nvme0n1)")
+  
+  if [[ "$DISK_NAME" == /dev/* ]]; then
+    DISK="$DISK_NAME"
+  else
+    DISK="/dev/$DISK_NAME"
+  fi
+
+  if [[ -b "$DISK" ]]; then
+    say "Disco selezionato: $DISK"
+    break
+  else
+    echo "ERRORE: Dispositivo a blocchi non trovato: $DISK. Riprova." >&2
+  fi
+done
 
 FILESYSTEM_CHOICE=$(ask_choice "Seleziona filesystem per la partizione root" \
   "btrfs::Btrfs (subvolumi)" \
@@ -167,9 +177,9 @@ ESP="$(partpath "$DISK" 1)"
 ROOT="$(partpath "$DISK" 2)"
 
 if [[ "$PARTITION_SCHEME" == "manual" ]]; then
-  read -r -p "Partizione EFI da usare [$ESP]: " manual_esp
+  read -r -p "Partizione EFI da usare [$ESP]: " manual_esp < /dev/tty
   ESP="${manual_esp:-$ESP}"
-  read -r -p "Partizione root da usare [$ROOT]: " manual_root
+  read -r -p "Partizione root da usare [$ROOT]: " manual_root < /dev/tty
   ROOT="${manual_root:-$ROOT}"
   [[ -b "$ESP" ]] || die "EFI partition not found: $ESP"
   [[ -b "$ROOT" ]] || die "Root partition not found: $ROOT"
@@ -256,9 +266,9 @@ echo "  Locale: $LOCALE | Keymap: $KEYMAP"
 echo "  Timezone: $TIMEZONE | Swap: $SWAP_SIZE"
 echo "****************************"
 if [[ "$PARTITION_SCHEME" == "auto" ]]; then
-  read -r -p "Type EXACTLY 'YES' to confirm FULL WIPE of $DISK: " CONF
+  read -r -p "Type EXACTLY 'YES' to confirm FULL WIPE of $DISK: " CONF < /dev/tty
 else
-  read -r -p "Type EXACTLY 'YES' to continue con il partizionamento manuale (le partizioni selezionate verranno formattate): " CONF
+  read -r -p "Type EXACTLY 'YES' to continue con il partizionamento manuale (le partizioni selezionate verranno formattate): " CONF < /dev/tty
 fi
 [[ "$CONF" == "YES" ]] || die "Aborted."
 
@@ -525,8 +535,7 @@ else
 fi
 
 say "Installation completed successfully! Unmounting and rebooting..."
-swapoff /mnt/swap/swapfile 2>/dev/null || true
-umount -R /mnt || true
-echo "V.0.7 | System will reboot in 5 seconds..."
+# Ho cambiato la versione qui per tracciare gli aggiornamenti
+echo "V.0.8 | System will reboot in 5 seconds..."
 sleep 5
 reboot
