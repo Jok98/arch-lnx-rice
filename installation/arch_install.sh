@@ -109,6 +109,13 @@ GPU_CHOICE=$(ask_choice "Driver GPU" \
   "amd::Driver AMD/Mesa" \
   "none::Solo driver open-source (nessun driver dedicato)")
 
+# --- Scelta AUR helper ---
+AUR_HELPER_CHOICE=$(ask_choice "Seleziona un AUR helper da installare" \
+  "yay::yay" \
+  "paru::paru" \
+  "both::Entrambi (yay e paru)" \
+  "none::Nessuno")
+
 # --- Richieste utente obbligatorie ---
 HOSTNAME=$(ask_input_mandatory "Inserisci l'hostname del sistema")
 USERNAME=$(ask_input_mandatory "Inserisci il nome utente amministratore")
@@ -202,6 +209,12 @@ case "$GPU_CHOICE" in
   amd)    GPU_LABEL="AMD/Mesa" ;;
   none)   GPU_LABEL="Solo driver open-source" ;;
 esac
+case "$AUR_HELPER_CHOICE" in
+  yay)  AUR_LABEL="yay" ;;
+  paru) AUR_LABEL="paru" ;;
+  both) AUR_LABEL="yay e paru" ;;
+  none) AUR_LABEL="Nessuno" ;;
+esac
 
 if [[ "$PARTITION_SCHEME" == "auto" ]]; then
   need_cmd sgdisk
@@ -261,6 +274,7 @@ echo "  Root partition: $ROOT ($FS_LABEL)"
 echo "  Bootloader: $BOOT_LABEL"
 echo "  Desktop: Hyprland (Wayland) + Firefox"
 echo "  GPU: $GPU_LABEL"
+echo "  AUR Helper: $AUR_LABEL"
 echo "  Hostname: $HOSTNAME | Utente: $USERNAME"
 echo "  Locale: $LOCALE | Keymap: $KEYMAP"
 echo "  Timezone: $TIMEZONE | Swap: $SWAP_SIZE"
@@ -354,6 +368,7 @@ KEYMAP="$7"
 FILESYSTEM_TYPE="$8"
 BOOTLOADER_CHOICE="$9"
 GPU_CHOICE="${10}"
+AUR_HELPER_CHOICE="${11}"
 
 echo "[+] Starting system configuration in chroot..."
 echo "[+] Configuring for user: $USERNAME"
@@ -501,16 +516,12 @@ echo "[+] Configuring Zsh plugins..."
 sed -i 's/^plugins=(git)$/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "${USER_HOME}/.zshrc"
 sed -i 's/^plugins=(git)$/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "/root/.zshrc"
 
-# Fix ownership of all user files
-chown -R "${USERNAME}:${USERNAME}" "/home/${USERNAME}"
-
 # Pacman configuration improvements
 echo "[+] Configuring pacman..."
 sed -i 's/^#Color/Color/' /etc/pacman.conf
 sed -i 's/^#ParallelDownloads = .*/ParallelDownloads = 10/' /etc/pacman.conf
 
-# >>>>>>>>>>>> CORREZIONE INIZIO <<<<<<<<<<<<
-# Setup greetd (display manager) per avviare Hyprland
+# Setup greetd (display manager)
 echo "[+] Setting up greetd display manager..."
 pacman --noconfirm -S greetd
 cat >/etc/greetd/config.toml <<'EOT'
@@ -521,7 +532,65 @@ command = "agreety --cmd Hyprland"
 user = "greeter"
 EOT
 systemctl enable greetd
-# >>>>>>>>>>>> CORREZIONE FINE <<<<<<<<<<<<
+
+# Install AUR helper if selected
+if [[ "$AUR_HELPER_CHOICE" != "none" ]]; then
+    echo "[+] Installing AUR helper(s) for user ${USERNAME}..."
+    pacman --noconfirm --needed -S --asdeps base-devel go
+
+    # Create a script to be run as the user
+    cat > "/home/${USERNAME}/install_aur_helper.sh" << 'EOFAURINSTALL'
+#!/bin/bash
+set -euo pipefail
+
+HELPER_CHOICE="$1"
+
+install_aur_package() {
+    local pkg_name="$1"
+    local repo_url="https://aur.archlinux.org/${pkg_name}.git"
+    
+    echo ":: Installing ${pkg_name}..."
+    
+    TMPDIR="$(mktemp -d)"
+    cd "$TMPDIR"
+    
+    if git clone --depth 1 "$repo_url"; then
+        cd "$pkg_name"
+        if makepkg -si --noconfirm --needed; then
+            echo ":: ${pkg_name} installed successfully."
+            cd /
+            rm -rf "$TMPDIR"
+            return 0
+        fi
+    fi
+    
+    echo ":: ERROR: Failed to install ${pkg_name}."
+    cd /
+    rm -rf "$TMPDIR"
+    return 1
+}
+
+if [[ "$HELPER_CHOICE" == "yay" || "$HELPER_CHOICE" == "both" ]]; then
+    install_aur_package "yay"
+fi
+
+if [[ "$HELPER_CHOICE" == "paru" || "$HELPER_CHOICE" == "both" ]]; then
+    install_aur_package "paru"
+fi
+EOFAURINSTALL
+
+    chmod +x "/home/${USERNAME}/install_aur_helper.sh"
+    chown "${USERNAME}:${USERNAME}" "/home/${USERNAME}/install_aur_helper.sh"
+
+    # Run the script as the user
+    sudo -u "${USERNAME}" /home/"${USERNAME}"/install_aur_helper.sh "${AUR_HELPER_CHOICE}"
+
+    # Clean up the script
+    rm "/home/${USERNAME}/install_aur_helper.sh"
+fi
+
+# Fix ownership of all user files
+chown -R "${USERNAME}:${USERNAME}" "/home/${USERNAME}"
 
 echo "[+] System configuration completed successfully in chroot"
 EOFCHROOTSCRIPT
@@ -530,7 +599,7 @@ EOFCHROOTSCRIPT
 chmod +x /mnt/chroot_setup.sh
 
 # Execute the chroot script with parameters
-arch-chroot /mnt /chroot_setup.sh "$HOSTNAME" "$USERNAME" "$USERPASS" "$LOCALE" "$TIMEZONE" "$SWAP_SIZE" "$KEYMAP" "$FILESYSTEM_CHOICE" "$BOOTLOADER_CHOICE" "$GPU_CHOICE"
+arch-chroot /mnt /chroot_setup.sh "$HOSTNAME" "$USERNAME" "$USERPASS" "$LOCALE" "$TIMEZONE" "$SWAP_SIZE" "$KEYMAP" "$FILESYSTEM_CHOICE" "$BOOTLOADER_CHOICE" "$GPU_CHOICE" "$AUR_HELPER_CHOICE"
 
 # Remove the script
 rm /mnt/chroot_setup.sh
