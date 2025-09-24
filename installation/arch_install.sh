@@ -75,10 +75,7 @@ need_cmd pacstrap; need_cmd lsblk; need_cmd blkid; need_cmd mkfs.fat
 
 # --- Selezione interattiva del disco ---
 say "Selezione del disco di installazione"
-# >>>>>>>>>>>> MODIFICA INIZIO <<<<<<<<<<<<
-# Aggiunto MODEL all'output di lsblk per mostrare il nome del dispositivo
 lsblk -o NAME,MODEL,SIZE,TYPE,MOUNTPOINTS | grep -v 'loop'
-# >>>>>>>>>>>> MODIFICA FINE <<<<<<<<<<<<
 echo
 
 while true; do
@@ -380,14 +377,12 @@ echo "[+] Configuring for user: $USERNAME"
 ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 hwclock --systohc
 
-# Locale setup
-locale_pattern=$(printf '%s\n' "$LOCALE" | sed 's/[.[\*^$\\\/&]/\\&/g')
-if grep -q "^#${locale_pattern}$" /etc/locale.gen; then
-  sed -i "s/^#${locale_pattern}$/${LOCALE}/" /etc/locale.gen
-elif ! grep -q "^${locale_pattern}$" /etc/locale.gen; then
-  echo "${LOCALE}" >> /etc/locale.gen
-fi
+# >>>>>>>>>>>> MODIFICA INIZIO (Locale) <<<<<<<<<<<<
+# Locale setup - Robust version
+echo "[+] Configuring locale..."
+sed -i "s/^#\(${LOCALE}\)/\1/" /etc/locale.gen
 locale-gen
+# >>>>>>>>>>>> MODIFICA FINE (Locale) <<<<<<<<<<<<
 echo "LANG=${LOCALE}" > /etc/locale.conf
 echo "KEYMAP=${KEYMAP}" > /etc/vconsole.conf
 
@@ -487,13 +482,15 @@ case "$GPU_CHOICE" in
     ;;
 esac
 
-# Hyprland and desktop environment
+# >>>>>>>>>>>> MODIFICA INIZIO (Pacchetti Desktop) <<<<<<<<<<<<
+# Hyprland and desktop environment - Aggiunto xorg-xwayland
 echo "[+] Installing Hyprland and desktop tools..."
-pacman --noconfirm -S hyprland xdg-desktop-portal-hyprland xdg-desktop-portal \
+pacman --noconfirm -S hyprland xorg-xwayland xdg-desktop-portal-hyprland xdg-desktop-portal \
   waybar hyprpaper rofi-wayland kitty alacritty firefox network-manager-applet \
   noto-fonts noto-fonts-cjk ttf-jetbrains-mono ttf-font-awesome \
   fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
   grim slurp swappy wl-clipboard playerctl hyprlock pam mousepad wev
+# >>>>>>>>>>>> MODIFICA FINE (Pacchetti Desktop) <<<<<<<<<<<<
 
 # Zsh and plugins
 echo "[+] Installing zsh and plugins..."
@@ -622,6 +619,6 @@ fi
 
 say "Installation completed successfully! Unmounting and rebooting..."
 # Ho cambiato la versione qui per tracciare gli aggiornamenti
-echo "V.1.0 | System will reboot in 5 seconds..."
+echo "V.1.1 | System will reboot in 5 seconds..."
 sleep 5
 reboot
