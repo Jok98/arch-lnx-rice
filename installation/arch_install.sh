@@ -509,6 +509,20 @@ echo "[+] Configuring pacman..."
 sed -i 's/^#Color/Color/' /etc/pacman.conf
 sed -i 's/^#ParallelDownloads = .*/ParallelDownloads = 10/' /etc/pacman.conf
 
+# >>>>>>>>>>>> CORREZIONE INIZIO <<<<<<<<<<<<
+# Setup greetd (display manager) per avviare Hyprland
+echo "[+] Setting up greetd display manager..."
+pacman --noconfirm -S greetd
+cat >/etc/greetd/config.toml <<'EOT'
+[terminal]
+vt = 1
+[default_session]
+command = "agreety --cmd Hyprland"
+user = "greeter"
+EOT
+systemctl enable greetd
+# >>>>>>>>>>>> CORREZIONE FINE <<<<<<<<<<<<
+
 echo "[+] System configuration completed successfully in chroot"
 EOFCHROOTSCRIPT
 
@@ -536,6 +550,6 @@ fi
 
 say "Installation completed successfully! Unmounting and rebooting..."
 # Ho cambiato la versione qui per tracciare gli aggiornamenti
-echo "V.0.8 | System will reboot in 5 seconds..."
+echo "V.0.9 | System will reboot in 5 seconds..."
 sleep 5
 reboot
