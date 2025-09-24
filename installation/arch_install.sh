@@ -75,7 +75,10 @@ need_cmd pacstrap; need_cmd lsblk; need_cmd blkid; need_cmd mkfs.fat
 
 # --- Selezione interattiva del disco ---
 say "Selezione del disco di installazione"
-lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS | grep -v 'loop'
+# >>>>>>>>>>>> MODIFICA INIZIO <<<<<<<<<<<<
+# Aggiunto MODEL all'output di lsblk per mostrare il nome del dispositivo
+lsblk -o NAME,MODEL,SIZE,TYPE,MOUNTPOINTS | grep -v 'loop'
+# >>>>>>>>>>>> MODIFICA FINE <<<<<<<<<<<<
 echo
 
 while true; do
@@ -619,6 +622,6 @@ fi
 
 say "Installation completed successfully! Unmounting and rebooting..."
 # Ho cambiato la versione qui per tracciare gli aggiornamenti
-echo "V.0.9 | System will reboot in 5 seconds..."
+echo "V.1.0 | System will reboot in 5 seconds..."
 sleep 5
 reboot
