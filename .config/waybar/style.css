@@ -90,6 +90,18 @@ window#waybar {
     box-shadow: 0 2px 8px rgba(199, 125, 255, 0.35);
 }
 
+#workspaces button.special {
+    background: rgba(229, 164, 255, 0.12);
+    color: #ffc0a4;
+    box-shadow: none;
+}
+
+#workspaces button.active.special {
+    background: rgba(229, 164, 255, 0.18);
+    color: #ffc0a4;
+    box-shadow: 0 0 6px rgba(229, 164, 255, 0.25);
+}
+
 #workspaces button:hover:not(.active) {
     background: linear-gradient(135deg,
     rgba(122, 162, 247, 0.35) 0%,  /* #7AA2F7 */
