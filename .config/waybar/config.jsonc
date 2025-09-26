@@ -18,7 +18,7 @@
       "default": "\uf2dd"
     },
     "all-outputs": false,
-    "active-only": true,
+    "active-only": false,
     "move-to-monitor": false,
     "on-click": "activate",
     "on-scroll-up": "hyprctl dispatch workspace e+1",
