@@ -4,10 +4,10 @@
    =================================== */
 
 * {
-  /* Palette from doc/colors.css - 40% opacity backgrounds */
-  bg-primary: #1a233266;   /* 40% */
-  bg-secondary: #1a233266; /* 40% */
-  bg-tertiary: #1a233266;  /* 40% */
+  /* Palette from doc/colors.css aligned to kitty background */
+  bg-primary: #1a2332;
+  bg-secondary: #1f2b3c;
+  bg-tertiary: #243246;
 
   fg-primary: #ffc0a4;     /* main text */
   fg-secondary: #e5a4ff;   /* secondary */
@@ -20,7 +20,7 @@
 
   border-color:  #ffc0a499; /* rgba(255,192,164,0.60) */
 
-  background-color: transparent;
+  background-color: @bg-primary;
   text-color: @fg-primary;
   font: "JetBrainsMono Nerd Font 13";
 }
