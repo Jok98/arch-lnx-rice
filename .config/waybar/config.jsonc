@@ -9,7 +9,7 @@
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "network", "custom/bluetooth", "battery", "custom/wlogout"],
+  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "network", "custom/bluetooth", "backlight", "battery", "custom/wlogout"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -202,5 +202,20 @@
     "tooltip": false,
     "tooltip-format": "Click to open power menu",
     "on-click": "wlogout -b 13 -c 5 -r 5 -m 5 -p layer-shell"
+  },
+
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon} {percent}%",
+    "format-alt": "{percent}% 󰃠",
+    "format-icons": ["󰃞", "󰃟", "󰃠"],
+    "tooltip": true,
+    "tooltip-format": "Brightness: {percent}%",
+    "min": 10,
+    "max": 100,
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "on-click": "brightnessctl set 100%",
+    "on-click-right": "brightnessctl set 50%"
   }
 }
