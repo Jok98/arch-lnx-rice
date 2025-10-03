@@ -1,214 +1,153 @@
 #!/bin/bash
 
-# Function to convert modmask to readable format
+set -o pipefail
+
 get_modmask() {
     local mask=$1
     local mods=""
-    
-    if (( mask & 1 )); then mods+="SHIFT+"; fi
-    if (( mask & 4 )); then mods+="CTRL+"; fi
-    if (( mask & 8 )); then mods+="ALT+"; fi
-    if (( mask & 64 )); then mods+="SUPER+"; fi
-    
-    echo "${mods%+}"  # Remove trailing +
+
+    (( mask & 1 )) && mods+="SHIFT+"
+    (( mask & 4 )) && mods+="CTRL+"
+    (( mask & 8 )) && mods+="ALT+"
+    (( mask & 64 )) && mods+="SUPER+"
+
+    echo "${mods%+}"
 }
 
-# Create HTML output with dynamic content
-create_shortcut_html() {
-    local html_file="$HOME/.config/hypr/shortcuts.html"
-    
-    cat > "$html_file" << 'EOF'
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hyprland Shortcuts</title>
-    <style>
-        body {
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            background-color: #1e1e2e;
-            color: #cdd6f4;
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            color: #C77DFF;
-            margin-bottom: 30px;
-        }
-        .section {
-            margin-bottom: 30px;
-            background: #313244;
-            padding: 20px;
-            border-radius: 10px;
-            border-left: 4px solid #C77DFF;
-        }
-        .section h2 {
-            color: #C77DFF;
-            margin-top: 0;
-            border-bottom: 2px solid #45475a;
-            padding-bottom: 10px;
-        }
-        .shortcut-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #45475a;
-        }
-        .shortcut-row:last-child {
-            border-bottom: none;
-        }
-        .shortcut {
-            font-weight: bold;
-            color: #f9e2af;
-            font-family: 'JetBrains Mono', monospace;
-            min-width: 200px;
-        }
-        .description {
-            color: #a6e3a1;
-            flex: 1;
-            margin-left: 20px;
-        }
-        .key {
-            background: #45475a;
-            padding: 3px 8px;
-            border-radius: 4px;
-            margin: 0 2px;
-            font-size: 0.9em;
-        }
-        .refresh-note {
-            text-align: center;
-            color: #fab387;
-            font-style: italic;
-            margin-bottom: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🔧 Hyprland Shortcuts Reference</h1>
-        <div class="refresh-note">Live data from hyprctl - Updated: $(date)</div>
-        <div id="shortcuts-content">
-EOF
+escape_markup() {
+    local text=$1
+    text=${text//&/&amp;}
+    text=${text//</&lt;}
+    text=${text//>/&gt;}
+    text=${text//\'/&apos;}
+    text=${text//\"/&quot;}
+    echo "$text"
+}
 
-    # Parse hyprctl binds output and group by category
-    declare -A system_binds
-    declare -A app_binds
-    declare -A media_binds
-    declare -A navigation_binds
-    declare -A other_binds
-    
+format_shortcut() {
+    local shortcut=${1//+/' + '}
+    echo "$shortcut"
+}
+
+collect_shortcuts() {
+    declare -gA system_binds=()
+    declare -gA app_binds=()
+    declare -gA media_binds=()
+    declare -gA navigation_binds=()
+    declare -gA other_binds=()
+
     while IFS= read -r line; do
-        if [[ $line =~ ^bind ]]; then
-            # Read the complete bind block
-            bind_type=$(echo "$line" | awk '{print $1}')
-            modmask=""
-            key=""
-            dispatcher=""
-            arg=""
-            
-            # Read the following lines for this bind
-            while IFS= read -r subline && [[ -n "$subline" ]]; do
-                if [[ $subline =~ ^[[:space:]]*modmask:[[:space:]]*([0-9]+) ]]; then
-                    modmask="${BASH_REMATCH[1]}"
-                elif [[ $subline =~ ^[[:space:]]*key:[[:space:]]*(.+) ]]; then
-                    key="${BASH_REMATCH[1]}"
-                elif [[ $subline =~ ^[[:space:]]*dispatcher:[[:space:]]*(.+) ]]; then
-                    dispatcher="${BASH_REMATCH[1]}"
-                elif [[ $subline =~ ^[[:space:]]*arg:[[:space:]]*(.+) ]]; then
-                    arg="${BASH_REMATCH[1]}"
-                fi
-            done
-            
-            if [[ -n "$modmask" && -n "$key" && -n "$dispatcher" ]]; then
-                mod_readable=$(get_modmask "$modmask")
-                if [[ -n "$mod_readable" ]]; then
-                    shortcut="$mod_readable+$key"
-                else
-                    shortcut="$key"
-                fi
-                
-                # Categorize the shortcut
-                case "$dispatcher" in
-                    "killactive"|"exit"|"fullscreen"|"togglefloating")
-                        system_binds["$shortcut"]="$dispatcher $arg"
-                        ;;
-                    "movefocus")
-                        navigation_binds["$shortcut"]="Move focus $arg"
-                        ;;
-                    "exec")
-                        if [[ $arg =~ playerctl|wpctl|AudioPlay|AudioNext|AudioPrev|AudioMute|AudioRaise|AudioLower ]]; then
-                            media_binds["$shortcut"]="$arg"
-                        elif [[ $arg =~ kitty|rofi|mousepad|spotify|hyprlock|grim ]]; then
-                            app_binds["$shortcut"]="$arg"
-                        else
-                            other_binds["$shortcut"]="$arg"
-                        fi
-                        ;;
-                    *)
-                        other_binds["$shortcut"]="$dispatcher $arg"
-                        ;;
-                esac
+        [[ $line =~ ^bind ]] || continue
+
+        local modmask="" key="" dispatcher="" arg=""
+
+        while IFS= read -r subline && [[ -n $subline ]]; do
+            if [[ $subline =~ ^[[:space:]]*modmask:[[:space:]]*([0-9]+) ]]; then
+                modmask=${BASH_REMATCH[1]}
+            elif [[ $subline =~ ^[[:space:]]*key:[[:space:]]*(.+) ]]; then
+                key=${BASH_REMATCH[1]}
+            elif [[ $subline =~ ^[[:space:]]*dispatcher:[[:space:]]*(.+) ]]; then
+                dispatcher=${BASH_REMATCH[1]}
+            elif [[ $subline =~ ^[[:space:]]*arg:[[:space:]]*(.+) ]]; then
+                arg=${BASH_REMATCH[1]}
             fi
+        done
+
+        [[ -n $modmask && -n $key && -n $dispatcher ]] || continue
+
+        local mod_readable shortcut
+        mod_readable=$(get_modmask "$modmask")
+        if [[ -n $mod_readable ]]; then
+            shortcut="$mod_readable+$key"
+        else
+            shortcut="$key"
         fi
+
+        case $dispatcher in
+            killactive|exit|fullscreen|togglefloating)
+                system_binds["$shortcut"]="$dispatcher $arg"
+                ;;
+            movefocus)
+                navigation_binds["$shortcut"]="Move focus $arg"
+                ;;
+            exec)
+                if [[ $arg =~ playerctl|wpctl|AudioPlay|AudioNext|AudioPrev|AudioMute|AudioRaise|AudioLower ]]; then
+                    media_binds["$shortcut"]="$arg"
+                elif [[ $arg =~ kitty|rofi|mousepad|spotify|hyprlock|grim ]]; then
+                    app_binds["$shortcut"]="$arg"
+                else
+                    other_binds["$shortcut"]="$arg"
+                fi
+                ;;
+            *)
+                other_binds["$shortcut"]="$dispatcher $arg"
+                ;;
+        esac
     done < <(hyprctl binds)
-    
-    # Generate HTML sections
-    generate_section() {
-        local title="$1"
-        local icon="$2"
-        declare -n binds_ref=$3
-        
-        if [[ ${#binds_ref[@]} -gt 0 ]]; then
-            echo "        <div class=\"section\">"
-            echo "            <h2>$icon $title</h2>"
-            
-            for shortcut in "${!binds_ref[@]}"; do
-                local description="${binds_ref[$shortcut]}"
-                # Format the shortcut keys
-                local formatted_shortcut=$(echo "$shortcut" | sed 's/+/<\/span> + <span class="key">/g')
-                formatted_shortcut="<span class=\"key\">$formatted_shortcut</span>"
-                
-                echo "            <div class=\"shortcut-row\">"
-                echo "                <span class=\"shortcut\">$formatted_shortcut</span>"
-                echo "                <span class=\"description\">$description</span>"
-                echo "            </div>"
-            done
-            
-            echo "        </div>"
-        fi
-    }
-    
-    generate_section "System Controls" "🖥️" system_binds >> "$html_file"
-    generate_section "Navigation" "🧭" navigation_binds >> "$html_file"
-    generate_section "Applications" "🚀" app_binds >> "$html_file"
-    generate_section "Media Controls" "🎵" media_binds >> "$html_file"
-    generate_section "Other" "⚙️" other_binds >> "$html_file"
-    
-    cat >> "$html_file" << 'EOF'
-        </div>
-    </div>
-</body>
-</html>
-EOF
 }
 
-# Main execution
-if [[ "$1" == "--generate" ]]; then
-    create_shortcut_html
-    echo "Shortcuts HTML generated at $HOME/.config/hypr/shortcuts.html"
-elif [[ "$1" == "--show" ]]; then
-    create_shortcut_html
-    xdg-open "$HOME/.config/hypr/shortcuts.html"
-else
-    echo "Usage: $0 [--generate|--show]"
-    echo "  --generate  Generate HTML file only"
-    echo "  --show      Generate and open HTML file"
-fi
+show_shortcuts_rofi() {
+    if ! command -v rofi >/dev/null 2>&1; then
+        echo "rofi is not installed or not in PATH" >&2
+        exit 1
+    fi
+
+    if ! command -v hyprctl >/dev/null 2>&1; then
+        echo "hyprctl is not installed or not in PATH" >&2
+        exit 1
+    fi
+
+    collect_shortcuts
+
+    local -a entries=()
+
+    add_section() {
+        local title=$1
+        declare -n binds_ref=$2
+        local icon=$3
+
+        if [[ ${#binds_ref[@]} -eq 0 ]]; then
+            return
+        fi
+
+        entries+=("<span weight='bold' color='#9ece6a'>$icon $title</span>")
+
+        local shortcut
+        while IFS= read -r shortcut; do
+            local description=${binds_ref[$shortcut]}
+            local formatted_shortcut formatted_desc
+            formatted_shortcut=$(escape_markup "$(format_shortcut "$shortcut")")
+            formatted_desc=$(escape_markup "$description")
+            entries+=("<span weight='bold'>$formatted_shortcut</span>  <span size='smaller'>$formatted_desc</span>")
+        done < <(printf '%s\n' "${!binds_ref[@]}" | sort)
+
+        entries+=(" ")
+    }
+
+    add_section "System Controls" system_binds "🖥️"
+    add_section "Navigation" navigation_binds "🧭"
+    add_section "Applications" app_binds "🚀"
+    add_section "Media Controls" media_binds "🎵"
+    add_section "Other" other_binds "⚙️"
+
+    if [[ ${#entries[@]} -eq 0 ]]; then
+        entries+=("No shortcuts found")
+    fi
+
+    printf '%s\n' "${entries[@]}" | rofi -dmenu -markup-rows -i -p "Hyprland Shortcuts" -width 80 >/dev/null
+}
+
+usage() {
+    echo "Usage: $0 [--show]"
+    echo "  --show  Display Hyprland shortcuts inside rofi"
+}
+
+case ${1:-} in
+    --show|"")
+        show_shortcuts_rofi
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac
