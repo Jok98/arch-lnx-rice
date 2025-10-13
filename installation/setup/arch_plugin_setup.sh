@@ -4,7 +4,7 @@ set -o pipefail
 
 # =======================
 # Desktop Environment Setup Script
-# Hyprland components, cursors, hyprWorkspaceLayouts plugin, Zsh plugins
+# Hyprland components, cursors, hyprWorkspaceLayouts plugin, Hyprexpo, Zsh plugins
 # =======================
 
 installed_components=()
@@ -46,7 +46,7 @@ install_zsh_plugin() {
   local plugin_name="$1"
   local plugin_url="$2"
   local plugin_dir="$3"
-  
+
   if [ -d "$plugin_dir" ]; then
     log "✅ $plugin_name già installato."
     skipped_components+=("$plugin_name")
@@ -161,42 +161,34 @@ fi
 # Hyprland hyprWorkspaceLayouts plugin
 # =======================
 install_hypr_workspace_layouts_plugin() {
-  # Check if hyprpm is available
   if ! command -v hyprpm >/dev/null 2>&1; then
     log "❌ hyprpm non trovato. Assicurati che Hyprland sia installato."
     failed_components+=("hyprWorkspaceLayouts plugin (hyprpm missing)")
     return 1
   fi
 
-  # Check if hyprWorkspaceLayouts is already installed/enabled
   if hyprpm list | grep -qi "hyprWorkspaceLayouts"; then
     log "✅ Plugin hyprWorkspaceLayouts già installato/abilitato."
     skipped_components+=("hyprWorkspaceLayouts plugin")
     return 0
   fi
 
-  # Install required build dependencies before installing the plugin
   install_pkgs "hyprWorkspaceLayouts deps (meson cpio cmake)" meson cpio cmake
 
-  # Update hyprpm before attempting installation
   log "↻ Eseguo 'hyprpm update' prima dell'installazione del plugin..."
   if ! hyprpm update; then
     log "⚠️ 'hyprpm update' non è riuscito. Riproverò dopo aver aggiunto il repository del plugin."
   fi
 
   log "📦 Installing hyprWorkspaceLayouts plugin per Hyprland..."
-
-  # Add the plugin repository (idempotente)
   if ! hyprpm add https://github.com/zakk4223/hyprWorkspaceLayouts; then
     log "ℹ️ Repository hyprWorkspaceLayouts forse già aggiunto, continuo..."
   fi
 
-  # Update again to make sure new repo is fetched
   if ! hyprpm update; then
     log "⚠️ Impossibile aggiornare dopo l'aggiunta del repository, continuo comunque..."
   fi
 
-  # Enable the plugin
   if hyprpm enable hyprWorkspaceLayouts; then
     installed_components+=("hyprWorkspaceLayouts plugin")
     log "✅ Plugin hyprWorkspaceLayouts installato e abilitato."
@@ -206,8 +198,66 @@ install_hypr_workspace_layouts_plugin() {
   fi
 }
 
-# Install hyprWorkspaceLayouts plugin
+# =======================
+# Hyprland Hyprexpo plugin
+# =======================
+install_hyprexpo_plugin() {
+  if ! command -v hyprpm >/dev/null 2>&1; then
+    log "❌ hyprpm non trovato. Salto hyprexpo."
+    failed_components+=("hyprexpo plugin (hyprpm missing)")
+    return 1
+  fi
+
+  # già presente/enabled?
+  if hyprpm list | grep -qiE "hyprexpo"; then
+    log "✅ hyprexpo già presente/enabled su hyprpm."
+    skipped_components+=("hyprexpo plugin")
+    return 0
+  fi
+
+  # deps build frequenti
+  install_pkgs "hyprexpo deps (meson cpio cmake ninja gcc pkgconf)" meson cpio cmake ninja gcc pkgconf
+
+  # repo ufficiale plugin
+  if ! hyprpm add https://github.com/hyprwm/hyprland-plugins; then
+    log "ℹ️ Repo hyprland-plugins forse già aggiunto, continuo..."
+  fi
+
+  # update e build
+  if ! hyprpm update; then
+    log "⚠️ hyprpm update ha dato errore. Provo comunque l'enable."
+  fi
+
+  if hyprpm enable hyprexpo; then
+    installed_components+=("hyprexpo plugin (hyprpm)")
+    log "✅ hyprexpo abilitato via hyprpm."
+    hyprpm reload || true
+    return 0
+  fi
+
+  log "ℹ️ hyprexpo non abilitato via hyprpm (plugin mancante o build fallita). Provo AUR."
+
+  # Fallback AUR
+  if command -v yay >/dev/null 2>&1; then
+    if yay -S --needed --noconfirm hyprland-plugin-hyprexpo; then
+      installed_components+=("hyprexpo plugin (AUR)")
+      log "✅ hyprexpo installato via AUR. Abilitalo con hyprpm o caricalo via hyprctl se necessario."
+      return 0
+    else
+      failed_components+=("hyprexpo plugin (AUR)")
+      log "❌ Installazione AUR fallita per hyprexpo."
+      return 1
+    fi
+  else
+    failed_components+=("hyprexpo plugin (no hyprpm enable, no yay)")
+    log "⚠️ yay non disponibile. Salto fallback AUR per hyprexpo."
+    return 1
+  fi
+}
+
+# Install plugins
 install_hypr_workspace_layouts_plugin
+install_hyprexpo_plugin
 
 # =======================
 # Final summary
@@ -226,5 +276,3 @@ fi
 printf "===============================================================\n\n"
 
 log "✅ Setup desktop environment completato."
-log "ℹ️ Per caricare i plugin Zsh ora: source ~/.zshrc"
-log "ℹ️ Riavvia Hyprland per attivare il plugin hyprWorkspaceLayouts."
