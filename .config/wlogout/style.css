@@ -8,7 +8,9 @@ window {
 }
 
 button {
-    border-radius: 0;
+    border-radius: 150px;
+    margin: 150px;
+    padding: 150px;
     border-color: rgba(255, 192, 164, 0.60);
     text-decoration-color: #ffc0a4;
     color: #ffc0a4;
@@ -17,10 +19,10 @@ button {
     border-width: 0px;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 25%;
+    background-size: 30%;
 }
 
-button:focus, button:active, button:hover {
+button:hover {
     background-color: rgba(229, 164, 255, 0.10);
     outline-style: none;
 }

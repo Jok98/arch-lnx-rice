@@ -1,28 +1,4 @@
 {
-    "label" : "void",
-    "action" : "",
-    "text" : "",
-    "keybind" : ""
-}
-{
-    "label" : "void",
-    "action" : "",
-    "text" : "",
-    "keybind" : ""
-}
-{
-    "label" : "void",
-    "action" : "",
-    "text" : "",
-    "keybind" : ""
-}
-{
-    "label" : "void",
-    "action" : "",
-    "text" : "",
-    "keybind" : ""
-}
-{
     "label" : "suspend",
     "action" : "systemctl suspend",
     "text" : "",
@@ -51,28 +27,4 @@
     "action" : "systemctl reboot",
     "text" : "",
     "keybind" : "r"
-}
-{
-    "label" : "void",
-    "action" : "",
-    "text" : "",
-    "keybind" : ""
-}
-{
-    "label" : "void",
-    "action" : "",
-    "text" : "",
-    "keybind" : ""
-}
-{
-    "label" : "void",
-    "action" : "",
-    "text" : "",
-    "keybind" : ""
-}
-{
-    "label" : "void",
-    "action" : "",
-    "text" : "",
-    "keybind" : ""
 }
