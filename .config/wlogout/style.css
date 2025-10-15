@@ -5,12 +5,15 @@
 
 window {
     background-color: rgba(26, 35, 50, 0.40);
+    padding: 32px;
 }
 
 button {
-    border-radius: 150px;
-    margin: 150px;
-    padding: 150px;
+    border-radius: 60px;
+    margin: 16px;
+    padding: 28px;
+    min-width: 112px;
+    min-height: 112px;
     border-color: rgba(255, 192, 164, 0.60);
     text-decoration-color: #ffc0a4;
     color: #ffc0a4;
@@ -19,7 +22,7 @@ button {
     border-width: 0px;
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 30%;
+    background-size: 28%;
 }
 
 button:hover {
