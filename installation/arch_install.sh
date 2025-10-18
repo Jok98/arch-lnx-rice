@@ -26,10 +26,8 @@ ask_choice() {
   done
 
   local PS3="Seleziona un'opzione: "
-  
   echo >&2
   echo "$prompt" >&2
-  
   select opt in "${labels[@]}"; do
     if [[ -n "$opt" ]]; then
       idx=$((REPLY-1))
@@ -80,13 +78,11 @@ echo
 
 while true; do
   DISK_NAME=$(ask_input_mandatory "Inserisci il nome del disco su cui installare (es. sda o nvme0n1)")
-  
   if [[ "$DISK_NAME" == /dev/* ]]; then
     DISK="$DISK_NAME"
   else
     DISK="/dev/$DISK_NAME"
   fi
-
   if [[ -b "$DISK" ]]; then
     say "Disco selezionato: $DISK"
     break
@@ -108,13 +104,15 @@ GPU_CHOICE=$(ask_choice "Driver GPU" \
   "nvidia::NVIDIA proprietari" \
   "amd::Driver AMD/Mesa" \
   "none::Solo driver open-source (nessun driver dedicato)")
-
-# --- Scelta AUR helper ---
 AUR_HELPER_CHOICE=$(ask_choice "Seleziona un AUR helper da installare" \
   "yay::yay" \
   "paru::paru" \
   "both::Entrambi (yay e paru)" \
   "none::Nessuno")
+# >>> MODIFICA: scelta kernel <<<
+KERNEL_CHOICE=$(ask_choice "Seleziona kernel" \
+  "linux::Arch mainline (consigliato)" \
+  "linux-lts::LTS (più stabile)")
 
 # --- Richieste utente obbligatorie ---
 HOSTNAME=$(ask_input_mandatory "Inserisci l'hostname del sistema")
@@ -232,8 +230,10 @@ esac
 
 get_uuid()      { blkid -s UUID -o value "$1"; }
 
+# >>> MODIFICA: write_arch_entry usa il nome del kernel scelto <<<
 write_arch_entry() {
-  local esp="$1" root_uuid="$2" fs_type="$3" gpu_choice="$4" ucode_line="" options
+  local esp="$1" root_uuid="$2" fs_type="$3" gpu_choice="$4" kpkg="$5"
+  local ucode_line="" options img_vmlinux img_initramfs
   options="options root=UUID=${root_uuid} rw"
   [ -f /mnt/boot/intel-ucode.img ] && ucode_line="initrd  /intel-ucode.img"
   [ -f /mnt/boot/amd-ucode.img ]   && ucode_line="initrd  /amd-ucode.img"
@@ -243,11 +243,13 @@ write_arch_entry() {
   if [[ "$gpu_choice" == "nvidia" ]]; then
     options+=" nvidia_drm.modeset=1"
   fi
+  img_vmlinux="/vmlinuz-${kpkg}"
+  img_initramfs="/initramfs-${kpkg}.img"
   cat >"$esp/loader/entries/arch.conf" <<EOT
-title   Arch Linux
-linux   /vmlinuz-linux
+title   Arch Linux (${kpkg})
+linux   ${img_vmlinux}
 $ucode_line
-initrd  /initramfs-linux.img
+initrd  ${img_initramfs}
 $options
 EOT
 }
@@ -275,6 +277,7 @@ echo "  Bootloader: $BOOT_LABEL"
 echo "  Desktop: Hyprland (Wayland) + Firefox"
 echo "  GPU: $GPU_LABEL"
 echo "  AUR Helper: $AUR_LABEL"
+echo "  Kernel: $KERNEL_CHOICE"
 echo "  Hostname: $HOSTNAME | Utente: $USERNAME"
 echo "  Locale: $LOCALE | Keymap: $KEYMAP"
 echo "  Timezone: $TIMEZONE | Swap: $SWAP_SIZE"
@@ -341,7 +344,8 @@ mount "$ESP" /mnt/boot
 
 # --- pacstrap ---
 say "Installing base system..."
-BASE_PACKAGES=(base linux linux-firmware vim sudo networkmanager iwd git base-devel curl)
+# >>> MODIFICA: kernel scelto + headers + PPP + openfortivpn <<<
+BASE_PACKAGES=(base "$KERNEL_CHOICE" "${KERNEL_CHOICE}-headers" linux-firmware vim sudo networkmanager iwd git base-devel curl ppp openfortivpn)
 if [[ "$FILESYSTEM_CHOICE" == "btrfs" ]]; then
   BASE_PACKAGES+=(btrfs-progs)
 fi
@@ -377,12 +381,10 @@ echo "[+] Configuring for user: $USERNAME"
 ln -sf /usr/share/zoneinfo/${TIMEZONE} /etc/localtime
 hwclock --systohc
 
-# >>>>>>>>>>>> MODIFICA INIZIO (Locale) <<<<<<<<<<<<
-# Locale setup - Robust version
+# Locale setup
 echo "[+] Configuring locale..."
 sed -i "s/^#\(${LOCALE}\)/\1/" /etc/locale.gen
 locale-gen
-# >>>>>>>>>>>> MODIFICA FINE (Locale) <<<<<<<<<<<<
 echo "LANG=${LOCALE}" > /etc/locale.conf
 echo "KEYMAP=${KEYMAP}" > /etc/vconsole.conf
 
@@ -429,6 +431,15 @@ if lscpu | grep -qi amd; then
     pacman --noconfirm -S amd-ucode
 fi
 
+# >>> MODIFICA: PPP + openfortivpn + moduli al boot <<<
+echo "[+] Installing PPP and openfortivpn (already pacstrapped) and loading PPP modules at boot..."
+cat >/etc/modules-load.d/ppp.conf <<'EOT'
+ppp_generic
+ppp_async
+ppp_mppe
+ppp_deflate
+EOT
+
 # Bootloader
 case "$BOOTLOADER_CHOICE" in
   systemd-boot)
@@ -442,6 +453,71 @@ case "$BOOTLOADER_CHOICE" in
     grub-mkconfig -o /boot/grub/grub.cfg
     ;;
 esac
+
+# Audio + Bluetooth
+echo "[+] Installing audio and bluetooth..."
+pacman --noconfirm -S pipewire pipewire-alsa pipewire-pulse wireplumber bluez bluez-utils
+systemctl enable bluetooth
+
+# GPU drivers
+case "$GPU_CHOICE" in
+  nvidia)
+    echo "[+] Installing NVIDIA drivers..."
+    pacman --noconfirm --needed -S nvidia nvidia-utils nvidia-settings egl-wayland
+    echo "options nvidia_drm modeset=1" > /etc/modprobe.d/nvidia.conf
+    mkinitcpio -P
+    ;;
+  amd)
+    echo "[+] Installing AMD/Mesa stack..."
+    pacman --noconfirm --needed -S mesa vulkan-radeon libva-mesa-driver mesa-vdpau xf86-video-amdgpu
+    ;;
+  none)
+    echo "[+] Installing open-source Mesa drivers..."
+    pacman --noconfirm --needed -S mesa vulkan-mesa-layers
+    ;;
+esac
+
+# Hyprland and desktop tools
+echo "[+] Installing Hyprland and desktop tools..."
+pacman --noconfirm -S hyprland xorg-xwayland xdg-desktop-portal-hyprland xdg-desktop-portal \
+  waybar hyprpaper rofi-wayland kitty alacritty firefox network-manager-applet \
+  noto-fonts noto-fonts-cjk ttf-jetbrains-mono ttf-font-awesome \
+  fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
+  grim slurp swappy wl-clipboard playerctl hyprlock pam mousepad wev
+
+# Zsh and plugins
+echo "[+] Installing zsh and plugins..."
+pacman --noconfirm --needed -S zsh zsh-autosuggestions zsh-syntax-highlighting
+if ! grep -q '^/bin/zsh$' /etc/shells 2>/dev/null; then
+  echo /bin/zsh >> /etc/shells
+fi
+usermod -s /bin/zsh "${USERNAME}" || true
+usermod -s /bin/zsh root || true
+
+# Oh My Zsh
+echo "[+] Setting up Oh My Zsh for user ${USERNAME} and root..."
+USER_HOME="/home/${USERNAME}"
+sudo -u "${USERNAME}" sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
+sed -i 's/^plugins=(git)$/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "${USER_HOME}/.zshrc"
+sed -i 's/^plugins=(git)$/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "/root/.zshrc"
+
+# Pacman config
+echo "[+] Configuring pacman..."
+sed -i 's/^#Color/Color/' /etc/pacman.conf
+sed -i 's/^#ParallelDownloads = .*/ParallelDownloads = 10/' /etc/pacman.conf
+
+# greetd (display manager) -> Hyprland
+echo "[+] Setting up greetd display manager..."
+pacman --noconfirm -S greetd
+cat >/etc/greetd/config.toml <<'EOT'
+[terminal]
+vt = 1
+[default_session]
+command = "agreety --cmd Hyprland"
+user = "greeter"
+EOT
+systemctl enable greetd
 
 # Swapfile setup
 echo "[+] Creating swapfile..."
@@ -460,100 +536,20 @@ chmod 600 /swap/swapfile
 swapon /swap/swapfile
 echo '/swap/swapfile none swap defaults 0 0' >> /etc/fstab
 
-# Audio + Bluetooth
-echo "[+] Installing audio and bluetooth..."
-pacman --noconfirm -S pipewire pipewire-alsa pipewire-pulse wireplumber bluez bluez-utils
-systemctl enable bluetooth
-
-# GPU drivers
-case "$GPU_CHOICE" in
-  nvidia)
-    echo "[+] Installing NVIDIA drivers..."
-    pacman --noconfirm --needed -S nvidia nvidia-utils nvidia-settings
-    mkinitcpio -P
-    ;;
-  amd)
-    echo "[+] Installing AMD/Mesa stack..."
-    pacman --noconfirm --needed -S mesa vulkan-radeon libva-mesa-driver mesa-vdpau xf86-video-amdgpu
-    ;;
-  none)
-    echo "[+] Installing open-source Mesa drivers..."
-    pacman --noconfirm --needed -S mesa vulkan-mesa-layers
-    ;;
-esac
-
-# >>>>>>>>>>>> MODIFICA INIZIO (Pacchetti Desktop) <<<<<<<<<<<<
-# Hyprland and desktop environment - Aggiunto xorg-xwayland
-echo "[+] Installing Hyprland and desktop tools..."
-pacman --noconfirm -S hyprland xorg-xwayland xdg-desktop-portal-hyprland xdg-desktop-portal \
-  waybar hyprpaper rofi-wayland kitty alacritty firefox network-manager-applet \
-  noto-fonts noto-fonts-cjk ttf-jetbrains-mono ttf-font-awesome \
-  fastfetch pavucontrol blueman gsimplecal ttf-nerd-fonts-symbols-mono \
-  grim slurp swappy wl-clipboard playerctl hyprlock pam mousepad wev
-# >>>>>>>>>>>> MODIFICA FINE (Pacchetti Desktop) <<<<<<<<<<<<
-
-# Zsh and plugins
-echo "[+] Installing zsh and plugins..."
-pacman --noconfirm --needed -S zsh zsh-autosuggestions zsh-syntax-highlighting
-
-# Ensure zsh is in /etc/shells and set as default shell
-if ! grep -q '^/bin/zsh$' /etc/shells 2>/dev/null; then
-  echo /bin/zsh >> /etc/shells
-fi
-usermod -s /bin/zsh "${USERNAME}" || true
-usermod -s /bin/zsh root || true
-
-# Install Oh My Zsh for the user
-echo "[+] Setting up Oh My Zsh for user ${USERNAME}..."
-USER_HOME="/home/${USERNAME}"
-sudo -u "${USERNAME}" sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
-# Install Oh My Zsh for root
-echo "[+] Setting up Oh My Zsh for root..."
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh) --unattended"
-
-# Configure plugins for both user and root
-echo "[+] Configuring Zsh plugins..."
-sed -i 's/^plugins=(git)$/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "${USER_HOME}/.zshrc"
-sed -i 's/^plugins=(git)$/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/' "/root/.zshrc"
-
-# Pacman configuration improvements
-echo "[+] Configuring pacman..."
-sed -i 's/^#Color/Color/' /etc/pacman.conf
-sed -i 's/^#ParallelDownloads = .*/ParallelDownloads = 10/' /etc/pacman.conf
-
-# Setup greetd (display manager)
-echo "[+] Setting up greetd display manager..."
-pacman --noconfirm -S greetd
-cat >/etc/greetd/config.toml <<'EOT'
-[terminal]
-vt = 1
-[default_session]
-command = "agreety --cmd Hyprland"
-user = "greeter"
-EOT
-systemctl enable greetd
-
-# Install AUR helper if selected
-if [[ "$AUR_HELPER_CHOICE" != "none" ]]; then
+# AUR helper (opzionale)
+if [[ "${AUR_HELPER_CHOICE}" != "none" ]]; then
     echo "[+] Installing AUR helper(s) for user ${USERNAME}..."
     pacman --noconfirm --needed -S --asdeps base-devel go
-
-    # Create a script to be run as the user
     cat > "/home/${USERNAME}/install_aur_helper.sh" << 'EOFAURINSTALL'
 #!/bin/bash
 set -euo pipefail
-
 HELPER_CHOICE="$1"
-
 install_aur_package() {
     local pkg_name="$1"
     local repo_url="https://aur.archlinux.org/${pkg_name}.git"
-    
     echo ":: Installing ${pkg_name}..."
-    
     TMPDIR="$(mktemp -d)"
     cd "$TMPDIR"
-    
     if git clone --depth 1 "$repo_url"; then
         cd "$pkg_name"
         if makepkg -si --noconfirm --needed; then
@@ -563,33 +559,25 @@ install_aur_package() {
             return 0
         fi
     fi
-    
     echo ":: ERROR: Failed to install ${pkg_name}."
     cd /
     rm -rf "$TMPDIR"
     return 1
 }
-
 if [[ "$HELPER_CHOICE" == "yay" || "$HELPER_CHOICE" == "both" ]]; then
     install_aur_package "yay"
 fi
-
 if [[ "$HELPER_CHOICE" == "paru" || "$HELPER_CHOICE" == "both" ]]; then
     install_aur_package "paru"
 fi
 EOFAURINSTALL
-
     chmod +x "/home/${USERNAME}/install_aur_helper.sh"
     chown "${USERNAME}:${USERNAME}" "/home/${USERNAME}/install_aur_helper.sh"
-
-    # Run the script as the user
     sudo -u "${USERNAME}" /home/"${USERNAME}"/install_aur_helper.sh "${AUR_HELPER_CHOICE}"
-
-    # Clean up the script
     rm "/home/${USERNAME}/install_aur_helper.sh"
 fi
 
-# Fix ownership of all user files
+# Fix ownership user home
 chown -R "${USERNAME}:${USERNAME}" "/home/${USERNAME}"
 
 echo "[+] System configuration completed successfully in chroot"
@@ -609,7 +597,8 @@ if [[ "$BOOTLOADER_CHOICE" == "systemd-boot" ]]; then
   say "Writing boot entry..."
   ROOT_UUID=$(get_uuid "$ROOT") || die "Root UUID not found"
   mkdir -p /mnt/boot/loader/entries
-  write_arch_entry "/mnt/boot" "$ROOT_UUID" "$FILESYSTEM_CHOICE" "$GPU_CHOICE"
+  # >>> MODIFICA: passiamo il kernel scelto <<<
+  write_arch_entry "/mnt/boot" "$ROOT_UUID" "$FILESYSTEM_CHOICE" "$GPU_CHOICE" "$KERNEL_CHOICE"
   final_uuid_fix "$ROOT"
   arch-chroot /mnt bootctl update || true
   chmod 600 /mnt/boot/loader/random-seed 2>/dev/null || true
@@ -618,7 +607,6 @@ else
 fi
 
 say "Installation completed successfully! Unmounting and rebooting..."
-# Ho cambiato la versione qui per tracciare gli aggiornamenti
-echo "V.1.1 | System will reboot in 5 seconds..."
+echo "V.1.2 | System will reboot in 5 seconds..."
 sleep 5
 reboot
