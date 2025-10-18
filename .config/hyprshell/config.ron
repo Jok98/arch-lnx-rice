@@ -1,0 +1,6 @@
+WindowSwitcher(
+    show_icons: true,
+    show_thumbnails: true,
+    thumbnail_size: (300, 200),
+    theme: "dark",
+)

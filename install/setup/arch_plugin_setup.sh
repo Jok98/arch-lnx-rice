@@ -120,6 +120,21 @@ else
 fi
 
 # =======================
+# Hyprshell (AUR)
+# =======================
+if command -v yay >/dev/null 2>&1; then
+  log "📦 Installing hyprshell via yay..."
+  if yay -S --needed --noconfirm hyprshell; then
+    installed_components+=("hyprshell (yay)")
+  else
+    failed_components+=("hyprshell (yay)")
+  fi
+else
+  log "⚠️ yay non trovato; impossibile installare hyprshell (AUR)."
+  skipped_components+=("hyprshell (no yay)")
+fi
+
+# =======================
 # Core applications (Thunar and wlogout)
 # =======================
 # Ensure Thunar file manager
