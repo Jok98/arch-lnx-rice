@@ -135,6 +135,24 @@ else
 fi
 
 # =======================
+# NetworkManager dmenu helper (AUR)
+# =======================
+if command -v networkmanager_dmenu >/dev/null 2>&1; then
+  log "✅ networkmanager_dmenu già installato."
+  skipped_components+=("networkmanager-dmenu-git")
+elif command -v yay >/dev/null 2>&1; then
+  log "📦 Installing networkmanager-dmenu-git via yay..."
+  if yay -S --needed --noconfirm networkmanager-dmenu-git; then
+    installed_components+=("networkmanager-dmenu-git (yay)")
+  else
+    failed_components+=("networkmanager-dmenu-git (yay)")
+  fi
+else
+  log "⚠️ yay non trovato; impossibile installare networkmanager-dmenu-git."
+  skipped_components+=("networkmanager-dmenu-git (no yay)")
+fi
+
+# =======================
 # Core applications (Thunar and wlogout)
 # =======================
 # Ensure Thunar file manager
@@ -150,7 +168,22 @@ if command -v wlogout >/dev/null 2>&1; then
   log "✅ wlogout già installato."
   skipped_components+=("wlogout")
 else
-  install_pkgs "wlogout" wlogout
+  log "📦 Installing wlogout via pacman..."
+  if sudo pacman -S --needed --noconfirm wlogout; then
+    installed_components+=("wlogout (pacman)")
+  else
+    log "ℹ️ Installazione wlogout via pacman fallita o pacchetto mancante. Provo con yay..."
+    if command -v yay >/dev/null 2>&1; then
+      if yay -S --needed --noconfirm wlogout; then
+        installed_components+=("wlogout (yay)")
+      else
+        failed_components+=("wlogout (yay)")
+      fi
+    else
+      log "⚠️ yay non disponibile; impossibile installare wlogout."
+      failed_components+=("wlogout (no yay)")
+    fi
+  fi
 fi
 
 # =======================
