@@ -1215,7 +1215,7 @@ typeset -g POWERLEVEL9K_VCS_CONFLICTED_BACKGROUND='#1a2332'
   typeset -g POWERLEVEL9K_JAVA_VERSION_FOREGROUND=1
   typeset -g POWERLEVEL9K_JAVA_VERSION_BACKGROUND=7
   # Show java version only when in a java project subdirectory.
-  typeset -g POWERLEVEL9K_JAVA_VERSION_PROJECT_ONLY=true
+  typeset -g POWERLEVEL9K_JAVA_VERSION_PROJECT_ONLY=false
   # Show brief version.
   typeset -g POWERLEVEL9K_JAVA_VERSION_FULL=false
   # Custom icon.
