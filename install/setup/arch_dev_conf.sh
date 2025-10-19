@@ -5,8 +5,8 @@ set -o pipefail
 # =======================
 # Config toggles
 # =======================
-: "${SKIP_UPGRADE:=0}"                 # 1 = salta full upgrade
-: "${SDK_JAVA_ID:=21.0.8-zulu}"       # Java 21 (Zulu LTS). Cambia vendor/versione se preferisci.
+: "${SKIP_UPGRADE:=0}"                 # 1 = skip full upgrade
+: "${SDK_JAVA_ID:=21.0.8-zulu}"       # Java 21 (Zulu LTS). Change vendor/version if you prefer.
 
 installed_components=()
 skipped_components=()
@@ -22,8 +22,8 @@ need_cmd() {
 # Sanity checks
 # =======================
 if [ ! -f /etc/arch-release ]; then
-  log "⚠️  Questo script è pensato per Arch Linux. /etc/arch-release non trovato."
-  log "    Continuo comunque tra 2s (Ctrl+C per abortire)"; sleep 2
+  log "⚠️  This script is intended for Arch Linux. /etc/arch-release not found."
+  log "    Continuing in 2s (Ctrl+C to abort)"; sleep 2
 fi
 need_cmd sudo
 need_cmd bash
@@ -47,7 +47,7 @@ else
   fi
 fi
 
-# Helper pacman install idempotente
+# Idempotent pacman install helper
 install_pkgs() {
   local label="$1"; shift
   local pkgs=("$@")
@@ -70,12 +70,12 @@ install_pkgs "base utilities (curl zip unzip)" curl zip unzip
 if ! command -v git >/dev/null 2>&1; then
   install_pkgs "Git" git
 else
-  log "✅ Git già installato."
+  log "✅ Git already installed."
   skipped_components+=("Git")
 fi
 
 # =======================
-# SDKMAN wrappers (sicuri con set -u)
+# SDKMAN wrappers (safe with set -u)
 # =======================
 sdkman_init_safe() {
   local init="$HOME/.sdkman/bin/sdkman-init.sh"
@@ -91,7 +91,7 @@ sdkman_init_safe() {
 }
 
 sdk_safe() {
-  # Esegue `sdk ...` con -u disabilitato per evitare "unbound variable" interni
+  # Run `sdk ...` with -u disabled to avoid internal "unbound variable" errors
   set +u
   sdk "$@"
   local rc=$?
@@ -106,22 +106,22 @@ if [ ! -d "$HOME/.sdkman" ]; then
   log "📥 Installing SDKMAN..."
   if curl -s "https://get.sdkman.io" | bash; then
     installed_components+=("SDKMAN")
-    sdkman_init_safe || { log "⚠️ SDKMAN init fallita (continuo)"; skipped_components+=("SDKMAN init"); }
+    sdkman_init_safe || { log "⚠️ SDKMAN init failed (continuing)"; skipped_components+=("SDKMAN init"); }
   else
     log "❌ SDKMAN installation failed."
     failed_components+=("SDKMAN")
   fi
 else
-  log "✅ SDKMAN già installato."
+  log "✅ SDKMAN already installed."
   skipped_components+=("SDKMAN")
-  sdkman_init_safe || { log "⚠️ SDKMAN init fallita (continuo)"; skipped_components+=("SDKMAN init"); }
+  sdkman_init_safe || { log "⚠️ SDKMAN init failed (continuing)"; skipped_components+=("SDKMAN init"); }
 fi
 
 # =======================
-# Java 21 (via SDKMAN con fallback pacman)
+# Java 21 (via SDKMAN with pacman fallback)
 # =======================
 install_java21_with_sdkman() {
-  # richiede che sdkman_init_safe sia già stato chiamato
+  # requires sdkman_init_safe to have been called already
   if ! sdk_safe current java 2>/dev/null | grep -qE 'Using.*\b21(\.|$)'; then
     log "☕ Installing Java (SDKMAN) ${SDK_JAVA_ID}..."
     if sdk_safe install java "${SDK_JAVA_ID}" && sdk_safe default java "${SDK_JAVA_ID}"; then
@@ -132,7 +132,7 @@ install_java21_with_sdkman() {
       return 1
     fi
   else
-    log "✅ Java 21 già attivo: $( (sdk_safe current java) || true )"
+    log "✅ Java 21 already active: $( (sdk_safe current java) || true )"
     skipped_components+=("Java 21")
     return 0
   fi
@@ -140,7 +140,7 @@ install_java21_with_sdkman() {
 
 if command -v sdk >/dev/null 2>&1 && sdkman_init_safe; then
   if ! install_java21_with_sdkman; then
-    log "➡️  Fallback: installo Java 21 via pacman (jdk21-openjdk)..."
+    log "➡️  Fallback: installing Java 21 via pacman (jdk21-openjdk)..."
     if sudo pacman -S --needed --noconfirm jdk21-openjdk; then
       installed_components+=("Java (jdk21-openjdk)")
     else
@@ -148,7 +148,7 @@ if command -v sdk >/dev/null 2>&1 && sdkman_init_safe; then
     fi
   fi
 else
-  log "⚠️ SDKMAN non inizializzato; installo Java 21 via pacman (jdk21-openjdk)..."
+  log "⚠️ SDKMAN not initialized; installing Java 21 via pacman (jdk21-openjdk)..."
   if sudo pacman -S --needed --noconfirm jdk21-openjdk; then
     installed_components+=("Java (jdk21-openjdk)")
   else
@@ -157,7 +157,7 @@ else
 fi
 
 # =======================
-# Maven (SDKMAN con fallback pacman)
+# Maven (SDKMAN with pacman fallback)
 # =======================
 if ! command -v mvn >/dev/null 2>&1; then
   if command -v sdk >/dev/null 2>&1 && sdkman_init_safe; then
@@ -169,11 +169,11 @@ if ! command -v mvn >/dev/null 2>&1; then
       install_pkgs "Maven" maven
     fi
   else
-    log "⚠️ SDKMAN assente; installo Maven via pacman."
+    log "⚠️ SDKMAN unavailable; installing Maven via pacman."
     install_pkgs "Maven" maven
   fi
 else
-  log "✅ Maven già installato."
+  log "✅ Maven already installed."
   skipped_components+=("Maven")
 fi
 
@@ -182,7 +182,7 @@ fi
 # =======================
 install_helm_binary() {
   if command -v helm >/dev/null 2>&1; then
-    log "✅ Helm già installato: $(helm version --short 2>/dev/null || echo '?')"
+    log "✅ Helm already installed: $(helm version --short 2>/dev/null || echo '?')"
     skipped_components+=("Helm")
     return
   fi
@@ -190,7 +190,7 @@ install_helm_binary() {
   local HELM_VERSION
   HELM_VERSION=$(curl -s https://api.github.com/repos/helm/helm/releases/latest | grep tag_name | cut -d '"' -f 4)
   if [ -z "${HELM_VERSION:-}" ]; then
-    log "❌ Impossibile recuperare l'ultima versione Helm."
+    log "❌ Unable to retrieve the latest Helm release."
     failed_components+=("Helm")
     return
   fi
@@ -198,7 +198,7 @@ install_helm_binary() {
   curl -LO "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz"
   curl -LO "https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz.sha256sum"
   if ! sha256sum -c "helm-${HELM_VERSION}-linux-amd64.tar.gz.sha256sum" --quiet; then
-    log "❌ Verifica checksum Helm fallita."
+    log "❌ Helm checksum verification failed."
     failed_components+=("Helm")
     rm -f "helm-${HELM_VERSION}-linux-amd64.tar.gz"*
     return
@@ -218,11 +218,11 @@ if ! command -v helm >/dev/null 2>&1; then
   if sudo pacman -S --needed --noconfirm helm; then
     installed_components+=("Helm (pacman)")
   else
-    log "⚠️ pacman Helm fallito; uso binary fallback."
+    log "⚠️ pacman Helm installation failed; using binary fallback."
     install_helm_binary
   fi
 else
-  log "✅ Helm già installato."
+  log "✅ Helm already installed."
   skipped_components+=("Helm")
 fi
 
@@ -231,24 +231,24 @@ fi
 # =======================
 if ! command -v docker >/dev/null 2>&1; then
   install_pkgs "Docker" docker
-  log "⚙️ Abilito e avvio servizio Docker..."
+  log "⚙️ Enabling and starting Docker service..."
   if sudo systemctl enable --now docker; then
     installed_components+=("Docker service enabled")
   else
     failed_components+=("Docker service enable")
   fi
 else
-  log "✅ Docker già installato."
+  log "✅ Docker already installed."
   skipped_components+=("Docker")
   sudo systemctl enable --now docker || true
 fi
 
-# docker group membership (idempotente)
+# docker group membership (idempotent)
 if groups "$USER" | grep -qw docker; then
-  log "✅ Utente '$USER' già nel gruppo 'docker'."
+  log "✅ User '$USER' already in the 'docker' group."
   skipped_components+=("docker group membership")
 else
-  log "👤 Aggiungo '$USER' al gruppo 'docker'..."
+  log "👤 Adding '$USER' to the 'docker' group..."
   if sudo usermod -aG docker "$USER"; then
     installed_components+=("docker group membership")
   else
@@ -262,7 +262,7 @@ fi
 if ! command -v kubectl >/dev/null 2>&1; then
   install_pkgs "kubectl" kubectl
 else
-  log "✅ kubectl già installato."
+  log "✅ kubectl already installed."
   skipped_components+=("kubectl")
 fi
 
@@ -282,11 +282,11 @@ if ! command -v k3d >/dev/null 2>&1; then
   if sudo pacman -S --needed --noconfirm k3d; then
     installed_components+=("k3d (pacman)")
   else
-    log "⚠️ pacman k3d fallito; uso upstream installer."
+    log "⚠️ pacman k3d installation failed; using upstream installer."
     install_k3d_fallback
   fi
 else
-  log "✅ k3d già installato."
+  log "✅ k3d already installed."
   skipped_components+=("k3d")
 fi
 
@@ -296,7 +296,7 @@ fi
 if ! command -v npm >/dev/null 2>&1; then
   install_pkgs "Node.js and npm" nodejs npm
 else
-  log "✅ Node.js e npm già installati."
+  log "✅ Node.js and npm already installed."
   skipped_components+=("Node.js and npm")
 fi
 
@@ -316,6 +316,6 @@ else
 fi
 printf "===============================================================\n\n"
 
-log "✅ Tutti i componenti di sviluppo sono installati/configurati."
-log "ℹ️ Se sei stato aggiunto al gruppo 'docker', riapri la sessione o esegui: newgrp docker"
-log "ℹ️ Per installare i componenti desktop (Hyprland, cursori, plugin), esegui: ./installation/desktop_setup.sh"
+log "✅ All development components installed/configured."
+log "ℹ️ If you were added to the 'docker' group, reopen your session or run: newgrp docker"
+log "ℹ️ To install desktop components (Hyprland, cursors, plugins), run: ./installation/desktop_setup.sh"
