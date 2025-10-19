@@ -29,12 +29,6 @@ window#waybar {
     color: #ffc0a4;
 }
 
-#workspaces button.active {
-    background: #e5a4ff;
-    color: #1a2332;
-    box-shadow: 0 2px 8px rgba(229, 164, 255, 0.35);
-}
-
 /* Bar background with sunset theme */
 /* Per bordo gradient più spesso */
 window#waybar {
@@ -83,9 +77,9 @@ window#waybar {
 
 #workspaces button.active {
     background: linear-gradient(135deg,
-    rgba(85, 0, 143, 0.63) 0%,  /* #C77DFF */
-    rgba(39, 0, 97, 0.63) 50%,  /* deeper purple mix */
-    rgba(44, 54, 69, 0.5) 100%    /* #2a3442 */);
+    rgba(122, 162, 247, 0.35) 0%,  /* #7AA2F7 */
+    rgba(199, 125, 255, 0.30) 50%, /* #C77DFF */
+    rgba(42, 52, 66, 0.25) 100%    /* #2a3442 */);
     color: #1a2332; /* inverted for contrast on accent bg */
     box-shadow: 0 2px 8px rgba(199, 125, 255, 0.35);
 }
