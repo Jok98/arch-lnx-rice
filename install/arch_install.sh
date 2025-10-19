@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ====== CONFIG (puoi cambiarli) ======
-LOCALE="en_US.UTF-8"         # lingua sistema
-KEYMAP="us"                  # layout tastiera console
+# ====== CONFIG (you can change them) ======
+LOCALE="en_US.UTF-8"         # system language
+KEYMAP="us"                  # console keyboard layout
 TIMEZONE="Europe/Rome"
 SWAP_SIZE="8G"
 # =====================================
@@ -25,7 +25,7 @@ ask_choice() {
     labels+=("${opt##*::}")
   done
 
-  local PS3="Seleziona un'opzione: "
+  local PS3="Choose an option: "
   echo >&2
   echo "$prompt" >&2
   select opt in "${labels[@]}"; do
@@ -34,7 +34,7 @@ ask_choice() {
       printf '%s\n' "${values[$idx]}"
       return 0
     fi
-    echo "Scelta non valida, riprova." >&2
+    echo "Invalid choice, try again." >&2
   done < /dev/tty
 }
 
@@ -48,7 +48,7 @@ ask_input_mandatory() {
       printf '%s\n' "$value"
       return 0
     else
-      echo "Input non può essere vuoto." >&2
+      echo "Input cannot be empty." >&2
     fi
   done
 }
@@ -64,112 +64,112 @@ ask_secret_mandatory() {
       printf '%s\n' "$value"
       return 0
     else
-      echo "La password non può essere vuota." >&2
+      echo "Password cannot be empty." >&2
     fi
   done
 }
 
 need_cmd pacstrap; need_cmd lsblk; need_cmd blkid; need_cmd mkfs.fat
 
-# --- Selezione interattiva del disco ---
-say "Selezione del disco di installazione"
+# --- Interactive disk selection ---
+say "Select the installation disk"
 lsblk -o NAME,MODEL,SIZE,TYPE,MOUNTPOINTS | grep -v 'loop'
 echo
 
 while true; do
-  DISK_NAME=$(ask_input_mandatory "Inserisci il nome del disco su cui installare (es. sda o nvme0n1)")
+  DISK_NAME=$(ask_input_mandatory "Enter the disk name to install onto (e.g. sda or nvme0n1)")
   if [[ "$DISK_NAME" == /dev/* ]]; then
     DISK="$DISK_NAME"
   else
     DISK="/dev/$DISK_NAME"
   fi
   if [[ -b "$DISK" ]]; then
-    say "Disco selezionato: $DISK"
+    say "Selected disk: $DISK"
     break
   else
-    echo "ERRORE: Dispositivo a blocchi non trovato: $DISK. Riprova." >&2
+    echo "ERROR: Block device not found: $DISK. Try again." >&2
   fi
 done
 
-FILESYSTEM_CHOICE=$(ask_choice "Seleziona filesystem per la partizione root" \
-  "btrfs::Btrfs (subvolumi)" \
-  "ext4::Ext4 (classico)")
-PARTITION_SCHEME=$(ask_choice "Schema di partizionamento" \
-  "auto::Wipe automatico (riscrive l'intero disco)" \
-  "manual::Manuale (usa partizioni esistenti)")
-BOOTLOADER_CHOICE=$(ask_choice "Seleziona bootloader" \
+FILESYSTEM_CHOICE=$(ask_choice "Select filesystem for the root partition" \
+  "btrfs::Btrfs (subvolumes)" \
+  "ext4::Ext4 (standard)")
+PARTITION_SCHEME=$(ask_choice "Partitioning scheme" \
+  "auto::Automatic wipe (overwrites the entire disk)" \
+  "manual::Manual (use existing partitions)")
+BOOTLOADER_CHOICE=$(ask_choice "Select bootloader" \
   "systemd-boot::systemd-boot" \
   "grub::GRUB")
-GPU_CHOICE=$(ask_choice "Driver GPU" \
-  "nvidia::NVIDIA proprietari" \
-  "amd::Driver AMD/Mesa" \
-  "none::Solo driver open-source (nessun driver dedicato)")
-AUR_HELPER_CHOICE=$(ask_choice "Seleziona un AUR helper da installare" \
+GPU_CHOICE=$(ask_choice "GPU driver" \
+  "nvidia::NVIDIA proprietary" \
+  "amd::AMD/Mesa drivers" \
+  "none::Only open-source drivers (no dedicated driver)")
+AUR_HELPER_CHOICE=$(ask_choice "Select an AUR helper to install" \
   "yay::yay" \
   "paru::paru" \
-  "both::Entrambi (yay e paru)" \
-  "none::Nessuno")
-# >>> MODIFICA: scelta kernel <<<
-KERNEL_CHOICE=$(ask_choice "Seleziona kernel" \
-  "linux::Arch mainline (consigliato)" \
-  "linux-lts::LTS (più stabile)")
+  "both::Both (yay and paru)" \
+  "none::None")
+# >>> NOTE: kernel selection <<<
+KERNEL_CHOICE=$(ask_choice "Select kernel" \
+  "linux::Arch mainline (recommended)" \
+  "linux-lts::LTS (more stable)")
 
-# --- Richieste utente obbligatorie ---
-HOSTNAME=$(ask_input_mandatory "Inserisci l'hostname del sistema")
-USERNAME=$(ask_input_mandatory "Inserisci il nome utente amministratore")
-USERPASS=$(ask_secret_mandatory "Inserisci la password per root e ${USERNAME}")
+# --- Mandatory user inputs ---
+HOSTNAME=$(ask_input_mandatory "Enter the system hostname")
+USERNAME=$(ask_input_mandatory "Enter the administrator username")
+USERPASS=$(ask_secret_mandatory "Enter the password for root and ${USERNAME}")
 
-LOCALE_SELECTION=$(ask_choice "Seleziona locale di sistema" \
+LOCALE_SELECTION=$(ask_choice "Select system locale" \
   "en_US.UTF-8::English (US)" \
-  "it_IT.UTF-8::Italiano" \
-  "de_DE.UTF-8::Deutsch" \
-  "es_ES.UTF-8::Español" \
-  "custom::Altro (inserisci manualmente)")
+  "it_IT.UTF-8::Italian (Italy)" \
+  "de_DE.UTF-8::German (Germany)" \
+  "es_ES.UTF-8::Spanish (Spain)" \
+  "custom::Other (enter manually)")
 if [[ "$LOCALE_SELECTION" == "custom" ]]; then
-  LOCALE=$(ask_input_mandatory "Locale completo (es. en_US.UTF-8)")
+  LOCALE=$(ask_input_mandatory "Full locale (e.g. en_US.UTF-8)")
 else
   LOCALE="$LOCALE_SELECTION"
 fi
 
-KEYMAP_SELECTION=$(ask_choice "Layout tastiera per la console" \
+KEYMAP_SELECTION=$(ask_choice "Console keyboard layout" \
   "us::US" \
-  "it::Italiano" \
-  "de::Tedesco" \
-  "fr::Francese" \
-  "es::Spagnolo" \
-  "custom::Altro (inserisci manualmente)")
+  "it::Italian" \
+  "de::German" \
+  "fr::French" \
+  "es::Spanish" \
+  "custom::Other (enter manually)")
 if [[ "$KEYMAP_SELECTION" == "custom" ]]; then
-  KEYMAP=$(ask_input_mandatory "Layout tastiera (es. us, it)")
+  KEYMAP=$(ask_input_mandatory "Keyboard layout (e.g. us, it)")
 else
   KEYMAP="$KEYMAP_SELECTION"
 fi
 
-TIMEZONE_SELECTION=$(ask_choice "Seleziona timezone" \
+TIMEZONE_SELECTION=$(ask_choice "Select timezone" \
   "Europe/Rome::Europe/Rome" \
   "Europe/Berlin::Europe/Berlin" \
   "UTC::UTC" \
   "America/New_York::America/New_York" \
   "Asia/Tokyo::Asia/Tokyo" \
-  "custom::Altro (inserisci manualmente)")
+  "custom::Other (enter manually)")
 if [[ "$TIMEZONE_SELECTION" == "custom" ]]; then
-  TIMEZONE=$(ask_input_mandatory "Timezone (es. Europe/Rome)")
+  TIMEZONE=$(ask_input_mandatory "Timezone (e.g. Europe/Rome)")
 else
   TIMEZONE="$TIMEZONE_SELECTION"
 fi
 
-SWAP_SIZE_SELECTION=$(ask_choice "Dimensione del file di swap" \
+SWAP_SIZE_SELECTION=$(ask_choice "Swap file size" \
   "2G::2 GiB" \
   "4G::4 GiB" \
   "8G::8 GiB" \
   "16G::16 GiB" \
-  "custom::Personalizzata")
+  "custom::Custom size")
 if [[ "$SWAP_SIZE_SELECTION" == "custom" ]]; then
-  SWAP_SIZE=$(ask_input_mandatory "Dimensione swap (es. 8G)")
+  SWAP_SIZE=$(ask_input_mandatory "Swap size (e.g. 8G)")
 else
   SWAP_SIZE="$SWAP_SIZE_SELECTION"
 fi
 
-# path partizioni (gestisce /dev/sda vs /dev/nvme0n1)
+# Partition path helper (handles /dev/sda vs /dev/nvme0n1)
 partpath() {
   local disk="$1" num="$2"
   if [[ "$disk" =~ (nvme|mmcblk|loop|nbd) ]]; then
@@ -182,36 +182,36 @@ ESP="$(partpath "$DISK" 1)"
 ROOT="$(partpath "$DISK" 2)"
 
 if [[ "$PARTITION_SCHEME" == "manual" ]]; then
-  read -r -p "Partizione EFI da usare [$ESP]: " manual_esp < /dev/tty
+  read -r -p "EFI partition to use [$ESP]: " manual_esp < /dev/tty
   ESP="${manual_esp:-$ESP}"
-  read -r -p "Partizione root da usare [$ROOT]: " manual_root < /dev/tty
+  read -r -p "Root partition to use [$ROOT]: " manual_root < /dev/tty
   ROOT="${manual_root:-$ROOT}"
   [[ -b "$ESP" ]] || die "EFI partition not found: $ESP"
   [[ -b "$ROOT" ]] || die "Root partition not found: $ROOT"
 fi
 
 case "$FILESYSTEM_CHOICE" in
-  btrfs) FS_LABEL="Btrfs (subvolumi)" ;;
+  btrfs) FS_LABEL="Btrfs (subvolumes)" ;;
   ext4)  FS_LABEL="Ext4" ;;
 esac
 case "$PARTITION_SCHEME" in
-  auto)   PART_LABEL="Auto-wipe completo" ;;
-  manual) PART_LABEL="Manuale (nessun wipe automatico)" ;;
+  auto)   PART_LABEL="Automatic full wipe" ;;
+  manual) PART_LABEL="Manual (no automatic wipe)" ;;
 esac
 case "$BOOTLOADER_CHOICE" in
   systemd-boot) BOOT_LABEL="systemd-boot" ;;
   grub)         BOOT_LABEL="GRUB" ;;
 esac
 case "$GPU_CHOICE" in
-  nvidia) GPU_LABEL="NVIDIA proprietari" ;;
+  nvidia) GPU_LABEL="NVIDIA proprietary" ;;
   amd)    GPU_LABEL="AMD/Mesa" ;;
-  none)   GPU_LABEL="Solo driver open-source" ;;
+  none)   GPU_LABEL="Open-source drivers only" ;;
 esac
 case "$AUR_HELPER_CHOICE" in
   yay)  AUR_LABEL="yay" ;;
   paru) AUR_LABEL="paru" ;;
-  both) AUR_LABEL="yay e paru" ;;
-  none) AUR_LABEL="Nessuno" ;;
+  both) AUR_LABEL="yay and paru" ;;
+  none) AUR_LABEL="None" ;;
 esac
 
 if [[ "$PARTITION_SCHEME" == "auto" ]]; then
@@ -230,7 +230,7 @@ esac
 
 get_uuid()      { blkid -s UUID -o value "$1"; }
 
-# >>> MODIFICA: write_arch_entry usa il nome del kernel scelto <<<
+# >>> NOTE: write_arch_entry uses the selected kernel name <<<
 write_arch_entry() {
   local esp="$1" root_uuid="$2" fs_type="$3" gpu_choice="$4" kpkg="$5"
   local ucode_line="" options img_vmlinux img_initramfs
@@ -268,9 +268,9 @@ say "Checking network..."
 online || die "No network. Connect first with 'iwctl' (station <iface> connect <SSID>)."
 
 echo "****************************"
-echo "  Arch install configurazione"
-echo "  Disk target: $DISK"
-echo "  Partizionamento: $PART_LABEL"
+echo "  Arch install configuration"
+echo "  Target disk: $DISK"
+echo "  Partitioning: $PART_LABEL"
 echo "  EFI partition: $ESP"
 echo "  Root partition: $ROOT ($FS_LABEL)"
 echo "  Bootloader: $BOOT_LABEL"
@@ -278,18 +278,18 @@ echo "  Desktop: Hyprland (Wayland) + Firefox"
 echo "  GPU: $GPU_LABEL"
 echo "  AUR Helper: $AUR_LABEL"
 echo "  Kernel: $KERNEL_CHOICE"
-echo "  Hostname: $HOSTNAME | Utente: $USERNAME"
+echo "  Hostname: $HOSTNAME | User: $USERNAME"
 echo "  Locale: $LOCALE | Keymap: $KEYMAP"
 echo "  Timezone: $TIMEZONE | Swap: $SWAP_SIZE"
 echo "****************************"
 if [[ "$PARTITION_SCHEME" == "auto" ]]; then
   read -r -p "Type EXACTLY 'YES' to confirm FULL WIPE of $DISK: " CONF < /dev/tty
 else
-  read -r -p "Type EXACTLY 'YES' to continue con il partizionamento manuale (le partizioni selezionate verranno formattate): " CONF < /dev/tty
+  read -r -p "Type EXACTLY 'YES' to continue with manual partitioning (selected partitions will be formatted): " CONF < /dev/tty
 fi
 [[ "$CONF" == "YES" ]] || die "Aborted."
 
-# --- partizionamento ---
+# --- partitioning ---
 case "$PARTITION_SCHEME" in
   auto)
     say "Partitioning $DISK (GPT: ESP 512M + ROOT ${FS_LABEL})..."
@@ -344,7 +344,7 @@ mount "$ESP" /mnt/boot
 
 # --- pacstrap ---
 say "Installing base system..."
-# >>> MODIFICA: kernel scelto + headers + PPP + openfortivpn <<<
+# >>> NOTE: selected kernel + headers + PPP + openfortivpn <<<
 BASE_PACKAGES=(base "$KERNEL_CHOICE" "${KERNEL_CHOICE}-headers" linux-firmware vim sudo networkmanager iwd git base-devel curl ppp openfortivpn)
 if [[ "$FILESYSTEM_CHOICE" == "btrfs" ]]; then
   BASE_PACKAGES+=(btrfs-progs)
@@ -431,7 +431,7 @@ if lscpu | grep -qi amd; then
     pacman --noconfirm -S amd-ucode
 fi
 
-# >>> MODIFICA: PPP + openfortivpn + moduli al boot <<<
+# >>> NOTE: PPP + openfortivpn + modules loaded at boot <<<
 echo "[+] Installing PPP and openfortivpn (already pacstrapped) and loading PPP modules at boot..."
 cat >/etc/modules-load.d/ppp.conf <<'EOT'
 ppp_generic
@@ -536,7 +536,7 @@ chmod 600 /swap/swapfile
 swapon /swap/swapfile
 echo '/swap/swapfile none swap defaults 0 0' >> /etc/fstab
 
-# AUR helper (opzionale)
+# AUR helper (optional)
 if [[ "${AUR_HELPER_CHOICE}" != "none" ]]; then
     echo "[+] Installing AUR helper(s) for user ${USERNAME}..."
     pacman --noconfirm --needed -S --asdeps base-devel go
@@ -577,7 +577,7 @@ EOFAURINSTALL
     rm "/home/${USERNAME}/install_aur_helper.sh"
 fi
 
-# Fix ownership user home
+# Fix ownership of user home
 chown -R "${USERNAME}:${USERNAME}" "/home/${USERNAME}"
 
 echo "[+] System configuration completed successfully in chroot"
@@ -597,16 +597,16 @@ if [[ "$BOOTLOADER_CHOICE" == "systemd-boot" ]]; then
   say "Writing boot entry..."
   ROOT_UUID=$(get_uuid "$ROOT") || die "Root UUID not found"
   mkdir -p /mnt/boot/loader/entries
-  # >>> MODIFICA: passiamo il kernel scelto <<<
+  # >>> NOTE: pass selected kernel <<<
   write_arch_entry "/mnt/boot" "$ROOT_UUID" "$FILESYSTEM_CHOICE" "$GPU_CHOICE" "$KERNEL_CHOICE"
   final_uuid_fix "$ROOT"
   arch-chroot /mnt bootctl update || true
   chmod 600 /mnt/boot/loader/random-seed 2>/dev/null || true
 else
-  say "GRUB configurato all'interno della chroot"
+  say "GRUB configured inside the chroot"
 fi
 
 say "Installation completed successfully! Unmounting and rebooting..."
-echo "V.1.2 | System will reboot in 5 seconds..."
+echo "V.2.0 | System will reboot in 5 seconds..."
 sleep 5
 reboot
