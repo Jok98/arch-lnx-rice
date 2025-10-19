@@ -1,1 +1,0 @@
-- fix wlogout installation
