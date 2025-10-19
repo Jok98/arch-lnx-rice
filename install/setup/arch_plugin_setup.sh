@@ -30,12 +30,89 @@ need_cmd bash
 # Helper pacman install idempotente
 install_pkgs() {
   local label="$1"; shift
-  local pkgs=("$@")
+  local -a pkgs=("$@")
   log "📦 Installing ${label}: ${pkgs[*]}"
   if sudo pacman -S --needed --noconfirm "${pkgs[@]}"; then
     installed_components+=("${label}")
   else
     failed_components+=("${label}")
+  fi
+}
+
+AUR_HELPER="${AUR_HELPER:-}"
+AUR_HELPER_RESOLVED=0
+
+ensure_aur_helper() {
+  if [ -n "${AUR_HELPER:-}" ]; then
+    if command -v "${AUR_HELPER}" >/dev/null 2>&1; then
+      if [ "${AUR_HELPER_RESOLVED}" -eq 0 ]; then
+        log "ℹ️ Utilizzo helper AUR impostato: ${AUR_HELPER}"
+      fi
+      AUR_HELPER_RESOLVED=1
+      return 0
+    else
+      log "⚠️ Helper AUR specificato (${AUR_HELPER}) non trovato. Provo a rilevare automaticamente."
+    fi
+  fi
+
+  AUR_HELPER=""
+  local -a helpers=()
+  command -v yay >/dev/null 2>&1 && helpers+=("yay")
+  command -v paru >/dev/null 2>&1 && helpers+=("paru")
+
+  if [ ${#helpers[@]} -eq 0 ]; then
+    return 1
+  fi
+
+  if [ ${#helpers[@]} -eq 1 ]; then
+    AUR_HELPER="${helpers[1]}"
+    AUR_HELPER_RESOLVED=1
+    log "ℹ️ Utilizzo ${AUR_HELPER} come helper AUR."
+    return 0
+  fi
+
+  if [ ! -t 0 ]; then
+    AUR_HELPER="${helpers[1]}"
+    AUR_HELPER_RESOLVED=1
+    log "ℹ️ Rilevati più helper AUR (${helpers[*]}). Sessione non interattiva: uso ${AUR_HELPER}."
+    return 0
+  fi
+
+  while true; do
+    local input=""
+    if ! read -r "?Seleziona helper AUR (${helpers[*]}): " input; then
+      log "❌ Input interrotto. Nessun helper AUR selezionato."
+      return 1
+    fi
+    for candidate in "${helpers[@]}"; do
+      if [ "${input}" = "${candidate}" ]; then
+        AUR_HELPER="${candidate}"
+        AUR_HELPER_RESOLVED=1
+        log "ℹ️ Utilizzo ${AUR_HELPER} come helper AUR."
+        return 0
+      fi
+    done
+    log "⚠️ Helper '${input}' non valido. Riprova."
+  done
+}
+
+install_aur_pkgs() {
+  local label="$1"; shift
+  local -a pkgs=("$@")
+
+  if ! ensure_aur_helper; then
+    log "⚠️ Nessun helper AUR disponibile per installare ${label}."
+    skipped_components+=("${label} (no AUR helper)")
+    return 2
+  fi
+
+  log "📦 Installing ${label} via ${AUR_HELPER}: ${pkgs[*]}"
+  if "${AUR_HELPER}" -S --needed --noconfirm "${pkgs[@]}"; then
+    installed_components+=("${label} (${AUR_HELPER})")
+    return 0
+  else
+    failed_components+=("${label} (${AUR_HELPER})")
+    return 1
   fi
 }
 
@@ -87,21 +164,16 @@ fi
 # =======================
 install_pkgs "Hyprcursor" hyprcursor
 
-# Install bibata-cursor-theme via yay if available; fallback to pacman if possible
-if command -v yay >/dev/null 2>&1; then
-  log "📦 Installing bibata-cursor-theme via yay..."
-  if yay -S --needed --noconfirm bibata-cursor-theme; then
-    installed_components+=("bibata-cursor-theme (yay)")
-  else
-    failed_components+=("bibata-cursor-theme (yay)")
-  fi
+# Install bibata-cursor-theme via AUR helper if available; fallback to pacman
+if ensure_aur_helper; then
+  install_aur_pkgs "bibata-cursor-theme" bibata-cursor-theme || log "⚠️ Installazione bibata-cursor-theme via ${AUR_HELPER} non riuscita."
 else
-  log "⚠️ yay non trovato; provo via pacman bibata-cursor-theme (se presente nei repo)"
+  log "⚠️ Nessun helper AUR; provo via pacman bibata-cursor-theme (se presente nei repo)"
   if sudo pacman -S --needed --noconfirm bibata-cursor-theme; then
     installed_components+=("bibata-cursor-theme (pacman)")
   else
-    skipped_components+=("bibata-cursor-theme (no yay)")
-    log "⚠️ Impossibile installare bibata-cursor-theme senza yay. Consulta doc/cursor.md"
+    skipped_components+=("bibata-cursor-theme (no AUR helper)")
+    log "⚠️ Impossibile installare bibata-cursor-theme senza un helper AUR. Consulta doc/cursor.md"
   fi
 fi
 
@@ -122,16 +194,8 @@ fi
 # =======================
 # Hyprshell (AUR)
 # =======================
-if command -v yay >/dev/null 2>&1; then
-  log "📦 Installing hyprshell via yay..."
-  if yay -S --needed --noconfirm hyprshell; then
-    installed_components+=("hyprshell (yay)")
-  else
-    failed_components+=("hyprshell (yay)")
-  fi
-else
-  log "⚠️ yay non trovato; impossibile installare hyprshell (AUR)."
-  skipped_components+=("hyprshell (no yay)")
+if ! install_aur_pkgs "hyprshell" hyprshell; then
+  :
 fi
 
 # =======================
@@ -140,16 +204,10 @@ fi
 if command -v networkmanager_dmenu >/dev/null 2>&1; then
   log "✅ networkmanager_dmenu già installato."
   skipped_components+=("networkmanager-dmenu-git")
-elif command -v yay >/dev/null 2>&1; then
-  log "📦 Installing networkmanager-dmenu-git via yay..."
-  if yay -S --needed --noconfirm networkmanager-dmenu-git; then
-    installed_components+=("networkmanager-dmenu-git (yay)")
-  else
-    failed_components+=("networkmanager-dmenu-git (yay)")
-  fi
 else
-  log "⚠️ yay non trovato; impossibile installare networkmanager-dmenu-git."
-  skipped_components+=("networkmanager-dmenu-git (no yay)")
+  if ! install_aur_pkgs "networkmanager-dmenu-git" networkmanager-dmenu-git; then
+    :
+  fi
 fi
 
 # =======================
@@ -172,16 +230,9 @@ else
   if sudo pacman -S --needed --noconfirm wlogout; then
     installed_components+=("wlogout (pacman)")
   else
-    log "ℹ️ Installazione wlogout via pacman fallita o pacchetto mancante. Provo con yay..."
-    if command -v yay >/dev/null 2>&1; then
-      if yay -S --needed --noconfirm wlogout; then
-        installed_components+=("wlogout (yay)")
-      else
-        failed_components+=("wlogout (yay)")
-      fi
-    else
-      log "⚠️ yay non disponibile; impossibile installare wlogout."
-      failed_components+=("wlogout (no yay)")
+    log "ℹ️ Installazione wlogout via pacman fallita o pacchetto mancante. Provo con helper AUR..."
+    if ! install_aur_pkgs "wlogout" wlogout; then
+      :
     fi
   fi
 fi
