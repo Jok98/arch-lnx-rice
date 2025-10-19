@@ -146,6 +146,8 @@ if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}"
       done
     fi
 
+    update-desktop-database ~/.local/share/applications
+
     if ! pgrep -x waybar >/dev/null 2>&1; then
       echo "⚠️ Impossibile confermare l'avvio di Waybar."
       echo "   Suggerimento: esegui dentro Hyprland -> waybar"

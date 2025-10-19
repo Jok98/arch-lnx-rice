@@ -1,51 +1,43 @@
 configuration {
-  /* Modi essenziali - solo quello che usi davvero */
   modi: "drun,run,window";
   show-icons: true;
   icon-theme: "Papirus-Dark";
   font: "JetBrainsMono Nerd Font 13";
   terminal: "kitty";
 
-  /* Ricerca ottimizzata */
   matching: "fuzzy";
   case-sensitive: false;
   sort: true;
   cycle: true;
 
-  /* Layout minimal */
-  sidebar-mode: false;  /* Disabilita sidebar per pulizia */
-  hover-select: true;   /* UX migliorata */
+  sidebar-mode: false;
+  hover-select: true;
   click-to-exit: true;
   auto-select: false;
 
-  /* Display format minimal */
   drun-display-format: "{name}";
   window-format: "{c}: {t}";
 
-  /* Etichette clean */
   display-drun: "Apps";
   display-run: "Run";
   display-window: "Windows";
 
-  /* Dimensioni ottimizzate */
   lines: 8;
   columns: 1;
   width: 30;
-  fixed-num-lines: false;  /* Adattivo */
+  fixed-num-lines: false;
 
-  /* Performance */
   max-history-size: 50;
   disable-history: false;
 
-  /* Apps enhancement minimal */
-  drun-match-fields: "name,exec,categories";
-  drun-show-actions: false;  /* Rimuovi azioni extra */
-  drun-use-desktop-cache: true;
+  /* Cambiamenti chiave ↓ */
+  drun-match-fields: "name,generic,exec,categories,keywords";
+  drun-show-actions: false;
+  drun-use-desktop-cache: false;   /* evita cache stantia */
 
-  /* Window mode minimal */
   window-match-fields: "title,class";
+  /* elimina questa riga su Wayland (wmctrl non serve):
   window-command: "wmctrl -i -R {window}";
+  */
 }
-
-/* Importa tema minimal */
 @import "~/.config/rofi/themes/gradient.rasi"

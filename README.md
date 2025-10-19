@@ -1,6 +1,6 @@
 # Arch Linux Rice
 
-## [Install Arch](installation/arch_install.sh)
+## [Install Arch](install/arch_install.sh)
 On the command line after the first booting :
 ### 1. connect to internet
 ```shell
@@ -17,15 +17,15 @@ ping -c3 archlinux.org
 lsblk -o NAME,SIZE,TYPE,MOUNTPOINTS
 ```
 
-### 3. Run [arch_install.sh](installation/arch_install.sh) script
+### 3. Run [arch_install.sh](install/arch_install.sh) script
 ```shell
-curl -s https://raw.githubusercontent.com/Jok98/arch-lnx-rice/main/installation/arch_install.sh | bash -s nvme0n1
+curl -s https://raw.githubusercontent.com/Jok98/arch-lnx-rice/main/installation/arch_install.sh | bash
 ```
 
 ---
 
-## [Config Arch](installation/arch_conf.sh)
-After the reboot caused by [arch_install.sh](installation/arch_install.sh) script, u'll land on hyprland env.
+## [Config Arch](install/arch_conf.sh)
+After the reboot caused by [arch_install.sh](install/arch_install.sh) script, u'll land on hyprland env.
 
 ### 1. Run Kitty
 `SUPER, Return` or `SUPER, D`
@@ -35,13 +35,13 @@ After the reboot caused by [arch_install.sh](installation/arch_install.sh) scrip
 git clone https://github.com/Jok98/arch-lnx-rice.git
 ```
 
-### 3. [Install Hyprland components and plugins](installation/arch_plugin_setup.sh)
+### 3. [Install Hyprland components and plugins](install/arch_plugin_setup.sh)
 ```shell
 chmod +x arch_plugin_setup.sh
 ./arch_plugin_setup.sh
 ```
 
-### 4. [Install Dev tools](installation/arch_dev_conf.sh)
+### 4. [Install Dev tools](install/arch_dev_conf.sh)
 This script also contains zsh plugins installation required by oh-my-zsh.
 `arch-lnx-rice/installation`
 ```shell
