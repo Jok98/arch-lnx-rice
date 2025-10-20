@@ -9,7 +9,7 @@
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "network", "custom/bluetooth", "battery", "custom/wlogout"],
+  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/vpn", "network", "custom/bluetooth", "battery", "custom/wlogout"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -156,6 +156,13 @@
     "max-length": 50,
     "on-click": "networkmanager_dmenu",
     "on-click-right": "nm-connection-editor"
+  },
+
+  "custom/vpn": {
+    "exec": "~/.config/waybar/scripts/vpn-toggle.sh",
+    "return-type": "json",
+    "interval": 5,
+    "on-click": "~/.config/waybar/scripts/vpn-toggle.sh toggle"
   },
 
   "battery": {
