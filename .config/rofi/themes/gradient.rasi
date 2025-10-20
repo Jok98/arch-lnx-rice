@@ -33,7 +33,7 @@ window {
   background-color: @bg-primary;
   border: 1px;
   border-color: @border-color;
-  border-radius: 14px;
+  border-radius: 3px;
   padding: 20px;
 }
 
@@ -47,7 +47,7 @@ inputbar {
   background-color: @bg-secondary;
   border: 1px;
   border-color: #ffc0a433;
-  border-radius: 12px;
+  border-radius: 3px;
   padding: 12px;
   spacing: 10px;
   children: [ prompt, entry ];
@@ -83,7 +83,7 @@ element {
   text-color: @fg-primary;
   padding: 10px 12px;
   border: 0px;
-  border-radius: 10px;
+  border-radius: 3px;
   spacing: 10px;
   children: [ element-icon, element-text ];
 }
@@ -128,7 +128,7 @@ message {
   background-color: @bg-secondary;
   border: 1px;
   border-color: #ffc0a433;
-  border-radius: 10px;
+  border-radius: 3px;
   padding: 8px 12px;
 }
 
