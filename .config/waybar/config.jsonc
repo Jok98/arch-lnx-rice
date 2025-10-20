@@ -201,6 +201,6 @@
     "format": "󰐥",
     "tooltip": false,
     "tooltip-format": "Click to open power menu",
-    "on-click": "wlogout -b 13 -c 5 -r 5 -m 5 -p layer-shell"
+    "on-click": "wlogout -b 5"
   }
 }
