@@ -1,0 +1,2 @@
+- add gpu cpu ram monitoring on waybar
+- fix tile
