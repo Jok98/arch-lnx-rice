@@ -1,159 +1,217 @@
 #!/bin/zsh
 set -euo pipefail
 
-# Cartella dello script
+# Wait parameters (seconds)
+WAIT_STEPS=40
+WAIT_DELAY=0.25
+FALLBACK_WAIT_STEPS=20
+FALLBACK_WAIT_DELAY=0.25
+SHORT_DELAY=0.05
+
+# Script directory
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 
-# Sorgente e destinazione
+# Source and destination
 SOURCE_DIR="$PARENT_DIR/.config"
 TARGET_DIR="$HOME/.config"
 
-# Controlli di base
+# Basic checks
 if [ ! -d "$SOURCE_DIR" ]; then
-  echo "Errore: sorgente non trovata: $SOURCE_DIR"
+  echo "Error: source not found: $SOURCE_DIR"
   exit 1
 fi
 
-# Assicurati che la destinazione esista
+# Make sure the destination exists
 mkdir -p "$TARGET_DIR"
 
-# Rimuovi le cartelle di destinazione che verranno sostituite
-# (solo le directory presenti in SOURCE_DIR, non l'intera ~/.config)
-# In zsh, usiamo setopt invece di shopt
+# Remove target folders that will be replaced
+# (only directories present in SOURCE_DIR, not the entire ~/.config)
+# In zsh we use setopt instead of shopt
 setopt dotglob nullglob
 for entry in "$SOURCE_DIR"/*; do
   base_name="$(basename "$entry")"
   target_path="$TARGET_DIR/$base_name"
   if [ -d "$entry" ] && [ -e "$target_path" ]; then
-    echo "-> Rimuovo cartella di destinazione: $target_path"
+    echo "-> Removing target directory: $target_path"
     rm -rf -- "$target_path"
   fi
 done
 unsetopt dotglob nullglob
 
-# Copia (sovrascrive, mantiene permessi, include file nascosti)
-echo "-> Copio da: $SOURCE_DIR"
-echo "-> A:  $TARGET_DIR"
+# Copy (overwrite, keep permissions, include hidden files)
+echo "-> Copying from: $SOURCE_DIR"
+echo "-> To:           $TARGET_DIR"
 cp -af "$SOURCE_DIR"/. "$TARGET_DIR"
 
-echo "✓ Copia completata."
+echo "✓ Copy completed."
 
-# --- Normalizza percorsi nelle config (sostituisce ~/ con $HOME/) ---
+# Generic utilities ---------------------------------------------------------
+process_running() {
+  local proc_name="$1"
+  pgrep -x "$proc_name" >/dev/null 2>&1
+}
+
+socket_exists() {
+  local socket_path
+  for socket_path in "$@"; do
+    [ -S "$socket_path" ] && return 0
+  done
+  return 1
+}
+
+clean_orphan_sockets() {
+  local socket_path
+  for socket_path in "$@"; do
+    [ -S "$socket_path" ] && rm -f -- "$socket_path" || true
+  done
+}
+
+wait_for_ready() {
+  local check_fn="$1"
+  local steps="$2"
+  local delay="$3"
+  local i=0
+
+  while (( i < steps )); do
+    if "$check_fn"; then
+      return 0
+    fi
+    sleep "$delay"
+    ((i++))
+  done
+  return 1
+}
+
+restart_with_wait() {
+  local proc_name="$1"
+  local start_fn="$2"
+  local fallback_fn="$3"
+  local ready_fn="$4"
+  local success_msg="$5"
+  local fallback_success_msg="$6"
+  local cleanup_fn="$7"
+
+  pkill -x "$proc_name" >/dev/null 2>&1 || true
+  sleep "$SHORT_DELAY"
+
+  if [[ -n "$cleanup_fn" ]]; then
+    "$cleanup_fn"
+  fi
+
+  if [[ -n "$start_fn" ]]; then
+    "$start_fn"
+  fi
+
+  if wait_for_ready "$ready_fn" "$WAIT_STEPS" "$WAIT_DELAY"; then
+    echo "$success_msg"
+    return 0
+  fi
+
+  if [[ -n "$fallback_fn" ]]; then
+    "$fallback_fn"
+    if wait_for_ready "$ready_fn" "$FALLBACK_WAIT_STEPS" "$FALLBACK_WAIT_DELAY"; then
+      echo "$fallback_success_msg"
+      return 0
+    fi
+  fi
+
+  return 1
+}
+
+# --- Normalize paths in configs (replace ~/ with $HOME/) ---
 HP_CONF="$TARGET_DIR/hyprpaper/hyprpaper.conf"
 HL_CONF="$TARGET_DIR/hypr/hyprland.conf"
 if [ -f "$HP_CONF" ]; then
-  # Esempi trasformati:
+  # Example transformations:
   #   preload = ~/.config/wallpapers/img.jpg -> preload = /home/user/.config/wallpapers/img.jpg
   #   wallpaper = DP-6,~/.config/wallpapers/img.jpg -> wallpaper = DP-6,/home/user/.config/wallpapers/img.jpg
   sed -i -e "s#= ~/#= $HOME/#g" -e "s#,~/#,$HOME/#g" "$HP_CONF"
 fi
 if [ -f "$HL_CONF" ]; then
-  # Corregge path in exec-once e altri campi che usano ~
+  # Fix paths in exec-once and other fields that use ~
   sed -i -e "s#~/.config/#$HOME/.config/#g" -e "s#= ~/#= $HOME/#g" "$HL_CONF"
 fi
 
-# --- Ricarica Hyprland e riavvia hyprpaper se in esecuzione ---
-# Hyprland espone la variabile HYPRLAND_INSTANCE_SIGNATURE quando è attivo
+# --- Reload Hyprland and restart hyprpaper if running ---
+# Hyprland exposes HYPRLAND_INSTANCE_SIGNATURE when it is active
 if command -v hyprctl >/dev/null 2>&1 && [ -n "${HYPRLAND_INSTANCE_SIGNATURE:-}" ]; then
-  echo "-> Ricarico la configurazione di Hyprland..."
-  hyprctl reload && echo "✓ Hyprland ricaricato."
+  echo "-> Reloading Hyprland configuration..."
+  hyprctl reload && echo "✓ Hyprland reloaded."
 
-  # Prepara percorsi IPC per hyprpaper
+  # Prepare IPC paths for hyprpaper
   RUNTIME_DIR="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
   SIG="$HYPRLAND_INSTANCE_SIGNATURE"
-  HP_SOCKET1="$RUNTIME_DIR/hypr/$SIG/.hyprpaper.sock"   # vecchie versioni (scoped per instance)
-  HP_SOCKET2="$RUNTIME_DIR/hypr/$SIG/hyprpaper.sock"    # nuove versioni (scoped per instance)
-  HP_SOCKET3="$RUNTIME_DIR/hypr/.hyprpaper.sock"        # possibile path globale legacy (senza signature)
-  HP_SOCKET4="$RUNTIME_DIR/hypr/hyprpaper.sock"         # possibile path globale nuovo (senza signature)
+  typeset -a HYPRPAPER_SOCKETS=(
+    "$RUNTIME_DIR/hypr/$SIG/.hyprpaper.sock"   # older versions (per-instance scope)
+    "$RUNTIME_DIR/hypr/$SIG/hyprpaper.sock"    # newer versions (per-instance scope)
+    "$RUNTIME_DIR/hypr/.hyprpaper.sock"        # possible global legacy path (no signature)
+    "$RUNTIME_DIR/hypr/hyprpaper.sock"         # possible global path (no signature)
+  )
+  typeset -a HYPRPAPER_INSTANCE_SOCKETS=(
+    "$RUNTIME_DIR/hypr/$SIG/.hyprpaper.sock"
+    "$RUNTIME_DIR/hypr/$SIG/hyprpaper.sock"
+  )
 
-  echo "-> Riavvio hyprpaper..."
-  # Termina eventuali istanze attive
-  pkill -x hyprpaper >/dev/null 2>&1 || true
-
-  # Se esistono socket orfani (nessun processo ma file presente), rimuovili
-  if ! pgrep -x hyprpaper >/dev/null 2>&1; then
-    [ -S "$HP_SOCKET1" ] && rm -f -- "$HP_SOCKET1" || true
-    [ -S "$HP_SOCKET2" ] && rm -f -- "$HP_SOCKET2" || true
-  fi
-
-  # Verifica presenza binario hyprpaper
-  if ! command -v hyprpaper >/dev/null 2>&1; then
-    echo "⚠️ 'hyprpaper' non è nel PATH. Installa o aggiungi al PATH e riprova."
-  else
-    # Avvia hyprpaper dal contesto di Hyprland (ereditando la signature corretta)
-    hyprctl dispatch exec "hyprpaper -c $HOME/.config/hyprpaper/hyprpaper.conf" >/dev/null 2>&1 || true
-  fi
-
-  # Attendi che hyprpaper parta (socket creato o processo presente)
-  for i in {1..40}; do # ~10s (40 * 0.25s) - zsh range syntax
-    if [ -S "$HP_SOCKET1" ] || [ -S "$HP_SOCKET2" ] || [ -S "$HP_SOCKET3" ] || [ -S "$HP_SOCKET4" ] || pgrep -x hyprpaper >/dev/null 2>&1; then
-      echo "✓ hyprpaper avviato."
-      break
+  hyprpaper_cleanup() {
+    if ! process_running "hyprpaper"; then
+      clean_orphan_sockets "${HYPRPAPER_INSTANCE_SOCKETS[@]}"
     fi
-    sleep 0.05
-  done
+  }
 
-  # Fallback: se non ancora confermato, prova ad avviare direttamente e attendi un altro po'
-  if ! pgrep -x hyprpaper >/dev/null 2>&1 && [ ! -S "$HP_SOCKET1" ] && [ ! -S "$HP_SOCKET2" ] && [ ! -S "$HP_SOCKET3" ] && [ ! -S "$HP_SOCKET4" ]; then
+  hyprpaper_ready() {
+    process_running "hyprpaper" && return 0
+    socket_exists "${HYPRPAPER_SOCKETS[@]}"
+  }
+
+  start_hyprpaper_primary() {
+    hyprctl dispatch exec "hyprpaper -c $HOME/.config/hyprpaper/hyprpaper.conf" >/dev/null 2>&1 || true
+  }
+
+  start_hyprpaper_fallback() {
     env HYPRLAND_INSTANCE_SIGNATURE="$SIG" XDG_RUNTIME_DIR="$RUNTIME_DIR" nohup hyprpaper -c "$HOME/.config/hyprpaper/hyprpaper.conf" >/dev/null 2>&1 &
-    for i in {1..20}; do # ~5s - zsh range syntax
-      if [ -S "$HP_SOCKET1" ] || [ -S "$HP_SOCKET2" ] || [ -S "$HP_SOCKET3" ] || [ -S "$HP_SOCKET4" ] || pgrep -x hyprpaper >/dev/null 2>&1; then
-        echo "✓ hyprpaper avviato (fallback)."
-        break
-      fi
-      sleep 0.05
-    done
-  fi
+  }
 
-  if ! pgrep -x hyprpaper >/dev/null 2>&1 && [ ! -S "$HP_SOCKET1" ] && [ ! -S "$HP_SOCKET2" ] && [ ! -S "$HP_SOCKET3" ] && [ ! -S "$HP_SOCKET4" ]; then
-    echo "⚠️ Impossibile confermare l'avvio di hyprpaper."
-    echo "   Socket attesi: $HP_SOCKET1 oppure $HP_SOCKET2 oppure $HP_SOCKET3 oppure $HP_SOCKET4"
-    echo "   Suggerimento: esegui dentro Hyprland -> hyprpaper -c $HOME/.config/hyprpaper/hyprpaper.conf"
-    WP="$HOME/.config/wallpapers/1776186.jpg"; [ -f "$WP" ] || echo "   Nota: file wallpaper mancante: $WP"
-  fi
-
-  # --- Riavvio Waybar ---
-  echo "-> Riavvio Waybar..."
-  # Termina Waybar se in esecuzione
-  pkill -x waybar >/dev/null 2>&1 || true
-  sleep 0.05
-
-  if ! command -v waybar >/dev/null 2>&1; then
-    echo "⚠️ 'waybar' non è nel PATH. Installa o aggiungi al PATH per avviarlo."
+  echo "-> Restarting hyprpaper..."
+  if ! command -v hyprpaper >/dev/null 2>&1; then
+    echo "⚠️ 'hyprpaper' is not in PATH. Install it or add it to PATH and try again."
   else
-    # Avvia Waybar dal contesto di Hyprland
-    hyprctl dispatch exec "waybar" >/dev/null 2>&1 || true
+    if ! restart_with_wait "hyprpaper" start_hyprpaper_primary start_hyprpaper_fallback hyprpaper_ready "✓ hyprpaper started." "✓ hyprpaper started (fallback)." hyprpaper_cleanup; then
+      echo "⚠️ Unable to confirm hyprpaper startup."
+      echo "   Expected sockets: ${HYPRPAPER_SOCKETS[*]}"
+      echo "   Tip: run inside Hyprland -> hyprpaper -c $HOME/.config/hyprpaper/hyprpaper.conf"
+    fi
+    WP="$HOME/.config/wallpapers/1776186.jpg"; [ -f "$WP" ] || echo "   Note: missing wallpaper file: $WP"
+  fi
 
-    # Attendi che Waybar parta
-    for i in {1..40}; do # ~10s - zsh range syntax
-      if pgrep -x waybar >/dev/null 2>&1; then
-        echo "✓ Waybar avviato."
-        break
-      fi
-      sleep 0.05
-    done
+  # --- Restart Waybar ---
+  echo "-> Restarting Waybar..."
+  if ! command -v waybar >/dev/null 2>&1; then
+    echo "⚠️ 'waybar' is not in PATH. Install it or add it to PATH before starting it."
+  else
+    waybar_ready() {
+      process_running "waybar"
+    }
 
-    # Fallback: prova ad avviarlo direttamente se non è ancora partito
-    if ! pgrep -x waybar >/dev/null 2>&1; then
+    start_waybar_primary() {
+      hyprctl dispatch exec "waybar" >/dev/null 2>&1 || true
+    }
+
+    start_waybar_fallback() {
       nohup waybar >/dev/null 2>&1 &
-      for i in {1..20}; do # ~5s - zsh range syntax
-        if pgrep -x waybar >/dev/null 2>&1; then
-          echo "✓ Waybar avviato (fallback)."
-          break
-        fi
-        sleep 0.05
-      done
+    }
+
+    if restart_with_wait "waybar" start_waybar_primary start_waybar_fallback waybar_ready "✓ Waybar started." "✓ Waybar started (fallback)." ""; then
+      true
+    else
+      echo "⚠️ Unable to confirm Waybar startup."
+      echo "   Tip: run inside Hyprland -> waybar"
     fi
 
     update-desktop-database ~/.local/share/applications
 
-    if ! pgrep -x waybar >/dev/null 2>&1; then
-      echo "⚠️ Impossibile confermare l'avvio di Waybar."
-      echo "   Suggerimento: esegui dentro Hyprland -> waybar"
-    fi
   fi
 else
-  echo "ℹ️ Hyprland non sembra attivo (o 'hyprctl' non è nel PATH)."
-  echo "   Avvia Hyprland e, se serve, esegui manualmente: hyprctl reload"
+  echo "ℹ️ Hyprland does not appear to be active (or 'hyprctl' is not in PATH)."
+  echo "   Start Hyprland and run manually if needed: hyprctl reload"
 fi
