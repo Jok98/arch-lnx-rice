@@ -7,9 +7,9 @@
   "margin-left": 0,
   "margin-right": 0,
 
-  "modules-left": ["clock", "hyprland/window"],
+  "modules-left": ["custom/hypr_refresh","clock", "custom/uptime", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/hypr_refresh","custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/vpn", "network", "custom/bluetooth", "battery", "custom/wlogout"],
+  "modules-right": ["custom/shortcuts", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/vpn", "network", "custom/bluetooth", "battery", "custom/wlogout"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
