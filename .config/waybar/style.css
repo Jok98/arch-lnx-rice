@@ -17,11 +17,13 @@ window#waybar {
 #battery,
 #network,
 #pulseaudio,
+#custom-vpn,
 #custom-bluetooth,
 #mpris,
 #custom-mpris_prev,
 #custom-mpris_next,
 #custom-uptime,
+#custom-hypr_refresh,
 #custom-wlogout,
 #tray {
     background: #1a2332;
@@ -41,11 +43,13 @@ window#waybar {
 #battery,
 #network,
 #pulseaudio,
+#custom-vpn,
 #custom-bluetooth,
 #mpris,
 #custom-mpris_prev,
 #custom-mpris_next,
 #custom-uptime,
+#custom-hypr_refresh,
 #custom-wlogout,
 #tray {
     padding: 1px 6px;
@@ -129,6 +133,26 @@ window#waybar {
     font-weight: 600;
     background: #1a2332;
     border-color: rgba(255, 192, 164, 0.60);
+}
+
+/* VPN */
+#custom-vpn {
+    font-weight: 600;
+}
+
+#custom-vpn.connected {
+    color: #7aa2f7;
+    border-color: rgba(122, 162, 247, 0.75);
+}
+
+#custom-vpn.disconnected {
+    color: #ff8e8e;
+    border-color: rgba(255, 142, 142, 0.65);
+}
+
+#custom-vpn.error {
+    color: #ff8e8e;
+    border-color: rgba(255, 142, 142, 0.65);
 }
 
 /* Media controls - unified block */
@@ -258,6 +282,18 @@ window#waybar {
     border-color: rgba(255, 192, 164, 0.60);
 }
 
+/* Hypr refresh */
+#custom-hypr_refresh {
+    color: #ffc0a4;
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
+}
+
+#custom-hypr_refresh:hover {
+    background: rgba(229, 164, 255, 0.10);
+    border-color: rgba(255, 192, 164, 0.60);
+}
+
 /* Tray */
 #tray {
     background: #1a2332;
@@ -284,6 +320,7 @@ window#waybar {
 #custom-mpris_prev:hover,
 #custom-mpris_next:hover,
 #custom-uptime:hover,
+#custom-hypr_refresh:hover,
 #custom-wlogout:hover,
 #tray:hover {
     background: rgba(229, 164, 255, 0.10);
@@ -331,6 +368,7 @@ tooltip label {
 #custom-mpris_prev,
 #custom-mpris_next,
 #custom-uptime,
+#custom-hypr_refresh,
 #custom-wlogout,
 #tray,
 #custom-notification,
