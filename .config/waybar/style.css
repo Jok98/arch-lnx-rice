@@ -23,6 +23,7 @@ window#waybar {
 #custom-mpris_prev,
 #custom-mpris_next,
 #custom-uptime,
+#custom-hypr_refresh,
 #custom-wlogout,
 #tray {
     background: #1a2332;
@@ -48,6 +49,7 @@ window#waybar {
 #custom-mpris_prev,
 #custom-mpris_next,
 #custom-uptime,
+#custom-hypr_refresh,
 #custom-wlogout,
 #tray {
     padding: 1px 6px;
@@ -280,6 +282,18 @@ window#waybar {
     border-color: rgba(255, 192, 164, 0.60);
 }
 
+/* Hypr refresh */
+#custom-hypr_refresh {
+    color: #ffc0a4;
+    background: #1a2332;
+    border-color: rgba(255, 192, 164, 0.60);
+}
+
+#custom-hypr_refresh:hover {
+    background: rgba(229, 164, 255, 0.10);
+    border-color: rgba(255, 192, 164, 0.60);
+}
+
 /* Tray */
 #tray {
     background: #1a2332;
@@ -306,6 +320,7 @@ window#waybar {
 #custom-mpris_prev:hover,
 #custom-mpris_next:hover,
 #custom-uptime:hover,
+#custom-hypr_refresh:hover,
 #custom-wlogout:hover,
 #tray:hover {
     background: rgba(229, 164, 255, 0.10);
@@ -353,6 +368,7 @@ tooltip label {
 #custom-mpris_prev,
 #custom-mpris_next,
 #custom-uptime,
+#custom-hypr_refresh,
 #custom-wlogout,
 #tray,
 #custom-notification,

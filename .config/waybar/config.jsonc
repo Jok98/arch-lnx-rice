@@ -9,7 +9,7 @@
 
   "modules-left": ["clock", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/vpn", "network", "custom/bluetooth", "battery", "custom/wlogout"],
+  "modules-right": ["custom/hypr_refresh","custom/shortcuts", "custom/uptime", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/vpn", "network", "custom/bluetooth", "battery", "custom/wlogout"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -209,5 +209,12 @@
     "tooltip": false,
     "tooltip-format": "Click to open power menu",
     "on-click": "wlogout -b 5"
+  },
+
+  "custom/hypr_refresh": {
+    "format": "󰑓",
+    "tooltip": true,
+    "tooltip-format": "Reload Hyprland session",
+    "on-click": "~/IdeaProjects/arch-lnx-rice/script/hypr-refresh.sh"
   }
 }
