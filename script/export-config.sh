@@ -8,6 +8,8 @@ PARENT_DIR="$(dirname "$SCRIPT_DIR")"
 # Source and destination
 SOURCE_DIR="$PARENT_DIR/.config"
 TARGET_DIR="$HOME/.config"
+SCRIPTS_SOURCE_DIR="$PARENT_DIR/script"
+SCRIPTS_TARGET_DIR="$HOME/script"
 
 # Basic checks
 if [ ! -d "$SOURCE_DIR" ]; then
@@ -38,6 +40,16 @@ echo "-> To:           $TARGET_DIR"
 cp -af "$SOURCE_DIR"/. "$TARGET_DIR"
 
 echo "✓ Copy completed."
+
+# Copy repo scripts into ~/
+if [ -d "$SCRIPTS_SOURCE_DIR" ]; then
+  echo "-> Syncing script directory to: $SCRIPTS_TARGET_DIR"
+  rm -rf -- "$SCRIPTS_TARGET_DIR"
+  mkdir -p "$SCRIPTS_TARGET_DIR"
+  cp -af "$SCRIPTS_SOURCE_DIR"/. "$SCRIPTS_TARGET_DIR"
+else
+  echo "ℹ️ Script directory not found. Expected at: $SCRIPTS_SOURCE_DIR"
+fi
 
 # --- Normalize paths in configs (replace ~/ with $HOME/) ---
 HP_CONF="$TARGET_DIR/hyprpaper/hyprpaper.conf"
