@@ -26,15 +26,14 @@ window#waybar {
 #custom-hypr_refresh,
 #custom-wlogout,
 #tray {
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
     color: #ffc0a4;
 }
 
 /* Bar background with sunset theme */
 /* Per bordo gradient più spesso */
 window#waybar {
-    border: 0px solid rgba(255, 192, 164, 0.60);
+    border: none;
 }
 
 /* Generic module chip look */
@@ -54,8 +53,8 @@ window#waybar {
 #tray {
     padding: 1px 6px;
     margin: 1px 2px;
-    background: #1a2332;
-    border: 1px solid rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
+    border: none;
     border-radius: 4px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
@@ -70,9 +69,9 @@ window#waybar {
 #workspaces button {
     padding: 1px 1px;
     margin: 0px 3px;
-    background: #1a2332;
+    background: rgba(229, 164, 255, 0.10);
     /* foreground is set by gtk */
-    border: 1px solid rgba(255, 192, 164, 0.60);
+    border: none;
     border-radius: 14px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     font-size: 14px;
@@ -102,9 +101,9 @@ window#waybar {
 
 #workspaces button:hover:not(.active) {
     background: linear-gradient(135deg,
-    rgba(122, 162, 247, 0.35) 0%,  /* #7AA2F7 */
-    rgba(199, 125, 255, 0.30) 50%, /* #C77DFF */
-    rgba(42, 52, 66, 0.25) 100%    /* #2a3442 */);
+    rgba(122, 162, 247, 0.45) 0%,  /* #7AA2F7 */
+    rgba(199, 125, 255, 0.42) 50%, /* #C77DFF */
+    rgba(255, 192, 164, 0.35) 100% /* #FFC0A4 */);
     /* foreground is setted by gtk */
 }
 
@@ -116,7 +115,7 @@ window#waybar {
 }
 
 #window.empty {
-    background: rgba(26, 35, 50, 0.25); /* #1a2332 */
+    background: rgba(229, 164, 255, 0.10);
     border: none;
 }
 
@@ -124,7 +123,7 @@ window#waybar {
 #custom-uptime {
     color: #ffc0a4;
     font-weight: 600;
-    background: #1a2332;
+    background: rgba(229, 164, 255, 0.10);
     border: none;
 }
 
@@ -132,8 +131,7 @@ window#waybar {
 #clock {
     color: #ffc0a4;
     font-weight: 600;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 /* VPN */
@@ -143,17 +141,14 @@ window#waybar {
 
 #custom-vpn.connected {
     color: #7aa2f7;
-    border-color: rgba(122, 162, 247, 0.75);
 }
 
 #custom-vpn.disconnected {
     color: #ff8e8e;
-    border-color: rgba(255, 142, 142, 0.65);
 }
 
 #custom-vpn.error {
     color: #ff8e8e;
-    border-color: rgba(255, 142, 142, 0.65);
 }
 
 /* Media controls - unified block */
@@ -165,8 +160,7 @@ window#waybar {
     color: #ffc0a4;
     font-size: 8px;
     min-width: 20px;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.00);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 #custom-mpris_prev {
@@ -188,21 +182,19 @@ window#waybar {
 
 #mpris.paused {
     color: #ffc0a4;
-    background: #1a2332;
+    background: rgba(229, 164, 255, 0.10);
 }
 
 /* Audio */
 #pulseaudio {
     color: #ffc0a4;
     font-weight: 600;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 #pulseaudio.muted {
     color: #ffc0a4;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 #custom-shortcuts{
@@ -212,42 +204,36 @@ window#waybar {
 /* Network */
 #network {
     color: #ffc0a4;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 #network.wifi {
     color: #ffc0a4;
-    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #network.disconnected {
     color: #ffc0a4;
-    background: #1a2332;
+    background: rgba(229, 164, 255, 0.10);
 }
 
 /* Battery */
 #battery {
     color: #ffc0a4;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 #battery.good {
     color: #ffc0a4;
-    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #battery.warning {
     color: #ffc0a4;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 #battery.critical {
     color: #e5a4ff;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
     animation: blink 1s ease-in-out infinite alternate;
 }
 
@@ -259,46 +245,31 @@ window#waybar {
 
 #battery.charging {
     color: #ffc0a4;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 /* Bluetooth */
 #custom-bluetooth {
     color: #ffc0a4;
     font-weight: 600;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 /* Wlogout */
 #custom-wlogout {
     color: #ffc0a4;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
-}
-
-#custom-wlogout:hover {
     background: rgba(229, 164, 255, 0.10);
-    border-color: rgba(255, 192, 164, 0.60);
 }
 
 /* Hypr refresh */
 #custom-hypr_refresh {
     color: #ffc0a4;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
-}
-
-#custom-hypr_refresh:hover {
     background: rgba(229, 164, 255, 0.10);
-    border-color: rgba(255, 192, 164, 0.60);
 }
 
 /* Tray */
 #tray {
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 #tray > .passive {
@@ -324,13 +295,16 @@ window#waybar {
 #custom-hypr_refresh:hover,
 #custom-wlogout:hover,
 #tray:hover {
-    background: rgba(229, 164, 255, 0.10);
+    background: linear-gradient(135deg,
+        rgba(122, 162, 247, 0.45) 0%,
+        rgba(199, 125, 255, 0.42) 50%,
+        rgba(255, 192, 164, 0.35) 100%);
 }
 
 /* Tooltips */
 tooltip {
     background: rgba(26, 35, 50, 0.95);
-    border: 1px solid rgba(255, 192, 164, 0.60);
+    border: none;
     border-radius: 8px;
     color: #ffc0a4;
 }
@@ -342,20 +316,17 @@ tooltip label {
 /* Notification indicator */
 #custom-notification {
     color: #ffc0a4;
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
     font-size: 14px;
     min-width: 20px;
 }
 
 #custom-notification.notification {
     background: rgba(229, 164, 255, 0.15);
-    border-color: rgba(255, 192, 164, 0.60);
 }
 
 #custom-notification.dnd-notification {
-    background: #1a2332;
-    border-color: rgba(255, 192, 164, 0.60);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 /* Enforce single-color background transparency across modules */
@@ -374,9 +345,9 @@ tooltip label {
 #tray,
 #custom-notification,
 #custom-notification.dnd-notification {
-    background: rgba(26, 35, 50, 0.40);
+    background: rgba(229, 164, 255, 0.10);
 }
 
 #workspaces button {
-    background: rgba(26, 35, 50, 0.40);
+    background: rgba(229, 164, 255, 0.10);
 }
