@@ -1,27 +1,22 @@
 /* ===================================
-   ~/.config/rofi/themes/mountain-sunset.rasi
-   MOUNTAIN SUNSET THEME (kitty-aligned)
+   ~/.config/rofi/themes/gradient.rasi
+   Waybar-aligned pastel glassmorphism
    =================================== */
 
 * {
-  /* Palette from doc/colors.css aligned to kitty background */
-  bg-primary: #1a2332;
-  bg-secondary: #1f2b3c;
-  bg-tertiary: #243246;
+  /* Shared palette with Waybar */
+  bg-backdrop:      rgba (26, 35, 50, 0.40);
+  bg-surface:       rgba (229, 164, 255, 0.10);
+  bg-surface-strong:rgba (229, 164, 255, 0.15);
+  bg-surface-hover: rgba (229, 164, 255, 0.20);
+  accent-fill:      rgba (199, 125, 255, 0.45);
+  highlight-fill:   rgba (122, 162, 247, 0.45);
 
-  fg-primary: #ffc0a4;     /* main text */
-  fg-secondary: #e5a4ff;   /* secondary */
-  fg-muted: #ffc0a4;       /* keep simple */
+  fg-primary:       #ffc0a4;
+  fg-secondary:     #e5a4ff;
+  fg-muted:         rgba (255, 192, 164, 0.80);
+  fg-contrast:      #1a2332;
 
-  accent-purple: #e5a4ff;  /* accent */
-  accent-blue:   #e5a4ff;  /* unify */
-  accent-red:    #e5a4ff;  /* unify */
-  accent-green:  #e5a4ff;  /* unify */
-
-  border-color:  #ffc0a499; /* rgba(255,192,164,0.60) */
-
-  background-color: @bg-primary;
-  text-color: @fg-primary;
   font: "JetBrainsMono Nerd Font 13";
 }
 
@@ -29,27 +24,25 @@ window {
   transparency: "real";
   location: center;
   anchor: center;
-  width: 500px;
-  background-color: @bg-primary;
-  border: 1px;
-  border-color: @border-color;
-  border-radius: 3px;
-  padding: 20px;
+  width: 520px;
+  background-color: @bg-backdrop;
+  border: 0px;
+  border-radius: 12px;
+  padding: 22px;
 }
 
 mainbox {
   background-color: transparent;
-  spacing: 14px;
+  spacing: 18px;
   children: [ inputbar, listview ];
 }
 
 inputbar {
-  background-color: @bg-secondary;
-  border: 1px;
-  border-color: #ffc0a433;
-  border-radius: 3px;
-  padding: 12px;
-  spacing: 10px;
+  background-color: @bg-surface;
+  border: 0px;
+  border-radius: 10px;
+  padding: 14px;
+  spacing: 12px;
   children: [ prompt, entry ];
 }
 
@@ -62,7 +55,7 @@ prompt {
 entry {
   background-color: transparent;
   text-color: @fg-primary;
-  cursor-color: @accent-purple;
+  cursor-color: @fg-secondary;
   placeholder: "Search...";
   placeholder-color: @fg-muted;
 }
@@ -74,45 +67,46 @@ listview {
   cycle: true;
   dynamic: true;
   scrollbar: false;
-  spacing: 4px;
-  padding: 6px 0px;
+  spacing: 6px;
+  padding: 0px;
 }
 
 element {
-  background-color: transparent;
+  background-color: @bg-surface;
   text-color: @fg-primary;
-  padding: 10px 12px;
+  padding: 12px 16px;
   border: 0px;
-  border-radius: 3px;
-  spacing: 10px;
+  border-radius: 10px;
+  spacing: 12px;
   children: [ element-icon, element-text ];
 }
 
 element normal.normal {
-  background-color: transparent;
+  background-color: @bg-surface;
+  text-color: @fg-primary;
+}
+
+element alternate.normal {
+  background-color: @bg-surface-strong;
   text-color: @fg-primary;
 }
 
 element selected.normal {
-  background-color: #E5A4FFCC;
-  text-color: #1a2332;
+  background-color: @accent-fill;
+  text-color: @fg-contrast;
 }
 
-element alternate.normal {
-  background-color: @bg-tertiary;
-  text-color: @fg-primary;
-}
-
-/* Hover state */
-element normal.active, element selected.active, element normal.urgent {
-  background-color: #E5A4FF26;
+element normal.active,
+element selected.active,
+element normal.urgent {
+  background-color: @highlight-fill;
   text-color: @fg-primary;
 }
 
 /* Icons and text */
 element-icon {
   background-color: transparent;
-  size: 20px;
+  size: 22px;
   margin: 0px 8px 0px 0px;
 }
 
@@ -125,17 +119,19 @@ element-text {
 
 /* Message / error colors */
 message {
-  background-color: @bg-secondary;
-  border: 1px;
-  border-color: #ffc0a433;
-  border-radius: 3px;
-  padding: 8px 12px;
+  background-color: @bg-surface;
+  border: 0px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-color: @fg-primary;
 }
 
 error-message {
-  background-color: @bg-secondary;
-  border: 1px;
-  border-color: #ffc0a466;
+  background-color: @bg-surface-strong;
+  border: 0px;
+  border-radius: 8px;
+  padding: 10px 14px;
+  text-color: @fg-primary;
 }
 
 /* Sidebar disabled for ultra-clean look */
