@@ -14,8 +14,7 @@
   "hyprland/workspaces": {
     "format": "{icon}",
     "format-icons": {
-      "3": "\udb82\udcc7",
-      "default": "\uf2dd"
+      "default": "\u25cf"
     },
     "all-outputs": false,
     "active-only": false,
