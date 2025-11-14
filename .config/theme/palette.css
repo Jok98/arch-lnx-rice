@@ -8,11 +8,11 @@
 @define-color waybar-module-chip-surface       rgba(228, 228, 228, 0.20);
 @define-color waybar-module-chip-text          #E4E4E4;
 @define-color waybar-workspace-inactive-fill   rgba(228, 228, 228, 0.15);
-@define-color waybar-workspace-active-start    rgba(228, 228, 228, 0.35);
-@define-color waybar-workspace-active-middle   #E4E4E4;
-@define-color waybar-workspace-active-end      rgba(228, 228, 228, 0.35);
-@define-color waybar-workspace-active-shadow   rgba(228, 228, 228, 0.45);
-@define-color waybar-workspace-special-primary #E4E4E4;
+@define-color waybar-workspace-active-start    #E4E4E4;
+@define-color waybar-workspace-active-middle   #9d0000;
+@define-color waybar-workspace-active-end      #E4E4E4;
+@define-color waybar-workspace-active-shadow   rgba(228, 228, 228, 0.00);
+@define-color waybar-workspace-special-primary #9d0000;
 @define-color waybar-workspace-special-secondary rgba(228, 228, 228, 0.50);
 @define-color waybar-module-hover-start        rgba(157, 0, 0, 0.30);
 @define-color waybar-module-hover-middle       rgba(157, 0, 0, 0.45);
