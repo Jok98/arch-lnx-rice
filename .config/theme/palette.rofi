@@ -1,0 +1,14 @@
+/* Palette condivisa per i temi Rofi */
+* {
+  rofi-bg-backdrop:        rgba (26, 35, 50, 0.40);
+  rofi-bg-surface:         rgba (229, 164, 255, 0.10);
+  rofi-bg-surface-strong:  rgba (229, 164, 255, 0.15);
+  rofi-bg-surface-hover:   rgba (229, 164, 255, 0.20);
+  rofi-accent-fill:        rgba (199, 125, 255, 0.45);
+  rofi-highlight-fill:     rgba (122, 162, 247, 0.45);
+
+  rofi-fg-primary:         #ffc0a4;
+  rofi-fg-secondary:       #e5a4ff;
+  rofi-fg-muted:           rgba (255, 192, 164, 0.80);
+  rofi-fg-contrast:        #1a2332;
+}

@@ -3,20 +3,9 @@
    Waybar-aligned pastel glassmorphism
    =================================== */
 
+@import "~/.config/theme/palette.rofi"
+
 * {
-  /* Shared palette with Waybar */
-  bg-backdrop:      rgba (26, 35, 50, 0.40);
-  bg-surface:       rgba (229, 164, 255, 0.10);
-  bg-surface-strong:rgba (229, 164, 255, 0.15);
-  bg-surface-hover: rgba (229, 164, 255, 0.20);
-  accent-fill:      rgba (199, 125, 255, 0.45);
-  highlight-fill:   rgba (122, 162, 247, 0.45);
-
-  fg-primary:       #ffc0a4;
-  fg-secondary:     #e5a4ff;
-  fg-muted:         rgba (255, 192, 164, 0.80);
-  fg-contrast:      #1a2332;
-
   font: "JetBrainsMono Nerd Font 13";
 }
 
@@ -25,7 +14,7 @@ window {
   location: center;
   anchor: center;
   width: 520px;
-  background-color: @bg-backdrop;
+  background-color: @rofi-bg-backdrop;
   border: 0px;
   border-radius: 12px;
   padding: 22px;
@@ -38,7 +27,7 @@ mainbox {
 }
 
 inputbar {
-  background-color: @bg-surface;
+  background-color: @rofi-bg-surface;
   border: 0px;
   border-radius: 10px;
   padding: 14px;
@@ -49,15 +38,15 @@ inputbar {
 prompt {
   padding: 0px;
   background-color: transparent;
-  text-color: @fg-secondary;
+  text-color: @rofi-fg-secondary;
 }
 
 entry {
   background-color: transparent;
-  text-color: @fg-primary;
-  cursor-color: @fg-secondary;
+  text-color: @rofi-fg-primary;
+  cursor-color: @rofi-fg-secondary;
   placeholder: "Search...";
-  placeholder-color: @fg-muted;
+  placeholder-color: @rofi-fg-muted;
 }
 
 listview {
@@ -72,8 +61,8 @@ listview {
 }
 
 element {
-  background-color: @bg-surface;
-  text-color: @fg-primary;
+  background-color: @rofi-bg-surface;
+  text-color: @rofi-fg-primary;
   padding: 12px 16px;
   border: 0px;
   border-radius: 10px;
@@ -82,25 +71,25 @@ element {
 }
 
 element normal.normal {
-  background-color: @bg-surface;
-  text-color: @fg-primary;
+  background-color: @rofi-bg-surface;
+  text-color: @rofi-fg-primary;
 }
 
 element alternate.normal {
-  background-color: @bg-surface-strong;
-  text-color: @fg-primary;
+  background-color: @rofi-bg-surface-strong;
+  text-color: @rofi-fg-primary;
 }
 
 element selected.normal {
-  background-color: @accent-fill;
-  text-color: @fg-contrast;
+  background-color: @rofi-accent-fill;
+  text-color: @rofi-fg-contrast;
 }
 
 element normal.active,
 element selected.active,
 element normal.urgent {
-  background-color: @highlight-fill;
-  text-color: @fg-primary;
+  background-color: @rofi-highlight-fill;
+  text-color: @rofi-fg-primary;
 }
 
 /* Icons and text */
@@ -119,7 +108,7 @@ element-text {
 
 /* Message / error colors */
 message {
-  background-color: @bg-surface;
+  background-color: @rofi-bg-surface;
   border: 0px;
   border-radius: 8px;
   padding: 10px 14px;
@@ -127,7 +116,7 @@ message {
 }
 
 error-message {
-  background-color: @bg-surface-strong;
+  background-color: @rofi-bg-surface-strong;
   border: 0px;
   border-radius: 8px;
   padding: 10px 14px;
