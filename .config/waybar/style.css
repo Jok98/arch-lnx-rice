@@ -1,3 +1,5 @@
+@import url("../theme/palette.css");
+
 /* Base font */
 * {
     font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
@@ -5,11 +7,9 @@
     font-weight: 500;
 }
 
-/* Palette from doc/colors.css (GTK CSS has no CSS variables) */
-
 /* Hard overrides to ensure the palette applies everywhere */
 window#waybar {
-    background-color: rgba(26, 35, 50, 0.40);
+    background-color: alpha(@waybar-bar-background, 0.40);
 }
 
 #window,
@@ -26,8 +26,8 @@ window#waybar {
 #custom-hypr_refresh,
 #custom-wlogout,
 #tray {
-    background: rgba(229, 164, 255, 0.10);
-    color: #ffc0a4;
+    background: alpha(@waybar-module-chip-surface, 0.10);
+    color: @waybar-module-chip-text;
 }
 
 /* Bar background with sunset theme */
@@ -53,7 +53,7 @@ window#waybar {
 #tray {
     padding: 1px 6px;
     margin: 1px 2px;
-    background: rgba(229, 164, 255, 0.10);
+    background: alpha(@waybar-module-chip-surface, 0.10);
     border: none;
     border-radius: 4px;
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -71,10 +71,10 @@ window#waybar {
     margin: 0px 4px;
     min-width: 18px;
     min-height: 4px;
-    background: rgba(229, 164, 255, 0.35);
+    background: alpha(@waybar-workspace-inactive-fill, 0.35);
     border: none;
     border-radius: 999px;
-    box-shadow: inset 0 0 4px rgba(26, 35, 50, 0.35);
+    box-shadow: inset 0 0 4px alpha(@waybar-bar-background, 0.35);
     color: transparent;
     font-size: 0px;
     transition: min-width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
@@ -92,26 +92,26 @@ window#waybar {
     min-width: 18px;
     min-height: 4px;
     background: linear-gradient(135deg,
-    rgba(122, 162, 247, 0.65) 0%,  /* #7AA2F7 */
-    rgba(199, 125, 255, 0.55) 60%, /* #C77DFF */
-    rgba(255, 192, 164, 0.50) 100% /* #FFC0A4 */);
-    box-shadow: 0 2px 8px rgba(199, 125, 255, 0.35);
+    alpha(@waybar-workspace-active-start, 0.65) 0%,
+    alpha(@waybar-workspace-active-middle, 0.55) 60%,
+    alpha(@waybar-workspace-active-end, 0.50) 100%);
+    box-shadow: 0 2px 8px alpha(@waybar-workspace-active-shadow, 0.35);
 }
 
 #workspaces button.special {
-    background: rgba(255, 192, 164, 0.45);
-    box-shadow: inset 0 0 4px rgba(26, 35, 50, 0.35);
+    background: alpha(@waybar-workspace-special-primary, 0.45);
+    box-shadow: inset 0 0 4px alpha(@waybar-bar-background, 0.35);
 }
 
 #workspaces button.active.special {
     background: linear-gradient(135deg,
-    rgba(255, 192, 164, 0.70) 0%,
-    rgba(229, 164, 255, 0.60) 100%);
-    box-shadow: 0 2px 8px rgba(255, 192, 164, 0.35);
+    alpha(@waybar-workspace-special-primary, 0.70) 0%,
+    alpha(@waybar-workspace-special-secondary, 0.60) 100%);
+    box-shadow: 0 2px 8px alpha(@waybar-workspace-special-primary, 0.35);
 }
 
 #workspaces button:hover:not(.active) {
-    background: rgba(229, 164, 255, 0.55);
+    background: alpha(@waybar-workspace-special-secondary, 0.55);
 }
 
 /* Window title */
@@ -122,23 +122,23 @@ window#waybar {
 }
 
 #window.empty {
-    background: rgba(229, 164, 255, 0.10);
+    background: alpha(@waybar-module-chip-surface, 0.10);
     border: none;
 }
 
 /* Uptime */
 #custom-uptime {
-    color: #ffc0a4;
+    color: @waybar-module-chip-text;
     font-weight: 600;
-    background: rgba(229, 164, 255, 0.10);
+    background: alpha(@waybar-module-chip-surface, 0.10);
     border: none;
 }
 
 /* Clock */
 #clock {
-    color: #ffc0a4;
+    color: @waybar-module-chip-text;
     font-weight: 600;
-    background: rgba(229, 164, 255, 0.10);
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 /* VPN */
@@ -147,15 +147,15 @@ window#waybar {
 }
 
 #custom-vpn.connected {
-    color: #7aa2f7;
+    color: @waybar-vpn-connected-foreground;
 }
 
 #custom-vpn.disconnected {
-    color: #ff8e8e;
+    color: @waybar-vpn-alert-foreground;
 }
 
 #custom-vpn.error {
-    color: #ff8e8e;
+    color: @waybar-vpn-alert-foreground;
 }
 
 /* Media controls - unified block */
@@ -164,10 +164,10 @@ window#waybar {
 #custom-mpris_next {
     margin: 1px 0px;
     padding: 1px 4px;
-    color: #ffc0a4;
+    color: @waybar-module-chip-text;
     font-size: 8px;
     min-width: 20px;
-    background: rgba(229, 164, 255, 0.10);
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 #custom-mpris_prev {
@@ -184,99 +184,99 @@ window#waybar {
     border-radius: 0px;
     border-left: none;
     border-right: none;
-    color: #ffc0a4;
+    color: @waybar-module-chip-text;
 }
 
 #mpris.paused {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-module-chip-text;
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 /* Audio */
 #pulseaudio {
-    color: #ffc0a4;
+    color: @waybar-module-chip-text;
     font-weight: 600;
-    background: rgba(229, 164, 255, 0.10);
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 #pulseaudio.muted {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-module-chip-text;
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 #custom-shortcuts{
-    color: #ffc0a4;
+    color: @waybar-module-chip-text;
 }
 
 /* Network */
 #network {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-module-chip-text;
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 #network.wifi {
-    color: #ffc0a4;
+    color: @waybar-module-chip-text;
 }
 
 #network.disconnected {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-module-chip-text;
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 /* Battery */
 #battery {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-module-chip-text;
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 #battery.good {
-    color: #ffc0a4;
+    color: @waybar-module-chip-text;
 }
 
 #battery.warning {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-module-chip-text;
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 #battery.critical {
-    color: #e5a4ff;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-battery-critical-foreground;
+    background: alpha(@waybar-module-chip-surface, 0.10);
     animation: blink 1s ease-in-out infinite alternate;
 }
 
 @keyframes blink {
     to {
-        background: rgba(229, 164, 255, 0.15);
+        background: alpha(@waybar-battery-blink-surface, 0.15);
     }
 }
 
 #battery.charging {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-module-chip-text;
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 /* Bluetooth */
 #custom-bluetooth {
-    color: #ffc0a4;
+    color: @waybar-module-chip-text;
     font-weight: 600;
-    background: rgba(229, 164, 255, 0.10);
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 /* Wlogout */
 #custom-wlogout {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-module-chip-text;
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 /* Hypr refresh */
 #custom-hypr_refresh {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-module-chip-text;
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 /* Tray */
 #tray {
-    background: rgba(229, 164, 255, 0.10);
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
 
 #tray > .passive {
@@ -285,7 +285,7 @@ window#waybar {
 
 #tray > .needs-attention {
     -gtk-icon-effect: highlight;
-    background-color: rgba(229, 164, 255, 0.30);
+    background-color: alpha(@waybar-tray-attention-surface, 0.30);
 }
 
 /* Hover effects */
@@ -303,37 +303,37 @@ window#waybar {
 #custom-wlogout:hover,
 #tray:hover {
     background: linear-gradient(135deg,
-        rgba(122, 162, 247, 0.45) 0%,
-        rgba(199, 125, 255, 0.42) 50%,
-        rgba(255, 192, 164, 0.35) 100%);
+        alpha(@waybar-module-hover-start, 0.45) 0%,
+        alpha(@waybar-module-hover-middle, 0.42) 50%,
+        alpha(@waybar-module-hover-end, 0.35) 100%);
 }
 
 /* Tooltips */
 tooltip {
-    background: rgba(26, 35, 50, 0.95);
+    background: alpha(@waybar-tooltip-surface, 0.95);
     border: none;
     border-radius: 8px;
-    color: #ffc0a4;
+    color: @waybar-tooltip-foreground;
 }
 
 tooltip label {
-    color: #ffc0a4;
+    color: @waybar-tooltip-foreground;
     padding: 6px 10px;
 }
 /* Notification indicator */
 #custom-notification {
-    color: #ffc0a4;
-    background: rgba(229, 164, 255, 0.10);
+    color: @waybar-notification-text;
+    background: alpha(@waybar-notification-pill-surface, 0.10);
     font-size: 14px;
     min-width: 20px;
 }
 
 #custom-notification.notification {
-    background: rgba(229, 164, 255, 0.15);
+    background: alpha(@waybar-notification-pill-surface, 0.15);
 }
 
 #custom-notification.dnd-notification {
-    background: rgba(229, 164, 255, 0.10);
+    background: alpha(@waybar-notification-pill-surface, 0.10);
 }
 
 /* Enforce single-color background transparency across modules */
@@ -349,12 +349,6 @@ tooltip label {
 #custom-uptime,
 #custom-hypr_refresh,
 #custom-wlogout,
-#tray,
-#custom-notification,
-#custom-notification.dnd-notification {
-    background: rgba(229, 164, 255, 0.10);
-}
-
-#workspaces button {
-    background: rgba(229, 164, 255, 0.10);
+#tray {
+    background: alpha(@waybar-module-chip-surface, 0.10);
 }
