@@ -1,11 +1,11 @@
 /* Palette condivisa per i temi Rofi */
 * {
-  rofi-bg-backdrop:        rgba (228, 228, 228, 0.05);
-  rofi-bg-surface:         rgba (228, 228, 228, 0.12);
-  rofi-bg-surface-strong:  rgba (228, 228, 228, 0.18);
-  rofi-bg-surface-hover:   rgba (157, 0, 0, 0.25);
-  rofi-accent-fill:        rgba (228, 228, 228, 0.45);
-  rofi-highlight-fill:     rgba (157, 0, 0, 0.55);
+  rofi-bg-backdrop:        rgba (8, 12, 20, 0.90);
+  rofi-bg-surface:         rgba (14, 20, 32, 0.93);
+  rofi-bg-surface-strong:  rgba (20, 28, 42, 0.96);
+  rofi-bg-surface-hover:   rgba (157, 0, 0, 0.75);
+  rofi-accent-fill:        rgba (228, 228, 228, 0.35);
+  rofi-highlight-fill:     rgba (157, 0, 0, 0.92);
 
   rofi-fg-primary:         #E4E4E4;
   rofi-fg-secondary:       #9d0000;
