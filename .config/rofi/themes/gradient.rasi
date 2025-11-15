@@ -95,9 +95,9 @@ element alternate.normal {
 }
 
 element selected.normal {
-  background-color: @rofi-accent-fill;
-  border-color: @accent-soft;
-  text-color: @rofi-fg-contrast;
+  background-color: @rofi-highlight-fill;
+  border-color: @accent-strong;
+  text-color: @rofi-fg-primary;
 }
 
 element normal.active,
