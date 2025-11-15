@@ -147,6 +147,8 @@ ZSH_HIGHLIGHT_STYLES[unknown-token]="fg=${ZSH_THEME_BASE_BG},bg=${ZSH_THEME_ACCE
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias k='kubectl'
+
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
