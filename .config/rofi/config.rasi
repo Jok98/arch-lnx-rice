@@ -20,9 +20,9 @@ configuration {
   drun-display-format: "{name} <span weight='light' size='small'>{generic}</span>";
   window-format: "{c}: {t}";
 
-  display-drun: "Applicazioni";
-  display-run: "Comandi";
-  display-window: "Finestre";
+  display-drun: "App";
+  display-run: "Run";
+  display-window: "Windows";
 
   lines: 8;
   columns: 1;

@@ -19,7 +19,7 @@ window {
   anchor: center;
   width: 560px;
   background-color: @rofi-bg-backdrop;
-  border: 1px;
+  border: 0px;
   border-color: @glass-border;
   border-radius: 2px;
   padding: 26px;
@@ -54,7 +54,7 @@ entry {
   background-color: transparent;
   text-color: @rofi-fg-primary;
   cursor-color: @rofi-fg-secondary;
-  placeholder: "Cerca app o finestre";
+  placeholder: "";
   placeholder-color: @rofi-fg-muted;
 }
 
