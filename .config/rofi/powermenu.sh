@@ -3,11 +3,11 @@ set -euo pipefail
 
 # Simple rofi-based power menu replicating the old wlogout actions
 entries=(
-  "󰌾"
-  "󰍃"
-  "󰤄"
-  "󰜉"
-  "󰐥"
+  "  󰌾"
+  "  󰍃"
+  "  󰤄"
+  "  󰜉"
+  "  󰐥"
 )
 
 # Use index output so the command triggers even if markup/text changes
