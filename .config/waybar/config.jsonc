@@ -9,7 +9,7 @@
 
   "modules-left": ["custom/hypr_refresh","clock", "custom/uptime", "hyprland/window"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["custom/shortcuts", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/vpn", "network", "custom/bluetooth", "battery", "custom/wlogout"],
+  "modules-right": ["custom/shortcuts", "custom/mpris_prev", "mpris#icon", "custom/mpris_next", "pulseaudio", "custom/vpn", "network", "custom/bluetooth", "battery", "custom/rofi"],
 
   "hyprland/workspaces": {
     "format": "{icon}",
@@ -205,11 +205,11 @@
     "show-passive-items": true
   },
 
-  "custom/wlogout": {
+  "custom/rofi": {
     "format": "󰐥",
     "tooltip": false,
     "tooltip-format": "Click to open power menu",
-    "on-click": "wlogout -b 5"
+    "on-click": "sh ~/.config/rofi/powermenu.sh"
   },
 
   "custom/hypr_refresh": {
