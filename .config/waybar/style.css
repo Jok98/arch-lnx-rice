@@ -67,51 +67,45 @@ window#waybar {
 }
 
 #workspaces button {
-    padding: 0px;
-    margin: 0px 4px;
-    min-width: 18px;
-    min-height: 4px;
-    background: alpha(@waybar-workspace-inactive-fill, 0.35);
+    padding: 0px 6px;
+    margin: 0px 2px;
+    min-width: 0px;
+    min-height: 0px;
+    background: transparent;
     border: none;
-    border-radius: 999px;
-    box-shadow: inset 0 0 4px alpha(@waybar-bar-background, 0.35);
-    color: transparent;
-    font-size: 0px;
-    transition: min-width 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                background 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 0px;
+    box-shadow: none;
+    color: alpha(@waybar-workspace-inactive-fill, 0.85);
+    font-size: 14px;
+    font-weight: 700;
+    transition: color 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                font-size 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 #workspaces button label {
     padding: 0;
     margin: 0;
-    font-size: 0px;
-    color: transparent;
+    font-size: inherit;
+    color: inherit;
 }
 
 #workspaces button.active {
-    min-width: 18px;
-    min-height: 4px;
-    background: linear-gradient(135deg,
-    alpha(@waybar-workspace-active-start, 0.65) 0%,
-    alpha(@waybar-workspace-active-middle, 0.55) 60%,
-    alpha(@waybar-workspace-active-end, 0.50) 100%);
-    box-shadow: 0 2px 8px alpha(@waybar-workspace-active-shadow, 0.35);
+    color: alpha(@waybar-workspace-active-start, 0.95);
+    font-size: 16px;
+    text-shadow: 0 0 6px alpha(@waybar-workspace-active-shadow, 0.35);
 }
 
 #workspaces button.special {
-    background: alpha(@waybar-workspace-special-primary, 0.45);
-    box-shadow: inset 0 0 4px alpha(@waybar-bar-background, 0.35);
+    color: alpha(@waybar-workspace-special-primary, 0.85);
 }
 
 #workspaces button.active.special {
-    background: linear-gradient(135deg,
-    alpha(@waybar-workspace-special-primary, 0.70) 0%,
-    alpha(@waybar-workspace-special-secondary, 0.60) 100%);
-    box-shadow: 0 2px 8px alpha(@waybar-workspace-special-primary, 0.35);
+    color: alpha(@waybar-workspace-special-secondary, 0.95);
+    text-shadow: 0 0 6px alpha(@waybar-workspace-special-primary, 0.35);
 }
 
 #workspaces button:hover:not(.active) {
-    background: alpha(@waybar-workspace-special-secondary, 0.55);
+    color: alpha(@waybar-workspace-special-secondary, 0.80);
 }
 
 /* Window title */
