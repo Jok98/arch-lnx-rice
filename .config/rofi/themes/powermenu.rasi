@@ -1,0 +1,66 @@
+/* Rofi theme for power menu (distinct from main launcher) */
+@import "~/.config/theme/palette.rofi"
+* {
+  font: "JetBrainsMono Nerd Font 16";
+  background-color: @rofi-bg-backdrop;
+  text-color: @rofi-fg-primary;
+}
+
+window {
+  width: 720px;
+  location: center;
+  anchor: center;
+  padding: 8px;
+  border: 0px;
+  border-radius: 0px;
+  background-color: transparent;
+}
+
+mainbox {
+  children: [ listview ];
+  spacing: 0px;
+  orientation: vertical;
+}
+
+listview {
+  columns: 5;
+  lines: 1;
+  spacing: 20px;
+  fixed-height: false;
+  fixed-columns: true;
+  dynamic: true;
+  scrollbar: false;
+  background-color: transparent;
+}
+
+element {
+  orientation: horizontal;
+  horizontal-align: 0.5;
+  background-color: transparent;
+  padding: 6px;       /* prima era 12px */
+  width: 50px;        /* prima 80px */
+  height: 50px;       /* nuovo → box più compatto */
+  border: 0px;
+  cursor: pointer;
+}
+
+element-icon {
+  size: 32px;         /* leggermente più piccolo */
+  vertical-align: 0.5;
+}
+
+element-text {
+  margin: 0px;
+  vertical-align: 0.5;
+}
+
+/* Stati */
+element selected.normal {
+  border: 1px;
+  border-color: @rofi-highlight-fill;
+  background-color: transparent;
+}
+
+element alternate.normal {
+  background-color: transparent;
+}
