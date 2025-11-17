@@ -5,6 +5,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Shared color palette for shell integrations
+if [[ -r "$HOME/.config/theme/palette.zsh" ]]; then
+  source "$HOME/.config/theme/palette.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -90,7 +95,7 @@ plugins=(
   history-substring-search
 )
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#e5a4ff'
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=${ZSH_THEME_ACCENT}"
 source $ZSH/oh-my-zsh.sh
 
 # Common ls aliases
@@ -104,16 +109,15 @@ alias l='ls -CF'
 # zsh-autosuggestions plugins.
 
 # zsh-syntax-highlighting: make recognized commands stand out
-ZSH_HIGHLIGHT_STYLES[command]='fg=#e5a4ff,bold'          # commands in PATH
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=#e5a4ff,bold'          # shell builtins
-ZSH_HIGHLIGHT_STYLES[function]='fg=#e5a4ff,bold'         # user functions
-ZSH_HIGHLIGHT_STYLES[alias]='fg=#e5a4ff,bold'            # aliases
-ZSH_HIGHLIGHT_STYLES[command-in-path]='fg=#e5a4ff,bold'
-ZSH_HIGHLIGHT_STYLES[precommand]='fg=#e5a4ff,bold'       # e.g., sudo, command, nocorrect
-ZSH_HIGHLIGHT_STYLES[single-hyphen-option]='fg=#ffc0a4'  # -o style
-ZSH_HIGHLIGHT_STYLES[double-hyphen-option]='fg=#ffc0a4'  # --option style
-ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#1a2332,bg=#e5a4ff,bold'    # errors pop in accent
-
+ZSH_HIGHLIGHT_STYLES[command]="fg=${ZSH_THEME_ACCENT},bold"          # commands in PATH
+ZSH_HIGHLIGHT_STYLES[builtin]="fg=${ZSH_THEME_ACCENT},bold"          # shell builtins
+ZSH_HIGHLIGHT_STYLES[function]="fg=${ZSH_THEME_ACCENT},bold"         # user functions
+ZSH_HIGHLIGHT_STYLES[alias]="fg=${ZSH_THEME_ACCENT},bold"            # aliases
+ZSH_HIGHLIGHT_STYLES[command-in-path]="fg=${ZSH_THEME_ACCENT},bold"
+ZSH_HIGHLIGHT_STYLES[precommand]="fg=${ZSH_THEME_ACCENT},bold"       # e.g., sudo, command, nocorrect
+ZSH_HIGHLIGHT_STYLES[single-hyphen-option]="fg=${ZSH_THEME_PRIMARY_FG}"  # -o style
+ZSH_HIGHLIGHT_STYLES[double-hyphen-option]="fg=${ZSH_THEME_PRIMARY_FG}"  # --option style
+ZSH_HIGHLIGHT_STYLES[unknown-token]="fg=${ZSH_THEME_BASE_BG},bg=${ZSH_THEME_ACCENT},bold"    # errors pop in accent
 
 # User configuration
 
@@ -143,6 +147,8 @@ ZSH_HIGHLIGHT_STYLES[unknown-token]='fg=#1a2332,bg=#e5a4ff,bold'    # errors pop
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias k='kubectl'
+
 fpath=(~/.zsh/completion $fpath)
 autoload -Uz compinit && compinit -i
 
@@ -165,4 +171,4 @@ if [ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]; then
 fi
 # --- fine SDKMAN init ---
 
-ZSH_HIGHLIGHT_STYLES[builtin]='fg=#e5a4ff,bold'
+ZSH_HIGHLIGHT_STYLES[builtin]="fg=${ZSH_THEME_ACCENT},bold"

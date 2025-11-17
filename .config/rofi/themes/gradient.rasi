@@ -1,137 +1,147 @@
-/* ===================================
+/* ==================================================
    ~/.config/rofi/themes/gradient.rasi
-   Waybar-aligned pastel glassmorphism
-   =================================== */
+   Matte glass look with layered cards + soft glow
+   ================================================== */
+
+@import "~/.config/theme/palette.rofi"
 
 * {
-  /* Shared palette with Waybar */
-  bg-backdrop:      rgba (26, 35, 50, 0.40);
-  bg-surface:       rgba (229, 164, 255, 0.10);
-  bg-surface-strong:rgba (229, 164, 255, 0.15);
-  bg-surface-hover: rgba (229, 164, 255, 0.20);
-  accent-fill:      rgba (199, 125, 255, 0.45);
-  highlight-fill:   rgba (122, 162, 247, 0.45);
-
-  fg-primary:       #ffc0a4;
-  fg-secondary:     #e5a4ff;
-  fg-muted:         rgba (255, 192, 164, 0.80);
-  fg-contrast:      #1a2332;
-
   font: "JetBrainsMono Nerd Font 13";
+  accent-strong: rgba (157, 0, 0, 0.75);
+  accent-soft: rgba (157, 0, 0, 0.35);
+  glass-border: rgba (228, 228, 228, 0.22);
+  glass-highlight: rgba (228, 228, 228, 0.07);
 }
 
 window {
-  transparency: "real";
+
   location: center;
   anchor: center;
-  width: 520px;
-  background-color: @bg-backdrop;
+  width: 560px;
+  background-color: @rofi-bg-backdrop;
   border: 0px;
-  border-radius: 12px;
-  padding: 22px;
+  border-color: @glass-border;
+  border-radius: 2px;
+  padding: 26px;
 }
 
 mainbox {
   background-color: transparent;
-  spacing: 18px;
+  spacing: 10px;
   children: [ inputbar, listview ];
 }
 
 inputbar {
-  background-color: @bg-surface;
-  border: 0px;
-  border-radius: 10px;
-  padding: 14px;
-  spacing: 12px;
+  background-color: @rofi-bg-surface;
+  border: 1px;
+  border-color: @glass-border;
+  border-radius: 2px;
+  padding: 14px 18px;
+  spacing: 14px;
   children: [ prompt, entry ];
 }
 
 prompt {
-  padding: 0px;
-  background-color: transparent;
-  text-color: @fg-secondary;
+  padding: 6px 12px;
+  margin: -2px 0px -2px -4px;
+  background-color: @rofi-bg-surface-strong;
+  border-radius: 2px;
+  text-color: @rofi-fg-secondary;
+  font: "JetBrainsMono Nerd Font Bold 12";
 }
 
 entry {
   background-color: transparent;
-  text-color: @fg-primary;
-  cursor-color: @fg-secondary;
-  placeholder: "Search...";
-  placeholder-color: @fg-muted;
+  text-color: @rofi-fg-primary;
+  cursor-color: @rofi-fg-secondary;
+  placeholder: "";
+  placeholder-color: @rofi-fg-muted;
 }
 
 listview {
-  background-color: transparent;
+  background-color: @rofi-bg-surface;
+  border: 1px;
+  border-color: @glass-border;
+  border-radius: 2px;
   columns: 1;
   lines: 8;
   cycle: true;
   dynamic: true;
   scrollbar: false;
-  spacing: 6px;
-  padding: 0px;
+  spacing: 4px;
+  padding: 4px;
 }
 
 element {
-  background-color: @bg-surface;
-  text-color: @fg-primary;
+  background-color: transparent;
+  text-color: @rofi-fg-primary;
   padding: 12px 16px;
-  border: 0px;
-  border-radius: 10px;
-  spacing: 12px;
+  border: 1px;
+  border-color: transparent;
+  border-radius: 2px;
+  spacing: 14px;
   children: [ element-icon, element-text ];
+  highlight: bold;
 }
 
 element normal.normal {
-  background-color: @bg-surface;
-  text-color: @fg-primary;
+  background-color: transparent;
+  text-color: @rofi-fg-primary;
 }
 
 element alternate.normal {
-  background-color: @bg-surface-strong;
-  text-color: @fg-primary;
+  background-color: @glass-highlight;
+  text-color: @rofi-fg-primary;
 }
 
 element selected.normal {
-  background-color: @accent-fill;
-  text-color: @fg-contrast;
+  background-color: @rofi-highlight-fill;
+  border-color: @accent-strong;
+  text-color: @rofi-fg-primary;
 }
 
 element normal.active,
 element selected.active,
 element normal.urgent {
-  background-color: @highlight-fill;
-  text-color: @fg-primary;
+  background-color: @rofi-highlight-fill;
+  border-color: @accent-strong;
+  text-color: @rofi-fg-primary;
 }
 
 /* Icons and text */
 element-icon {
-  background-color: transparent;
-  size: 22px;
-  margin: 0px 8px 0px 0px;
+  background-color: @glass-highlight;
+  border-radius: 2px;
+  size: 24px;
+  padding: 4px;
+  margin: 0px 10px 0px 2px;
 }
 
 element-text {
   background-color: transparent;
   text-color: inherit;
   expand: true;
+  margin: 0px;
   vertical-align: 0.5;
 }
 
 /* Message / error colors */
 message {
-  background-color: @bg-surface;
-  border: 0px;
-  border-radius: 8px;
-  padding: 10px 14px;
-  text-color: @fg-primary;
+  background-color: @rofi-bg-surface;
+  border: 1px;
+  border-color: @glass-border;
+  border-radius: 2px;
+  padding: 12px 16px;
+  text-color: @rofi-fg-primary;
 }
 
 error-message {
-  background-color: @bg-surface-strong;
-  border: 0px;
-  border-radius: 8px;
-  padding: 10px 14px;
-  text-color: @fg-primary;
+  background-color: @rofi-bg-surface-strong;
+  border: 1px;
+  border-color: @accent-strong;
+  border-radius: 2px;
+  padding: 12px 16px;
+  text-color: @rofi-fg-primary;
 }
 
 /* Sidebar disabled for ultra-clean look */

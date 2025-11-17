@@ -4,21 +4,23 @@ configuration {
   icon-theme: "Papirus-Dark";
   font: "JetBrainsMono Nerd Font 13";
   terminal: "kitty";
+  prompt: "Cerca";
 
   matching: "fuzzy";
   case-sensitive: false;
   sort: true;
   cycle: true;
+  markup-rows: true;
 
   sidebar-mode: false;
   hover-select: true;
   click-to-exit: true;
   auto-select: false;
 
-  drun-display-format: "{name}";
+  drun-display-format: "{name} <span weight='light' size='small'>{generic}</span>";
   window-format: "{c}: {t}";
 
-  display-drun: "Apps";
+  display-drun: "App";
   display-run: "Run";
   display-window: "Windows";
 

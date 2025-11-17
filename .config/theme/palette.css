@@ -1,0 +1,61 @@
+/* Shared palette for the rice theme.
+ * Every component exports its own variables so colors can change without
+ * touching individual style sheets.
+ */
+
+/* Waybar */
+@define-color waybar-bar-background            rgba(228, 228, 228, 0.08);
+@define-color waybar-module-chip-surface       rgba(228, 228, 228, 0.20);
+@define-color waybar-module-chip-text          #E4E4E4;
+@define-color waybar-workspace-inactive-fill   rgba(228, 228, 228, 0.15);
+@define-color waybar-workspace-active-start    #E4E4E4;
+@define-color waybar-workspace-active-middle   #9d0000;
+@define-color waybar-workspace-active-end      #E4E4E4;
+@define-color waybar-workspace-active-shadow   rgba(228, 228, 228, 0.00);
+@define-color waybar-workspace-special-primary #9d0000;
+@define-color waybar-workspace-special-secondary rgba(228, 228, 228, 0.50);
+@define-color waybar-module-hover-start        rgba(157, 0, 0, 0.30);
+@define-color waybar-module-hover-middle       rgba(157, 0, 0, 0.45);
+@define-color waybar-module-hover-end          rgba(157, 0, 0, 0.60);
+@define-color waybar-vpn-connected-foreground  #E4E4E4;
+@define-color waybar-vpn-alert-foreground      #9d0000;
+@define-color waybar-tooltip-surface           rgba(228, 228, 228, 0.12);
+@define-color waybar-tooltip-foreground        #E4E4E4;
+@define-color waybar-battery-critical-foreground #9d0000;
+@define-color waybar-battery-blink-surface     rgba(157, 0, 0, 0.40);
+@define-color waybar-tray-attention-surface    rgba(157, 0, 0, 0.30);
+@define-color waybar-notification-pill-surface rgba(228, 228, 228, 0.25);
+@define-color waybar-notification-text         #E4E4E4;
+
+/* GTK + system UI */
+@define-color gtk-window-background        rgba(228, 228, 228, 0.06);
+@define-color gtk-dialog-background        rgba(228, 228, 228, 0.08);
+@define-color gtk-text-primary             #E4E4E4;
+@define-color gtk-menu-text                #E4E4E4;
+@define-color gtk-border-strong            rgba(228, 228, 228, 0.60);
+@define-color gtk-border-soft              rgba(228, 228, 228, 0.15);
+@define-color gtk-surface-accent-weak      rgba(228, 228, 228, 0.10);
+@define-color gtk-surface-accent           rgba(228, 228, 228, 0.20);
+@define-color gtk-surface-accent-hover     rgba(157, 0, 0, 0.30);
+@define-color gtk-surface-accent-strong    rgba(228, 228, 228, 0.40);
+@define-color gtk-entry-background         rgba(228, 228, 228, 0.10);
+@define-color gtk-entry-border             rgba(228, 228, 228, 0.15);
+@define-color gtk-entry-focus-border       rgba(157, 0, 0, 0.45);
+@define-color gtk-menu-hover               rgba(157, 0, 0, 0.30);
+@define-color gtk-menu-separator           rgba(228, 228, 228, 0.10);
+@define-color gtk-popover-border           rgba(228, 228, 228, 0.15);
+@define-color gtk-shadow                   rgba(228, 228, 228, 0.30);
+@define-color gtk-scrollbar-slider         rgba(228, 228, 228, 0.40);
+@define-color gtk-scrollbar-trough         rgba(228, 228, 228, 0.12);
+@define-color gtk-checkmark                #E4E4E4;
+@define-color gtk-selection-background     rgba(157, 0, 0, 0.45);
+@define-color gtk-selection-foreground     #1a2332;
+@define-color gtk-rubberband-fill          rgba(228, 228, 228, 0.20);
+@define-color gtk-rubberband-border        rgba(157, 0, 0, 0.60);
+
+/* Wlogout (still GTK CSS but scoped to the logout view) */
+@define-color wlogout-window-background    rgba(228, 228, 228, 0.08);
+@define-color wlogout-button-border        rgba(228, 228, 228, 0.60);
+@define-color wlogout-button-text          #E4E4E4;
+@define-color wlogout-button-surface       rgba(228, 228, 228, 0.10);
+@define-color wlogout-button-hover         rgba(157, 0, 0, 0.20);

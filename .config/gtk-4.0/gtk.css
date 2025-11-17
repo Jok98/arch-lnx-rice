@@ -1,60 +1,61 @@
 /* GTK 4 Mountain Sunset Theme */
+@import url("../theme/palette.css");
 
 /* Global text color (kitty foreground) */
-* { color: #ffc0a4; }
+* { color: @gtk-text-primary; }
 
 /* Base backgrounds */
-window, dialog { background-color: rgba(26, 35, 50, 0.40); }
+window, dialog { background-color: @gtk-window-background; }
 
 /* Headerbar / titlebar */
 headerbar, .titlebar {
-  background-color: rgba(26, 35, 50, 0.40);
-  border-bottom: 1px solid rgba(255, 192, 164, 0.60);
+  background-color: @gtk-window-background;
+  border-bottom: 1px solid @gtk-border-strong;
 }
 
 /* Buttons */
 button, button.toggle, button.flat {
   border-radius: 8px;
-  border: 1px solid rgba(229, 164, 255, 0.15);
-  background-color: rgba(229, 164, 255, 0.20);
+  border: 1px solid @gtk-border-soft;
+  background-color: @gtk-surface-accent;
 }
 button:hover, button.toggle:hover, button.flat:hover {
-  background-color: rgba(229, 164, 255, 0.30);
+  background-color: @gtk-surface-accent-hover;
 }
 button:checked, button.toggle:checked {
-  background-color: rgba(229, 164, 255, 0.40);
+  background-color: @gtk-surface-accent-strong;
 }
 
 /* Entries / text inputs */
 entry, spinbutton, searchentry {
   border-radius: 8px;
-  border: 1px solid rgba(229, 164, 255, 0.15);
-  background-color: rgba(26, 35, 50, 0.40);
-  color: #ffc0a4;
+  border: 1px solid @gtk-entry-border;
+  background-color: @gtk-entry-background;
+  color: @gtk-text-primary;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
-  border-color: rgba(229, 164, 255, 0.40);
+  border-color: @gtk-entry-focus-border;
   box-shadow: none;
 }
 
 /* Popovers & tooltips */
 popover, tooltip {
-  background-color: rgba(26, 35, 50, 0.40);
-  border: 1px solid rgba(229, 164, 255, 0.15);
+  background-color: @gtk-dialog-background;
+  border: 1px solid @gtk-popover-border;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 12px @gtk-shadow;
 }
 
 /* Scrollbars */
 scrollbar { background: transparent; }
 scrollbar slider {
-  background: rgba(229, 164, 255, 0.40);
+  background: @gtk-scrollbar-slider;
   border-radius: 8px;
 }
-scrollbar trough { background: rgba(26, 35, 50, 0.20); }
+scrollbar trough { background: @gtk-scrollbar-trough; }
 
 /* Minimal tweaks for checks/radios */
-check, radio { color: #e5a4ff; }
+check, radio { color: @gtk-checkmark; }
 
 /* Selection (e.g., file/folder lists) */
 .view:selected,
@@ -67,12 +68,12 @@ GtkIconView:selected,
 GtkIconView:selected:focus,
 GtkListBoxRow:selected,
 GtkListBoxRow:selected:focus {
-  background-color: rgba(229, 164, 255, 0.40);
-  color: #1a2332;
+  background-color: @gtk-selection-background;
+  color: @gtk-selection-foreground;
 }
 
 /* Drag selection rectangle */
 .rubberband {
-  background-color: rgba(229, 164, 255, 0.20);
-  border: 1px solid rgba(229, 164, 255, 0.60);
+  background-color: @gtk-rubberband-fill;
+  border: 1px solid @gtk-rubberband-border;
 }

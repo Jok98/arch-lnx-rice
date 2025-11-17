@@ -192,10 +192,25 @@ else
 fi
 
 # =======================
-# Hyprshell (AUR)
+# Hyprshell (AUR via yay only)
 # =======================
-if ! install_aur_pkgs "hyprshell" hyprshell; then
-  :
+# Requirement: hyprshell must be installed specifically with yay as hyprshell-bin
+if command -v hyprshell >/dev/null 2>&1; then
+  log "✅ hyprshell already installed."
+  skipped_components+=("hyprshell")
+else
+  if command -v yay >/dev/null 2>&1; then
+    log "📦 Installing hyprshell-bin via yay..."
+    if yay -S --needed --noconfirm hyprshell-bin; then
+      installed_components+=("hyprshell-bin (yay)")
+    else
+      failed_components+=("hyprshell-bin (yay)")
+      log "❌ Failed to install hyprshell-bin with yay."
+    fi
+  else
+    skipped_components+=("hyprshell (requires yay)")
+    log "⚠️ yay is not available; skipping hyprshell installation as per requirement."
+  fi
 fi
 
 # =======================
