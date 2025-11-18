@@ -4,9 +4,10 @@
  */
 
 /* Waybar */
-@define-color waybar-bar-background            rgba(228, 228, 228, 0.08);
+@define-color waybar-bar-background            rgba(0, 0, 0, 0.80);
 @define-color waybar-module-chip-surface       rgba(228, 228, 228, 0.20);
 @define-color waybar-module-chip-text          #E4E4E4;
+@define-color waybar-border                    rgba(228, 228, 228, 0.35);
 @define-color waybar-workspace-inactive-fill   rgba(228, 228, 228, 0.15);
 @define-color waybar-workspace-active-start    #E4E4E4;
 @define-color waybar-workspace-active-middle   #9d0000;

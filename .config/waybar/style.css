@@ -9,7 +9,26 @@
 
 /* Hard overrides to ensure the palette applies everywhere */
 window#waybar {
-    background-color: alpha(@waybar-bar-background, 0.40);
+    background-color: transparent;
+}
+
+/* Outline the three bar groups so left/center/right look separated */
+window#waybar .modules-left,
+window#waybar .modules-center,
+window#waybar .modules-right {
+    padding: 3px 8px;
+    margin: 0 6px;
+    background: alpha(@waybar-bar-background, 0.80);
+    border: 1px solid alpha(@waybar-border, 0.45);
+    border-radius: 8px;
+}
+
+window#waybar .modules-left {
+    margin-left: 0px;
+}
+
+window#waybar .modules-right {
+    margin-right: 0px;
 }
 
 #window,
@@ -30,11 +49,6 @@ window#waybar {
     color: @waybar-module-chip-text;
 }
 
-/* Bar background with sunset theme */
-/* Per bordo gradient più spesso */
-window#waybar {
-    border: none;
-}
 
 /* Generic module chip look */
 #window,
