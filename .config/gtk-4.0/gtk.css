@@ -1,78 +1,100 @@
-/* GTK 4 Mountain Sunset Theme */
+/* GTK4 Theme - Simplified */
 @import url("../theme/palette.css");
 
-/* Global text color (kitty foreground) */
-* { color: @gtk-text-primary; }
+/* Default text and background color */
+* {
+  color: @gtk-text-primary;
+}
 
-/* Base backgrounds */
-window, dialog { background-color: @gtk-window-background; }
+window, dialog {
+  background-color: @gtk-window-background;
+  color: @gtk-text-primary;
+}
 
 /* Headerbar / titlebar */
 headerbar, .titlebar {
   background-color: @gtk-window-background;
   border-bottom: 1px solid @gtk-border-strong;
+  border-radius: 0;
 }
 
 /* Buttons */
 button, button.toggle, button.flat {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid @gtk-border-soft;
   background-color: @gtk-surface-accent;
+  padding: 5px 10px;
+  color: @gtk-text-primary;
 }
 button:hover, button.toggle:hover, button.flat:hover {
   background-color: @gtk-surface-accent-hover;
 }
 button:checked, button.toggle:checked {
   background-color: @gtk-surface-accent-strong;
+  border-color: @gtk-accent;
 }
 
 /* Entries / text inputs */
 entry, spinbutton, searchentry {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid @gtk-entry-border;
   background-color: @gtk-entry-background;
-  color: @gtk-text-primary;
+  padding: 6px;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
   border-color: @gtk-entry-focus-border;
   box-shadow: none;
 }
 
-/* Popovers & tooltips */
-popover, tooltip {
+/* Menus and Popovers */
+popover {
   background-color: @gtk-dialog-background;
   border: 1px solid @gtk-popover-border;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px @gtk-shadow;
+  padding: 4px;
+}
+
+menuitem, .menuitem {
+  border-radius: 4px;
+  padding: 6px 8px;
+}
+menuitem:hover, .menuitem:hover {
+  background-color: @gtk-menu-hover;
+}
+
+separator, menu separator {
+  background-color: @gtk-menu-separator;
+  min-height: 1px;
+  margin: 4px 0;
+}
+
+tooltip {
+  background-color: @gtk-dialog-background;
+  border: 1px solid @gtk-popover-border;
+  border-radius: 6px;
+  padding: 4px 8px;
 }
 
 /* Scrollbars */
-scrollbar { background: transparent; }
+scrollbar { background-color: transparent; min-width: 10px; }
 scrollbar slider {
-  background: @gtk-scrollbar-slider;
-  border-radius: 8px;
+  background-color: @gtk-scrollbar-slider;
+  border-radius: 5px;
+  min-width: 10px;
+  min-height: 10px;
 }
-scrollbar trough { background: @gtk-scrollbar-trough; }
+scrollbar trough { background-color: @gtk-scrollbar-trough; }
 
-/* Minimal tweaks for checks/radios */
+/* Check/Radio buttons */
 check, radio { color: @gtk-checkmark; }
+check:checked, radio:checked { color: @gtk-accent; }
 
-/* Selection (e.g., file/folder lists) */
-.view:selected,
-.view:selected:focus,
-treeview.view:selected,
-treeview.view:selected:focus,
-iconview.view:selected,
-iconview.view:selected:focus,
-GtkIconView:selected,
-GtkIconView:selected:focus,
-GtkListBoxRow:selected,
-GtkListBoxRow:selected:focus {
+/* Selection */
+*:selected {
   background-color: @gtk-selection-background;
   color: @gtk-selection-foreground;
 }
 
-/* Drag selection rectangle */
+/* Rubberband selection */
 .rubberband {
   background-color: @gtk-rubberband-fill;
   border: 1px solid @gtk-rubberband-border;
