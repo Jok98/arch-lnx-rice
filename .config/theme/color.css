@@ -5,3 +5,7 @@ main{
 .secondary{
 color: #9d0000;
 }
+
+.background{
+    color: rgba(0, 0, 0, 0.6);
+}

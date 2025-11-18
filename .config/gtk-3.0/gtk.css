@@ -1,107 +1,113 @@
-/* GTK 3 Mountain Sunset Theme */
+/* GTK3 Theme - Simplified */
 @import url("../theme/palette.css");
 
-/* Selection color variables for theme integration */
+/* For apps that use standard color names */
 @define-color theme_selected_bg_color @gtk-selection-background;
 @define-color theme_selected_fg_color @gtk-selection-foreground;
 
-/* Global text color (kitty foreground) */
-* { color: @gtk-text-primary; }
+/* Default text and background color */
+* {
+  color: @gtk-text-primary;
+}
 
-/* Base backgrounds */
-.background, window, dialog, .window-frame { background-color: @gtk-window-background; }
+window, dialog, .window-frame, .background {
+  background-color: @gtk-window-background;
+  color: @gtk-text-primary;
+}
 
 /* Headerbar / titlebar */
-headerbar, .titlebar, .titlebar .background, .header-bar {
+headerbar, .titlebar, .header-bar {
   background-color: @gtk-window-background;
   border-bottom: 1px solid @gtk-border-strong;
+  border-radius: 0;
 }
 
 /* Buttons */
-button, button.toggle, button.flat, combobox > box > button {
-  border-radius: 8px;
+button, .button, button.toggle, button.flat, combobox > box > button {
+  border-radius: 6px;
   border: 1px solid @gtk-border-soft;
   background-color: @gtk-surface-accent;
+  padding: 5px 10px;
+  color: @gtk-text-primary;
 }
-button:hover, button.toggle:hover, button.flat:hover, combobox > box > button:hover {
+button:hover, .button:hover, button.toggle:hover, button.flat:hover, combobox > box > button:hover {
   background-color: @gtk-surface-accent-hover;
 }
-button:checked, button.toggle:checked {
+button:checked, .button:checked, button.toggle:checked {
   background-color: @gtk-surface-accent-strong;
+  border-color: @gtk-accent;
 }
 
 /* Entries / text inputs */
 entry, spinbutton, searchentry {
-  border-radius: 8px;
+  border-radius: 6px;
   border: 1px solid @gtk-entry-border;
   background-color: @gtk-entry-background;
-  color: @gtk-text-primary;
+  padding: 6px;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
   border-color: @gtk-entry-focus-border;
   box-shadow: none;
 }
 
-/* Menus */
-menu, menubar, menuitem, .popup, .csd .menu, .context-menu {
-  background-color: @gtk-window-background;
-  color: @gtk-menu-text;
+/* Menus and Popovers */
+menu, menubar, .popup, .csd .menu, .context-menu {
+  background-color: @gtk-dialog-background;
+  border: 1px solid @gtk-popover-border;
+  padding: 4px;
 }
+popover {
+  background-color: @gtk-dialog-background;
+  border: 1px solid @gtk-popover-border;
+}
+
 menuitem {
-  border-radius: 6px;
-  padding: 4px 8px;
+  border-radius: 4px;
+  padding: 6px 8px;
 }
 menuitem:hover {
   background-color: @gtk-menu-hover;
 }
+
 separator, menu separator {
-  background: @gtk-menu-separator;
+  background-color: @gtk-menu-separator;
+  min-height: 1px;
+  margin: 4px 0;
 }
 
-/* Popovers & tooltips */
-popover, tooltip {
+tooltip {
   background-color: @gtk-dialog-background;
   border: 1px solid @gtk-popover-border;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px @gtk-shadow;
+  border-radius: 6px;
+  padding: 4px 8px;
 }
 
 /* Scrollbars */
-scrollbar { background: transparent; }
+scrollbar { background-color: transparent; min-width: 10px; }
 scrollbar slider {
-  background: @gtk-scrollbar-slider;
-  border-radius: 8px;
+  background-color: @gtk-scrollbar-slider;
+  border-radius: 5px;
+  min-width: 10px;
+  min-height: 10px;
 }
-scrollbar trough { background: @gtk-scrollbar-trough; }
+scrollbar trough { background-color: @gtk-scrollbar-trough; }
 
-/* Check/Radios minimal tweaks */
+/* Check/Radio buttons */
 check, radio { color: @gtk-checkmark; }
+check:checked, radio:checked { color: @gtk-accent; }
 
-/* Selection (e.g., Thunar file/folder selection) */
+/* Selection */
 .view:selected,
-.view:selected:focus,
 treeview.view:selected,
-treeview.view:selected:focus,
 iconview.view:selected,
-iconview.view:selected:focus,
 row:selected,
-row:selected:focus,
-GtkIconView:selected,
-GtkIconView:selected:focus,
 GtkListBoxRow:selected,
-GtkListBoxRow:selected:focus {
+*:selected {
   background-color: @theme_selected_bg_color;
   color: @theme_selected_fg_color;
 }
 
-/* Generic selection node some themes use */
-selection,
-selection:focus {
-  background-color: @theme_selected_bg_color;
-  color: @theme_selected_fg_color;
-}
-
-/* Drag selection rectangle (rubberband) */
+/* Rubberband selection */
 .rubberband {
   background-color: @gtk-rubberband-fill;
   border: 1px solid @gtk-rubberband-border;
