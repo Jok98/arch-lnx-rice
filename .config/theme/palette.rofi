@@ -1,14 +1,14 @@
 /* Palette condivisa per i temi Rofi */
 * {
-  rofi-bg-backdrop:        rgba (0, 0, 0, 0.00);
-  rofi-bg-surface:         rgba (14, 20, 32, 0.93);
-  rofi-bg-surface-strong:  rgba (20, 28, 42, 0.96);
-  rofi-bg-surface-hover:   rgba (157, 0, 0, 0.75);
-  rofi-accent-fill:        rgba (228, 228, 228, 0.35);
-  rofi-highlight-fill:     rgba (157, 0, 0, 0.92);
+  rofi-bg-backdrop:        rgba (0, 0, 0, 0.60);
+  rofi-bg-surface:         rgba (0, 0, 0, 0.60);
+  rofi-bg-surface-strong:  rgba (0, 0, 0, 0.72);
+  rofi-bg-surface-hover:   rgba (157, 0, 0, 0.18);
+  rofi-accent-fill:        rgba (228, 228, 228, 0.14);
+  rofi-highlight-fill:     rgba(157, 0, 0, 0.3);
 
   rofi-fg-primary:         #E4E4E4;
-  rofi-fg-secondary:       #9d0000;
+  rofi-fg-secondary:       rgba(157, 0, 0, 0.3);
   rofi-fg-muted:           rgba (228, 228, 228, 0.80);
   rofi-fg-contrast:        #1a2332;
 }

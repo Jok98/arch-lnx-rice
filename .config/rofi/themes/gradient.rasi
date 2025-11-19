@@ -7,27 +7,27 @@
 
 * {
   font: "JetBrainsMono Nerd Font 13";
-  accent-strong: rgba (157, 0, 0, 0.75);
-  accent-soft: rgba (157, 0, 0, 0.35);
-  glass-border: rgba (228, 228, 228, 0.22);
-  glass-highlight: rgba (228, 228, 228, 0.07);
+  accent-strong: #9d0000;
+  accent-soft: rgba (157, 0, 0, 0.25);
+  glass-border: rgba (228, 228, 228, 0.18);
+  glass-highlight: rgba (228, 228, 228, 0.05);
 }
 
 window {
 
   location: center;
   anchor: center;
-  width: 560px;
-  background-color: @rofi-bg-backdrop;
+  width: 520px;
+  background-color: transparent;
   border: 0px;
   border-color: @glass-border;
-  border-radius: 2px;
-  padding: 26px;
+  border-radius: 5px;
+  padding: 16px;
 }
 
 mainbox {
   background-color: transparent;
-  spacing: 10px;
+  spacing: 8px;
   children: [ inputbar, listview ];
 }
 
@@ -35,17 +35,17 @@ inputbar {
   background-color: @rofi-bg-surface;
   border: 1px;
   border-color: @glass-border;
-  border-radius: 2px;
-  padding: 14px 18px;
-  spacing: 14px;
+  border-radius: 5px;
+  padding: 10px 12px;
+  spacing: 12px;
   children: [ prompt, entry ];
 }
 
 prompt {
-  padding: 6px 12px;
-  margin: -2px 0px -2px -4px;
+  padding: 5px 10px;
+  margin: -2px 0px -2px -6px;
   background-color: @rofi-bg-surface-strong;
-  border-radius: 2px;
+  border-radius: 5px;
   text-color: @rofi-fg-secondary;
   font: "JetBrainsMono Nerd Font Bold 12";
 }
@@ -62,24 +62,24 @@ listview {
   background-color: @rofi-bg-surface;
   border: 1px;
   border-color: @glass-border;
-  border-radius: 2px;
+  border-radius: 5px;
   columns: 1;
   lines: 8;
   cycle: true;
   dynamic: true;
   scrollbar: false;
-  spacing: 4px;
-  padding: 4px;
+  spacing: 3px;
+  padding: 3px;
 }
 
 element {
   background-color: transparent;
   text-color: @rofi-fg-primary;
-  padding: 12px 16px;
+  padding: 10px 12px;
   border: 1px;
   border-color: transparent;
-  border-radius: 2px;
-  spacing: 14px;
+  border-radius: 5px;
+  spacing: 10px;
   children: [ element-icon, element-text ];
   highlight: bold;
 }
@@ -90,7 +90,7 @@ element normal.normal {
 }
 
 element alternate.normal {
-  background-color: @glass-highlight;
+  background-color: transparent;
   text-color: @rofi-fg-primary;
 }
 
@@ -110,11 +110,11 @@ element normal.urgent {
 
 /* Icons and text */
 element-icon {
-  background-color: @glass-highlight;
-  border-radius: 2px;
-  size: 24px;
-  padding: 4px;
-  margin: 0px 10px 0px 2px;
+  background-color: transparent;
+  border-radius: 5px;
+  size: 20px;
+  padding: 3px;
+  margin: 0px 8px 0px 2px;
 }
 
 element-text {
@@ -130,8 +130,8 @@ message {
   background-color: @rofi-bg-surface;
   border: 1px;
   border-color: @glass-border;
-  border-radius: 2px;
-  padding: 12px 16px;
+  border-radius: 5px;
+  padding: 10px 12px;
   text-color: @rofi-fg-primary;
 }
 
@@ -139,8 +139,8 @@ error-message {
   background-color: @rofi-bg-surface-strong;
   border: 1px;
   border-color: @accent-strong;
-  border-radius: 2px;
-  padding: 12px 16px;
+  border-radius: 5px;
+  padding: 10px 12px;
   text-color: @rofi-fg-primary;
 }
 
