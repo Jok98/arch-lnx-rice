@@ -1,18 +1,18 @@
 /* Rofi theme for power menu (distinct from main launcher) */
 @import "~/.config/theme/palette.rofi"
 * {
-  font: "JetBrainsMono Nerd Font 16";
-  background-color: @rofi-bg-backdrop;
+  font: "JetBrainsMono Nerd Font 14";
+  background-color: transparent;
   text-color: @rofi-fg-primary;
 }
 
 window {
-  width: 720px;
+  width: 520px;
   location: center;
   anchor: center;
-  padding: 8px;
+  padding: 12px;
   border: 0px;
-  border-radius: 0px;
+  border-radius: 5px;
   background-color: transparent;
 }
 
@@ -25,27 +25,33 @@ mainbox {
 listview {
   columns: 5;
   lines: 1;
-  spacing: 20px;
+  spacing: 12px;
   fixed-height: false;
   fixed-columns: true;
   dynamic: true;
   scrollbar: false;
-  background-color: transparent;
+  background-color: @rofi-bg-surface;
+  padding: 6px;
+  border: 1px;
+  border-color: @glass-border;
+  border-radius: 5px;
 }
 
 element {
   orientation: horizontal;
   horizontal-align: 0.5;
-  background-color: transparent;
-  padding: 6px;       /* prima era 12px */
-  width: 50px;        /* prima 80px */
-  height: 50px;       /* nuovo → box più compatto */
-  border: 0px;
+  background-color: @rofi-bg-surface;
+  padding: 6px;
+  width: 44px;
+  height: 44px;
+  border: 1px;
+  border-color: transparent;
+  border-radius: 5px;
   cursor: pointer;
 }
 
 element-icon {
-  size: 32px;         /* leggermente più piccolo */
+  size: 24px;
   vertical-align: 0.5;
 }
 
@@ -57,10 +63,10 @@ element-text {
 /* Stati */
 element selected.normal {
   border: 1px;
-  border-color: @rofi-highlight-fill;
-  background-color: transparent;
+  border-color: @accent-strong;
+  background-color: @rofi-highlight-fill;
 }
 
 element alternate.normal {
-  background-color: transparent;
+  background-color: @rofi-bg-surface;
 }
