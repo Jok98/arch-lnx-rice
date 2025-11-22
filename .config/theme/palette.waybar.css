@@ -1,0 +1,24 @@
+/* Waybar */
+@define-color waybar-bar-background            rgba(0, 0, 0, 0.80);
+@define-color waybar-module-chip-surface       rgba(228, 228, 228, 0.20);
+@define-color waybar-module-chip-text          #E4E4E4;
+@define-color waybar-border                    rgba(228, 228, 228, 0.35);
+@define-color waybar-workspace-inactive-fill   rgba(228, 228, 228, 0.15);
+@define-color waybar-workspace-active-start    #E4E4E4;
+@define-color waybar-workspace-active-middle   #9d0000;
+@define-color waybar-workspace-active-end      #E4E4E4;
+@define-color waybar-workspace-active-shadow   rgba(228, 228, 228, 0.00);
+@define-color waybar-workspace-special-primary #9d0000;
+@define-color waybar-workspace-special-secondary rgba(228, 228, 228, 0.50);
+@define-color waybar-module-hover-start        rgba(157, 0, 0, 0.30);
+@define-color waybar-module-hover-middle       rgba(157, 0, 0, 0.45);
+@define-color waybar-module-hover-end          rgba(157, 0, 0, 0.60);
+@define-color waybar-vpn-connected-foreground  #E4E4E4;
+@define-color waybar-vpn-alert-foreground      #9d0000;
+@define-color waybar-tooltip-surface           rgba(228, 228, 228, 0.12);
+@define-color waybar-tooltip-foreground        #E4E4E4;
+@define-color waybar-battery-critical-foreground #9d0000;
+@define-color waybar-battery-blink-surface     rgba(157, 0, 0, 0.40);
+@define-color waybar-tray-attention-surface    rgba(157, 0, 0, 0.30);
+@define-color waybar-notification-pill-surface rgba(228, 228, 228, 0.25);
+@define-color waybar-notification-text         #E4E4E4;

@@ -1,10 +1,11 @@
-@import url("../theme/palette.css");
+@import url("../theme/palette.waybar.css");
 
 /* Base font */
 * {
     font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
     font-size: 12px;
     font-weight: 500;
+    background-color: transparent;
 }
 
 /* Hard overrides to ensure the palette applies everywhere */

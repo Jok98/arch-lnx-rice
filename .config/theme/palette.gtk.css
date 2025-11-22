@@ -1,0 +1,58 @@
+/* Base palette */
+@define-color gtk-background rgba(0, 0, 0, 0.6);
+@define-color gtk-main #E4E4E4;
+@define-color gtk-secondary rgba(160, 0, 0, 0.6);
+
+/* Libadwaita / Adwaita token overrides to stick to the three-color palette */
+@define-color accent_color @gtk-secondary;
+@define-color accent_bg_color @gtk-secondary;
+@define-color accent_fg_color @gtk-main;
+@define-color destructive_color @gtk-secondary;
+@define-color destructive_bg_color @gtk-secondary;
+@define-color destructive_fg_color @gtk-main;
+@define-color success_color @gtk-secondary;
+@define-color warning_color @gtk-secondary;
+@define-color error_color @gtk-secondary;
+
+/* Main elements */
+@define-color gtk-window-background @gtk-background;
+@define-color gtk-dialog-background @gtk-background;
+@define-color gtk-text-primary @gtk-main;
+@define-color gtk-selection-background @gtk-secondary;
+@define-color gtk-selection-foreground @gtk-main;
+
+/* Buttons */
+@define-color gtk-surface-accent @gtk-background;
+@define-color gtk-surface-accent-hover @gtk-secondary;
+@define-color gtk-surface-accent-strong @gtk-secondary;
+@define-color gtk-border-soft @gtk-main;
+
+/* Entries */
+@define-color gtk-entry-background @gtk-background;
+@define-color gtk-entry-border @gtk-main;
+@define-color gtk-entry-focus-border @gtk-secondary;
+
+/* Menus & Popovers */
+@define-color gtk-menu-surface @gtk-background;
+@define-color gtk-menu-text @gtk-main;
+@define-color gtk-menu-hover @gtk-secondary;
+@define-color gtk-menu-separator @gtk-main;
+@define-color gtk-popover-border @gtk-main;
+@define-color gtk-shadow @gtk-background;
+
+/* Borders */
+@define-color gtk-border-strong @gtk-main;
+
+/* Other */
+@define-color gtk-scrollbar-slider @gtk-secondary;
+@define-color gtk-scrollbar-trough @gtk-background;
+@define-color gtk-checkmark @gtk-secondary;
+@define-color gtk-rubberband-fill @gtk-background;
+@define-color gtk-rubberband-border @gtk-secondary;
+
+/* Wlogout */
+@define-color wlogout-window-background @gtk-background;
+@define-color wlogout-button-border @gtk-main;
+@define-color wlogout-button-text @gtk-main;
+@define-color wlogout-button-surface @gtk-background;
+@define-color wlogout-button-hover @gtk-secondary;

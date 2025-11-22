@@ -1,56 +1,99 @@
 :root {
-    --border-color: rgba(90, 90, 120, 0.4);
-    --border-color-active: rgba(239, 9, 239, 0.9);
+    --border-color: rgba(228, 228, 228, 0.35);
+    --border-color-active: #9d0000;
 
-    --bg-color: rgba(20, 20, 20, 0.8);
-    --bg-color-hover: rgba(40, 40, 50, 1);
+    --bg-color: rgba(0, 0, 0, 0.38);
+    --bg-color-hover: rgba(25, 25, 25, 0.55);
 
     --border-radius: 12px;
-    --border-size: 3px;
+    --border-size: 2px;
     --border-style: solid;
 
-    --text-color: rgba(245, 245, 245, 1);
+    --text-color: #E4E4E4;
 
-    --window-padding: 2px;
+    --window-padding: 6px;
 }
 
 .window {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: var(--border-size) var(--border-style) var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--window-padding);
+    backdrop-filter: blur(10px);
 }
 
-
-.monitor {
+.window:focus {
+    border-color: var(--border-color-active);
 }
 
+.monitor,
 .workspace {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 10px;
+    padding: 4px;
 }
 
 .client {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 8px;
+    padding: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.client:focus {
+    border-color: var(--border-color-active);
 }
 
 .client-image {
+    border-radius: 6px;
 }
 
-
 .launcher {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    padding: 10px;
 }
 
 .launcher-input {
+    background: rgba(15, 15, 15, 0.48);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
 }
 
 .launcher-results {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .launcher-item {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.launcher-item:hover {
+    background: var(--bg-color-hover);
+    border-color: var(--border-color-active);
 }
 
 .launcher-exec {
+    color: var(--text-color);
+    font-weight: 600;
 }
 
-.launcher-key {
-}
-
-.launcher-plugins {
-}
-
+.launcher-key,
+.launcher-plugins,
 .launcher-plugin {
+    color: var(--text-color);
+    opacity: 0.8;
 }

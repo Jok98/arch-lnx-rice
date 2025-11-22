@@ -1,64 +1,130 @@
 /* GTK3 Theme - Simplified */
-@import url("../theme/palette.css");
+@import url("../theme/palette.gtk.css");
 
-/* For apps that use standard color names */
-@define-color theme_selected_bg_color @gtk-selection-background;
-@define-color theme_selected_fg_color @gtk-selection-foreground;
+/* Standard color names for legacy apps */
+@define-color theme_selected_bg_color @gtk-secondary;
+@define-color theme_selected_fg_color @gtk-main;
 
-/* Default text and background color */
+/* Base */
 * {
-  color: @gtk-text-primary;
+  color: @gtk-main;
+  background-color: @gtk-background;
 }
 
 window, dialog, .window-frame, .background {
-  background-color: @gtk-window-background;
-  color: @gtk-text-primary;
+  background-color: @gtk-background;
+  color: @gtk-main;
 }
 
 /* Headerbar / titlebar */
 headerbar, .titlebar, .header-bar {
-  background-color: @gtk-window-background;
-  border-bottom: 1px solid @gtk-border-strong;
+  background-color: @gtk-background;
+  border-bottom: 1px solid @gtk-main;
   border-radius: 0;
 }
 
 /* Buttons */
 button, .button, button.toggle, button.flat, combobox > box > button {
   border-radius: 6px;
-  border: 1px solid @gtk-border-soft;
-  background-color: @gtk-surface-accent;
+  border: 1px solid @gtk-main;
+  background-color: @gtk-background;
+  background-image: none;
+  box-shadow: none;
+  border-image: none;
   padding: 5px 10px;
-  color: @gtk-text-primary;
+  color: @gtk-main;
+}
+button > * {
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  color: inherit;
 }
 button:hover, .button:hover, button.toggle:hover, button.flat:hover, combobox > box > button:hover {
-  background-color: @gtk-surface-accent-hover;
+  background-color: @gtk-secondary;
+  border-color: @gtk-secondary;
 }
 button:checked, .button:checked, button.toggle:checked {
-  background-color: @gtk-surface-accent-strong;
-  border-color: @gtk-accent;
+  background-color: @gtk-secondary;
+  border-color: @gtk-secondary;
+  color: @gtk-main;
+}
+button:active, .button:active {
+  background-color: @gtk-secondary;
+  border-color: @gtk-secondary;
+  color: @gtk-main;
+  box-shadow: none;
+  background-image: none;
+}
+
+/* Enforce uniform look for suggested/destructive actions */
+button.suggested-action,
+button.destructive-action,
+.button.suggested-action,
+.button.destructive-action {
+  border: 1px solid @gtk-main;
+  background-color: @gtk-background;
+  background-image: none;
+  box-shadow: none;
+  color: @gtk-main;
+}
+button.suggested-action:hover,
+button.destructive-action:hover,
+.button.suggested-action:hover,
+.button.destructive-action:hover {
+  background-color: @gtk-secondary;
+  border-color: @gtk-secondary;
+}
+button.suggested-action:checked,
+button.destructive-action:checked,
+.button.suggested-action:checked,
+.button.destructive-action:checked {
+  background-color: @gtk-secondary;
+  border-color: @gtk-secondary;
+  color: @gtk-main;
+}
+button.suggested-action:active,
+button.destructive-action:active,
+.button.suggested-action:active,
+.button.destructive-action:active {
+  background-color: @gtk-secondary;
+  border-color: @gtk-secondary;
+  color: @gtk-main;
+  box-shadow: none;
+  background-image: none;
+}
+
+/* Default buttons (e.g., default dialog action) */
+button.default,
+.button.default,
+button.default:focus,
+.button.default:hover {
+  background-color: @gtk-background;
+  border: 1px solid @gtk-main;
+  color: @gtk-main;
+  background-image: none;
+  box-shadow: none;
+  border-image: none;
 }
 
 /* Entries / text inputs */
 entry, spinbutton, searchentry {
   border-radius: 6px;
-  border: 1px solid @gtk-entry-border;
-  background-color: @gtk-entry-background;
+  border: 1px solid @gtk-main;
+  background-color: @gtk-background;
   padding: 6px;
 }
 entry:focus, spinbutton:focus, searchentry:focus {
-  border-color: @gtk-entry-focus-border;
+  border-color: @gtk-secondary;
   box-shadow: none;
 }
 
 /* Menus and Popovers */
-menu, menubar, .popup, .csd .menu, .context-menu {
-  background-color: @gtk-dialog-background;
-  border: 1px solid @gtk-popover-border;
-  padding: 4px;
-}
+menu, menubar, .popup, .csd .menu, .context-menu,
 popover {
-  background-color: @gtk-dialog-background;
-  border: 1px solid @gtk-popover-border;
+  background-color: @gtk-background;
+  border: 1px solid @gtk-main;
+  padding: 4px;
 }
 
 menuitem {
@@ -66,18 +132,18 @@ menuitem {
   padding: 6px 8px;
 }
 menuitem:hover {
-  background-color: @gtk-menu-hover;
+  background-color: @gtk-secondary;
 }
 
 separator, menu separator {
-  background-color: @gtk-menu-separator;
+  background-color: @gtk-main;
   min-height: 1px;
   margin: 4px 0;
 }
 
 tooltip {
-  background-color: @gtk-dialog-background;
-  border: 1px solid @gtk-popover-border;
+  background-color: @gtk-background;
+  border: 1px solid @gtk-main;
   border-radius: 6px;
   padding: 4px 8px;
 }
@@ -85,16 +151,65 @@ tooltip {
 /* Scrollbars */
 scrollbar { background-color: transparent; min-width: 10px; }
 scrollbar slider {
-  background-color: @gtk-scrollbar-slider;
+  background-color: @gtk-secondary;
   border-radius: 5px;
   min-width: 10px;
   min-height: 10px;
 }
-scrollbar trough { background-color: @gtk-scrollbar-trough; }
+scrollbar trough { background-color: @gtk-background; }
+
+/* Scales and progressbars (force flat look, no greys) */
+scale trough,
+scale trough:backdrop,
+progressbar trough,
+progressbar trough:backdrop {
+  background-color: @gtk-background;
+  border: none;
+  box-shadow: none;
+  border-radius: 6px;
+}
+
+scale highlight,
+progressbar progress,
+progressbar progress:backdrop,
+scale trough > highlight {
+  background-color: @gtk-secondary;
+  border: none;
+  box-shadow: none;
+  border-radius: 6px;
+}
+
+scale slider {
+  background-color: @gtk-secondary;
+  border: 1px solid @gtk-main;
+  box-shadow: none;
+  border-radius: 12px;
+}
+
+/* Level bars (VU meters in pavucontrol) */
+levelbar trough {
+  background-color: @gtk-background;
+  border: none;
+  box-shadow: none;
+  border-radius: 6px;
+}
+
+levelbar block {
+  background-color: @gtk-background;
+  border: none;
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+levelbar block.filled {
+  background-color: @gtk-secondary;
+  border: none;
+  box-shadow: none;
+}
 
 /* Check/Radio buttons */
-check, radio { color: @gtk-checkmark; }
-check:checked, radio:checked { color: @gtk-accent; }
+check, radio { color: @gtk-secondary; }
+check:checked, radio:checked { color: @gtk-secondary; }
 
 /* Selection */
 .view:selected,
@@ -109,6 +224,6 @@ GtkListBoxRow:selected,
 
 /* Rubberband selection */
 .rubberband {
-  background-color: @gtk-rubberband-fill;
-  border: 1px solid @gtk-rubberband-border;
+  background-color: @gtk-secondary;
+  border: 1px solid @gtk-main;
 }
