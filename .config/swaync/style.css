@@ -1,1 +1,87 @@
-@import url("../theme/palette.css");
+@import url("../theme/palette.gtk.css");
+
+/* Notification center styling aligned to the shared palette */
+* {
+  font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace;
+  color: @gtk-text-primary;
+}
+
+window {
+  background: transparent;
+  border: none;
+}
+
+#notification-center,
+#control-center,
+#notifications {
+  background-color: @gtk-window-background;
+  border: 1px solid @gtk-border-soft;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#notification-center {
+  margin: 8px;
+  box-shadow: 0 12px 35px @gtk-shadow;
+}
+
+.notification-row {
+  background-color: @gtk-surface-accent;
+  border: 1px solid @gtk-border-soft;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 6px 0;
+}
+
+.notification-row:hover {
+  background-color: @gtk-surface-accent-hover;
+  border-color: @gtk-accent;
+}
+
+.notification-row.critical {
+  border-color: @gtk-accent;
+}
+
+.notification {
+  background: transparent;
+  color: @gtk-text-primary;
+}
+
+.notification .summary {
+  font-weight: 700;
+  color: @gtk-text-primary;
+}
+
+.notification .body {
+  color: @gtk-text-primary;
+  opacity: 0.9;
+}
+
+.notification .time {
+  color: alpha(@gtk-text-primary, 0.7);
+  font-size: 10px;
+}
+
+button {
+  background: @gtk-surface-accent;
+  border: 1px solid @gtk-border-soft;
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: @gtk-text-primary;
+}
+
+button:hover {
+  background: @gtk-surface-accent-hover;
+  border-color: @gtk-accent;
+}
+
+#empty-label {
+  color: alpha(@gtk-text-primary, 0.6);
+  font-style: italic;
+}
+
+separator {
+  background-color: @gtk-menu-separator;
+  min-height: 1px;
+  margin: 6px 0;
+}
