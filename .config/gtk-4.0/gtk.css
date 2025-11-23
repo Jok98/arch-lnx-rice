@@ -221,6 +221,17 @@ check:checked, radio:checked {
   color: @gtk-main;
 }
 
+/* Text selections (e.g., Mousepad) */
+text selection,
+textview text selection,
+textview text selection:focus,
+entry selection,
+spinbutton text selection,
+label selection {
+  background-color: alpha(@gtk-selection-background, 0.9);
+  color: @gtk-selection-foreground;
+}
+
 /* Rubberband selection */
 .rubberband {
   background-color: @gtk-secondary;
