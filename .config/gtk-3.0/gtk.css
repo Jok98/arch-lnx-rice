@@ -222,6 +222,16 @@ GtkListBoxRow:selected,
   color: @theme_selected_fg_color;
 }
 
+/* Text selections (e.g., Mousepad) */
+textview text selection,
+textview text selection:focus,
+entry selection,
+spinbutton text selection,
+label selection {
+  background-color: alpha(@gtk-selection-background, 0.9);
+  color: @gtk-selection-foreground;
+}
+
 /* Rubberband selection */
 .rubberband {
   background-color: @gtk-secondary;
